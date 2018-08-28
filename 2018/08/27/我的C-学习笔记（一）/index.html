@@ -236,7 +236,7 @@
 <h3 id="as和is关键字"><a href="#as和is关键字" class="headerlink" title="as和is关键字"></a>as和is关键字</h3><p>&emsp;&emsp;is表示类型转换，如果能够转换成功，则返回一个true，否则返回一个false。</p>
 <p>&emsp;&emsp;as表示类型转换，如果能够转换则返回对应对象，否则返回一个null。</p>
 <p>is的用法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if (p is Student)</span><br><span class="line">&#123;</span><br><span class="line">	Student ss = (Student)p;``ss.StudentSayHello();</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;转换失败&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if (p is Student)</span><br><span class="line">&#123;</span><br><span class="line">    Student ss = (Student)p;</span><br><span class="line">    ss.StudentSayHello();</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;转换失败&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>as的用法：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Student t = p as Studnet;</span><br></pre></td></tr></table></figure>
 <h3 id="Protected"><a href="#Protected" class="headerlink" title="Protected"></a>Protected</h3><p>&emsp;&emsp;受保护的：可以在当前类的内部以及该类的子类中访问。</p>
@@ -245,6 +245,11 @@
                 
 
                 <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/08/28/我的C-学习笔记（二）/" data-toggle="tooltip" data-placement="top"
+                           title="我的C#学习笔记（二）">&larr; Previous Post</a>
+                    </li>
                     
                     
                     <li class="next">
