@@ -120,13 +120,13 @@
 
 
 <img class="wechat-title-img"
-     src="">
+     src="post-ocean.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('')
+        background-image: url('post-ocean.jpg')
     }
 
     
@@ -209,7 +209,7 @@
 <li>在子类中显式调用父类的有参数的构造函数，使用关键字:base()</li>
 </ol>
 <p>如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public Student(string name, string age, string gender, string id) : base(name, age, gender)</span><br><span class="line">&#123;</span><br><span class="line">	this.id = id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Student</span>(<span class="params"><span class="keyword">string</span> name, <span class="keyword">string</span> age, <span class="keyword">string</span> gender, <span class="keyword">string</span> id</span>) : <span class="title">base</span>(<span class="params">name, age, gender</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.id = id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="new关键字"><a href="#new关键字" class="headerlink" title="new关键字"></a>new关键字</h3><ol>
@@ -222,23 +222,23 @@
 <h2 id="里氏转换法"><a href="#里氏转换法" class="headerlink" title="里氏转换法"></a>里氏转换法</h2><h3 id="里氏转换"><a href="#里氏转换" class="headerlink" title="里氏转换"></a>里氏转换</h3><ol>
 <li><p>子类可以赋值给父类：如果有一个地方需要一个父类作为参数，我们可以给一个子类代替。</p>
 <p>如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Student s = new Student();</span><br><span class="line">Person p = s;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Student s = <span class="keyword">new</span> Student();</span><br><span class="line">Person p = s;</span><br></pre></td></tr></table></figure>
 <p>或者</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">string str = string.Join(&quot;|&quot;, new string[] &#123; &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">string</span> str = <span class="keyword">string</span>.Join(<span class="string">"|"</span>, <span class="keyword">new</span> <span class="keyword">string</span>[] &#123; <span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span>&#125;);</span><br></pre></td></tr></table></figure>
 <p>Join方法第二个参数为object，可以用一个子类代替，string为object的一个子类。</p>
 </li>
 <li><p>如果父类中装的是子类对象，那么可以将这个父类强转为子类对象。</p>
 <p>如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Person p = new Student();</span><br><span class="line">Student ss = (Student)p;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Person p = <span class="keyword">new</span> Student();</span><br><span class="line">Student ss = (Student)p;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p><strong>注意</strong>：子类对象可以调用父类中的成员，但是父类对象永远都只能调用自己的成员。</p>
 <h3 id="as和is关键字"><a href="#as和is关键字" class="headerlink" title="as和is关键字"></a>as和is关键字</h3><p>&emsp;&emsp;is表示类型转换，如果能够转换成功，则返回一个true，否则返回一个false。</p>
 <p>&emsp;&emsp;as表示类型转换，如果能够转换则返回对应对象，否则返回一个null。</p>
 <p>is的用法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if (p is Student)</span><br><span class="line">&#123;</span><br><span class="line">    Student ss = (Student)p;</span><br><span class="line">    ss.StudentSayHello();</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;转换失败&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (p <span class="keyword">is</span> Student)</span><br><span class="line">&#123;</span><br><span class="line">    Student ss = (Student)p;</span><br><span class="line">    ss.StudentSayHello();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"转换失败"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>as的用法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Student t = p as Studnet;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Student t = p <span class="keyword">as</span> Studnet;</span><br></pre></td></tr></table></figure>
 <h3 id="Protected"><a href="#Protected" class="headerlink" title="Protected"></a>Protected</h3><p>&emsp;&emsp;受保护的：可以在当前类的内部以及该类的子类中访问。</p>
 
                 <hr>
@@ -418,7 +418,7 @@
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!--wechat title img-->
-<img class="wechat-title-img" src="">
+<img class="wechat-title-img" src="post-default.jpg">
 </body>
 
 </html>
