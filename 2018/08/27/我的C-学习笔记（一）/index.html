@@ -165,7 +165,7 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="C-字符串"><a href="#C-字符串" class="headerlink" title="C#字符串"></a>C#字符串</h2><h3 id="StringBuilder和String的区别"><a href="#StringBuilder和String的区别" class="headerlink" title="StringBuilder和String的区别"></a>StringBuilder和String的区别</h3><p> &emsp;&emsp;String在进行运算时（如赋值、拼接等）会产生一个新的实例，而StringBuilder则不会。</p>
+                <h2 id="C-字符串"><a href="#C-字符串" class="headerlink" title="C#字符串"></a>C#字符串</h2><h3 id="StringBuilder和String的区别"><a href="#StringBuilder和String的区别" class="headerlink" title="StringBuilder和String的区别"></a>StringBuilder和String的区别</h3><p>String在进行运算时（如赋值、拼接等）会产生一个新的实例，而StringBuilder则不会。</p>
 <h3 id="字符串的不可变性"><a href="#字符串的不可变性" class="headerlink" title="字符串的不可变性"></a>字符串的不可变性</h3><ol>
 <li>当你给一个字符串重新赋值之后，老的值并没有销毁，而是重新开辟一块空间存储新值。</li>
 <li>当程序结束后，GC扫描整个内存，如果发现有空间没有被指向，则立即把它销毁。</li>
@@ -193,12 +193,12 @@
 <li>string.IsNullOrEmpty()，判断一个字符串是否为空或者为null。</li>
 <li>string.Join()，将数组按照指定的字符串连接，返回一个字符串。</li>
 </ol>
-<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>&emsp;&emsp;我们可能会在一些类中，写一些重复的成员，我们可以将这些重复的成员，单独封装到一个类中，作为这些类的父类。如Student、Teacher、Driver称为子类或派生类，Person称为父类或基类。</p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>我们可能会在一些类中，写一些重复的成员，我们可以将这些重复的成员，单独封装到一个类中，作为这些类的父类。如Student、Teacher、Driver称为子类或派生类，Person称为父类或基类。</p>
 <h3 id="继承的特性"><a href="#继承的特性" class="headerlink" title="继承的特性"></a>继承的特性</h3><ol>
 <li>继承的单根性：一个子类只能有一个父类，即单继承。</li>
 <li>继承的传递性：如Student继承自Person，Programmer继承自Student，Driver继承自Programmer，则最后的类Driver既可以访问Programmer类中的属性和方法，也可以访问Person类中的属性和方法。</li>
 </ol>
-<h3 id="查看类图"><a href="#查看类图" class="headerlink" title="查看类图"></a>查看类图</h3><p>&emsp;&emsp;VS2017中，需要安装VS扩展开发，并勾上类设计器后，在项目-右键-查看类图。</p>
+<h3 id="查看类图"><a href="#查看类图" class="headerlink" title="查看类图"></a>查看类图</h3><p>VS2017中，需要安装VS扩展开发，并勾上类设计器后，在项目-右键-查看类图。</p>
 <h3 id="问题：子类有没有继承父类的构造函数？"><a href="#问题：子类有没有继承父类的构造函数？" class="headerlink" title="问题：子类有没有继承父类的构造函数？"></a>问题：子类有没有继承父类的构造函数？</h3><p>答：子类并没有继承父类的构造函数。但是，子类会默认调用父类无参数的构造函数。在子类的内部创建父类的对象，让子类可以使用父类中的成员。</p>
 <ul>
 <li><p>如果在父类中重写了一个有参数的构造函数之后，那个默认的无参数构造函数就被覆盖掉了，子类调用不到，因此会报错。</p>
@@ -233,13 +233,13 @@
 </li>
 </ol>
 <p><strong>注意</strong>：子类对象可以调用父类中的成员，但是父类对象永远都只能调用自己的成员。</p>
-<h3 id="as和is关键字"><a href="#as和is关键字" class="headerlink" title="as和is关键字"></a>as和is关键字</h3><p>&emsp;&emsp;is表示类型转换，如果能够转换成功，则返回一个true，否则返回一个false。</p>
-<p>&emsp;&emsp;as表示类型转换，如果能够转换则返回对应对象，否则返回一个null。</p>
+<h3 id="as和is关键字"><a href="#as和is关键字" class="headerlink" title="as和is关键字"></a>as和is关键字</h3><p>is表示类型转换，如果能够转换成功，则返回一个true，否则返回一个false。</p>
+<p>as表示类型转换，如果能够转换则返回对应对象，否则返回一个null。</p>
 <p>is的用法：</p>
 <figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (p <span class="keyword">is</span> Student)</span><br><span class="line">&#123;</span><br><span class="line">    Student ss = (Student)p;</span><br><span class="line">    ss.StudentSayHello();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"转换失败"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>as的用法：</p>
 <figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Student t = p <span class="keyword">as</span> Studnet;</span><br></pre></td></tr></table></figure>
-<h3 id="Protected"><a href="#Protected" class="headerlink" title="Protected"></a>Protected</h3><p>&emsp;&emsp;受保护的：可以在当前类的内部以及该类的子类中访问。</p>
+<h3 id="Protected"><a href="#Protected" class="headerlink" title="Protected"></a>Protected</h3><p>受保护的：可以在当前类的内部以及该类的子类中访问。</p>
 
                 <hr>
                 
