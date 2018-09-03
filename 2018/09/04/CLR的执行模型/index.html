@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CLR的执行模型｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2018/09/04/CLR的执行模型/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="./images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('./images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CLR的执行模型</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2018-09-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                        <a class="tag" href="/tags/#CLR"
+                           title="CLR">CLR</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CLR的执行模型
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="将源代码编译成托管模块"><a href="#将源代码编译成托管模块" class="headerlink" title="将源代码编译成托管模块"></a>将源代码编译成托管模块</h2><h3 id="公共语言运行时CLR"><a href="#公共语言运行时CLR" class="headerlink" title="公共语言运行时CLR"></a>公共语言运行时CLR</h3><p><strong>公共语言运行时（Common Language Runtime，CLR）</strong>是一个可由多种编程语言使用的运行时。CLR的核心功能（比如内存管理、程序集加载、安全性、异常处理和线程同步）可由面向CLR的所有语言使用。</p>
+<p>微软创建好了几个面向CLR的语言编译器，其中包括：C++/CLI、C#、Visual Basic、F#、Iron Python、Iron Ruby以及一个“中间语言”（Intermediate Language，IL）汇编器。</p>
+<p>可用支持CLR的任何语言创建源代码文件，然后用对应的编译器检查语法和分析源代码。无论选择哪个编译器，结果都是<strong>托管模块（managed module）</strong>。托管模块是标准的32位Microsoft Windows可移植执行体（PE32）文件，或者是标准的64位Windows可移植执行体（PE32+）文件，它们都需要CLR才能执行。PS：托管程序集总是利用Windows的数据执行保护和地址空间布局随机化，这两个功能旨在增强整个系统的安全性。</p>
+<h3 id="托管模块"><a href="#托管模块" class="headerlink" title="托管模块"></a>托管模块</h3><p><strong>托管模块的组成</strong>：</p>
+<ul>
+<li>PE32或PE32+头：标准的Windows PE文件头，类似于“公共对象文件格式”头。这个头还标识了文件类型，包括GUI，CUI或者DLL，并包含一个时间标记来指出文件的生成时间。如果是包含本机CPU代码的模块，这个头包含与本机CPU代码有关的信息。</li>
+<li>CLR头：包含使这个模块称为托管模块的信息（可由CLR和一些实用程序进行解释）。头中包含要求的CLR版本，一些标志，托管模块入口方法（Main方法）的MethodDef元数据token以及模块的元数据、资源、强名称、一些标志及其他不太重要的数据项的位置/大小。</li>
+<li>元数据：每个托管模块都包含元数据表。主要有两种表，一种表描述源代码中定义的类型和成员，另一种描述源代码引用的类型和成员。</li>
+<li>IL（中间语言）代码：编译器编译源代码时生成的代码。在运行时，CLR将IL编译成本机CPU指令。</li>
+</ul>
+<p>IL代码有时称为<strong>托管代码（managed code）</strong>，因为CLR管理它的执行。</p>
+<p>元数据是一些老技术的超级，包括COM的“类型库”和“接口定义语言”IDL文件，元素据总是与包含IL代码的文件关联。</p>
+<p>C++编译器比较特殊，既可以生成非托管代码的EXE/DLL模块，也能生成包含托管代码的模块。</p>
+<h3 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h3><ol>
+<li>CLR是一个可以多种编程语言使用的“运行时”。</li>
+<li>CLR的功能包括：内存管理、程序集加载、安全性、异常处理和线程同步。</li>
+<li>C#源代码通过面向CLR的编译器（C#编译器）编译，生成托管模块（本质是标准的32/64位可移植执行体文件），包含中间语言IL（又称为托管代码）和元数据。</li>
+<li>通过CLR编译器生成的IL，称为托管代码。托管代码需要CLR管理它的执行。在运行时，CLR将IL编译成本机CPU指令。</li>
+<li>本机代码编译器生成的面向特定CPU架构的代码称为非托管代码。C++既可以写托管代码也可以写非托管代码。</li>
+</ol>
+<h2 id="将托管模块合并成程序集"><a href="#将托管模块合并成程序集" class="headerlink" title="将托管模块合并成程序集"></a>将托管模块合并成程序集</h2><h3 id="程序集"><a href="#程序集" class="headerlink" title="程序集"></a>程序集</h3><p>CLR实际不和模块工作，它和程序集工作。</p>
+<p><strong>程序集（assembly）</strong>是抽象概念，它是一个或多个模块/资源的逻辑性分组。在CLR中，程序集相当于“组件”。</p>
+<p>编译器默认将生成的托管模块转换成程序集。也就是说，C#编译器生成的是含有清单的托管模块。清单指出程序集只由一个文件构成。所以，对于只有一个托管模块而且无资源文件的项目，程序集就是托管模块，生成过程无需执行任何额外的步骤。</p>
+<p>在程序集的模块中，还包含与引用的程序集有关的信息（包括它们的版本号）。这些信息使程序集能够<strong>自描述</strong>。也就是说，CLR能判断为了执行程序集中的代码，程序集的直接依赖对象是什么。不需要在注册表或Active Directory Domain Services（ADDS）中保存额外的信息。由于无需额外的信息，所以和非托管组件相比，程序集更容易部署。</p>
+<h2 id="加载公共语言运行时"><a href="#加载公共语言运行时" class="headerlink" title="加载公共语言运行时"></a>加载公共语言运行时</h2><p>生成的每个程序集既可以是可执行应用程序，也可以是DLL（其中含有一组由可执行程序使用的类型）。最终是由CLR管理这些程序集中的代码的执行。</p>
+<h3 id="判断是否安装-NET-Framework"><a href="#判断是否安装-NET-Framework" class="headerlink" title="判断是否安装.NET Framework"></a>判断是否安装.NET Framework</h3><p>要知道是否已安装.NET Framework，只需要检查%SystemRoot%\System32目录中的MSCorEE.dll文件。若存在该文件，表明.NET Framework已安装。</p>
+<p><img src="1535860839223.png" alt="1535860839223"></p>
+<p>然而，一台机器可能同时安装好几个版本的.NET Framework。要了解安装了哪些版本的.NET Framework，需要检查这两个目录的子目录：%SystemRoot%\Microsoft.NET\Framework和%SystemRoot%\Microsoft.NET\Framework64。</p>
+<p><img src="1535871671091.png" alt="1535871671091"></p>
+<h3 id="Windows版本和目标平台"><a href="#Windows版本和目标平台" class="headerlink" title="Windows版本和目标平台"></a>Windows版本和目标平台</h3><p>极少数情况下，开发人员希望代码只在一个特定版本的Windows上运行。例如，要使用不安全的代码，或者要和面向一种特定CPU架构的非托管代码进行互操作，就需要一些其他操作。</p>
+<p>C#编译器提供了一个<strong>/platform</strong>命令行开关选项。它允许指定最终生成的程序集只能在运行32位Windows版本的x86机器上使用，只能在运行64位Windows的x64机器上使用，或者只能在运行32位Windows RT的ARM机器上使用。</p>
+<p>不指定具体平台的话，默认选项就是anycpu，表明最终生成的程序集能在任何版本的Windows上运行。Visual Studio用户要想设置目标平台，可以打开项目的属性页，从“生成”选项卡的“目标平台”列表中选择一个选项。</p>
+<p><img src="1535872650187.png" alt="1535872650187"></p>
+<p>取决于/platform开关选项，C#编译器生成的程序集包含的要么是PE32头，要么是PE32+头。</p>
+<p>可执行文件运行时，Windows检查文件头。判断需要32位还是64位地址空间。PE32文件在32位或64位地址空间中均可运行，PE32+文件则需要64位地址空间。Windows还会检查头中嵌入的CPU架构信息，确保当前计算机的CPU符合要求。最后，Windows的64位版本通过WoW64技术运行32位Windows应用程序。</p>
+<table>
+<thead>
+<tr>
+<th>/platform开关</th>
+<th>生成的托管模块</th>
+<th>x86 Windows</th>
+<th>x64 Windows</th>
+<th>ARM Windows RT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anycpu（默认）</td>
+<td>PE32/任意CPU架构</td>
+<td>作为32位应用程序运行</td>
+<td>作为64位应用程序运行</td>
+<td>作为32位应用程序运行</td>
+</tr>
+<tr>
+<td>anycpu32bitpreferred</td>
+<td>PE32/任意CPU架构</td>
+<td>作为32位应用程序运行</td>
+<td>作为WoW64应用程序运行</td>
+<td>作为32位应用程序运行</td>
+</tr>
+<tr>
+<td>x86</td>
+<td>PE32/x86</td>
+<td>作为32位应用程序运行</td>
+<td>作为WoW64应用程序运行</td>
+<td>不运行</td>
+</tr>
+<tr>
+<td>x64</td>
+<td>PE32+/x64</td>
+<td>不运行</td>
+<td>作为64位应用程序运行</td>
+<td>不运行</td>
+</tr>
+<tr>
+<td>ARM</td>
+<td>PE32/ARM</td>
+<td>不运行</td>
+<td>不运行</td>
+<td>作为32位应用程序运行</td>
+</tr>
+</tbody>
+</table>
+<p>Windows检查EXE文件头，决定是创建32位还是64位进程之后，会在进程地址空间加载MSCorEE.dll的x86，x64或ARM版本。</p>
+<ul>
+<li>如果是Windows的x86或ARM版本，MSCorEE.dll的x86版本在%SystemRoot%\System32目录中。</li>
+<li>如果是Windows的x64版本，MSCorEE.dll的x86版本在%SystemRoot%\SysWoW64目录中，64位版本则在%SystemRoot%\System32目录中（为了向后兼容）。</li>
+</ul>
+<p>然后，进程的主线程调用MSCorEE.dll中定义的一个方法。这个方法初始化CLR，加载EXE程序集，再调用其入口方法Main。随即，托管应用程序启动并运行。</p>
+<p><strong>Tips</strong>：可在代码中查询<strong>Environment</strong>的<strong>Is64BitOperatingSystem</strong>属性，判断是否在64位Windows上运行。还可查询<strong>Environment</strong>的<strong>Is64BitProcess</strong>属性，判断是否在64位地址空间中运行。</p>
+<h2 id="执行程序集的代码"><a href="#执行程序集的代码" class="headerlink" title="执行程序集的代码"></a>执行程序集的代码</h2><p>托管程序集同时包含元数据和IL。IL是与CPU无关的机器语言，比大多数CPU机器语言都高级。IL能访问和操作对象类型，并提供了指令来创建和初始化对象。调用对象上的虚方法以及直接操作数组元素。甚至提供了抛出和捕获异常的指令来实现错误处理。可将IL视为一种面向对象的机器语言。</p>
+<p><strong>注意</strong>：高级语言通常只公开了CLR全部功能的一个子集。然而，IL汇编语言允许开发人员访问CLR的全部功能。所以，如果你选择的编程语言隐藏了你迫切需要的一个CLR功能，可以换用IL汇编语言或者提供了所需功能的另一种编程语言来写那部分代码。</p>
+<p><strong>Tips</strong>：允许在不同编程语言之间方便的切换，同时又保持紧密集成，这是CLR的一个很出众的特点。</p>
+<h3 id="JIT即时编译器"><a href="#JIT即时编译器" class="headerlink" title="JIT即时编译器"></a>JIT即时编译器</h3><p>为了执行方法，首先必须把方法的IL转换成本机CPU指令。这是CLRJIT（just-in-time或者“即时”）编译器的职责。</p>
+<p>在一个方法首次调用时：</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"Hello"</span>);</span><br><span class="line">    Console.WriteLine(<span class="string">"Goodbye"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就在Main方法执行之前，CLR会检测出Main的代码引用的所有类型。这导致CLR分配一个内部数据结构来管理对引用的访问。代码中的Main方法引用了一个Console类型，导致CLR分配一个内部结构。在这个内部数据结构中，Console类型定义的每个方法都有一个对应的记录项。每个记录项都含有一个地址，根据此地址即可找到方法的实现。对这个结构初始化时，CLR将每个记录项都设置成包含在CLR内部的一个未编档的函数，即<strong>JITCompiler</strong>。</p>
+<p>Main方法首次调用WriteLine时，JITCompiler函数会被调用。JITCompiler函数负责将方法的IL代码编译成本机CPU指令。由于IL是即时编译的，所以通常将CLR的这个组件称为<strong>JITter</strong>或者<strong>JIT编译器</strong>。</p>
+<p><strong>注意</strong>：如果应用程序在Windows的x86版本或WoW64中运行，JIT编译器将生成x86指令。作为64位应用程序在Windows的x64版本中运行，将生成x64指令。在Windows的ARM版本中运行，将生成ARM指令。</p>
+<h3 id="第一次调用"><a href="#第一次调用" class="headerlink" title="第一次调用"></a>第一次调用</h3><p><strong>JITCompiler</strong>函数被调用时，它知道要调用的是哪个方法，以及具体是什么类型定义了该方法。然后，<strong>JITCompiler</strong>会在定义程序集的元数据中查找被调用方法的IL。接着，<strong>JITCompiler</strong>验证IL代码，并将IL代码编译成本机CPU指令。本机CPU指令保存到动态分配的内存块中。然后，<strong>JITCompiler</strong>回到CLR为类型创建的内部数据结构，找到与被调用方法对应的那条记录，修改最初对<strong>JITCompiler</strong>的引用，使其指向内存块（其中包含了刚才编译好的本机CPU指令）的地址。最后<strong>JITCompiler</strong>函数跳转到内存块中的代码。这些代码正式<strong>WriteLine</strong>方法的具体实现。代码执行完毕并返回时，会回到<strong>Main</strong>中的代码，并像往常一样继续执行。</p>
+<h3 id="第二次调用"><a href="#第二次调用" class="headerlink" title="第二次调用"></a>第二次调用</h3><p>现在，<strong>Main</strong>要第二次调用<strong>WriteLine</strong>。这一次，由于已对<strong>WriteLine</strong>的代码进行了验证和编译，所以会直接执行内存块中的代码，完全跳过<strong>JITCompiler</strong>函数。<strong>WriteLine</strong>方法执行完毕后，会再次回到<strong>Main</strong>。</p>
+<p>方法仅在首次调用时才会有一些性能损失。以后对该方法的所有调用都以本机代码形式全速运行，无需重新验证IL并把它编译成本机代码。<br>…未完待续</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/09/01/ASP-NET-Core-Ng6-实战（二）/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET Core + Ng6 实战（二）">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#将源代码编译成托管模块"><span class="toc-text">将源代码编译成托管模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#公共语言运行时CLR"><span class="toc-text">公共语言运行时CLR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#托管模块"><span class="toc-text">托管模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#个人总结"><span class="toc-text">个人总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将托管模块合并成程序集"><span class="toc-text">将托管模块合并成程序集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#程序集"><span class="toc-text">程序集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加载公共语言运行时"><span class="toc-text">加载公共语言运行时</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断是否安装-NET-Framework"><span class="toc-text">判断是否安装.NET Framework</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows版本和目标平台"><span class="toc-text">Windows版本和目标平台</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行程序集的代码"><span class="toc-text">执行程序集的代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JIT即时编译器"><span class="toc-text">JIT即时编译器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第一次调用"><span class="toc-text">第一次调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二次调用"><span class="toc-text">第二次调用</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                        <a class="tag" href="/tags/#CLR"
+                           title="CLR">CLR</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                    
+                            
+                                    
+
+                                            
+
+                                                    
+
+                                                            
+                                                                <li>
+                                                                    <a target="_blank" href="https://github.com/zhdaa">
+                                                                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                                                                    </a>
+                                                                </li>
+                                                                
+
+                                                                    
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy;
+                    Zhendong
+                        2018
+                            <br>
+                            <span id="busuanzi_container_site_uv"> 
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+                            </span>
+                            <br> Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/js/blog.js"></script>
+
+            <!-- async load function -->
+            <script>
+                function async(u, c) {
+                    var d = document,
+                        t = 'script',
+                        o = d.createElement(t),
+                        s = d.getElementsByTagName(t)[0];
+                    o.src = u;
+                    if (c) {
+                        o.addEventListener('load', function(e) {
+                            c(null, e);
+                        }, false);
+                    }
+                    s.parentNode.insertBefore(o, s);
+                }
+            </script>
+
+            <!-- jquery.tagcloud.js -->
+            <script>
+                // only load tagcloud.js in tag.html
+                if ($('#tag_cloud').length !== 0) {
+                    async("https://zhdaa.github.io/js/jquery.tagcloud.js", function() {
+                        $.fn.tagcloud.defaults = {
+                            //size: {start: 1, end: 1, unit: 'em'},
+                            color: {
+                                start: '#bbbbee',
+                                end: '#0085a1'
+                            },
+                        };
+                        $('#tag_cloud a').tagcloud();
+                    })
+                }
+            </script>
+
+            <!--fastClick.js -->
+            <script>
+                async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function() {
+                    var $nav = document.querySelector("nav");
+                    if ($nav) FastClick.attach($nav);
+                })
+            </script>
+
+            <!-- Google Analytics -->
+
+            
+
+                    <!-- Baidu Tongji -->
+                    
+                        <script>
+                            var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+                            // Originial
+                            var _hmt = _hmt || [];
+                            (function() {
+                                var hm = document.createElement("script");
+                                hm.src = "//hm.baidu.com/hm.js?" + _baId;
+                                var s = document.getElementsByTagName("script")[0];
+                                s.parentNode.insertBefore(hm, s);
+                            })();
+                        </script>
+                        
+
+                            <!-- swiftype -->
+                            <script type="text/javascript">
+                                (function(w, d, t, u, n, s, e) {
+                                    w['SwiftypeObject'] = n;
+                                    w[n] = w[n] || function() {
+                                        (w[n].q = w[n].q || []).push(arguments);
+                                    };
+                                    s = d.createElement(t);
+                                    e = d.getElementsByTagName(t)[0];
+                                    s.async = 1;
+                                    s.src = u;
+                                    e.parentNode.insertBefore(s, e);
+                                })(window, document, 'script', '//s.swiftypecdn.com/install/v2/st.js', '_st');
+
+                                _st('install', '', '2.0.0');
+                            </script>
+
+                            <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="./images/zhdaa-headimg.jpg">
+</body>
+
+</html>
