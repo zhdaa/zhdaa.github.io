@@ -293,7 +293,7 @@
 </thead>
 <tbody>
 <tr>
-<td>/optimize- /debug(默认)</td>
+<td>/optimize- /debug-(默认)</td>
 <td>未优化</td>
 <td>有优化</td>
 </tr>
@@ -312,6 +312,7 @@
 <ul>
 <li>使用<strong>/optimize-</strong>，在C#编译器生成的未优化IL代码中，将包含许多NOP（no-operation，空操作）指令，还包含许多跳转到下一行代码的分支指令。Visual Studio利用这些指令在调试期间提供“编辑并继续”功能。另外，利用这些额外的指令，还可以控制流程指令（比如for，while，do，if，else，try，catch和finally语句块）上设置断点，使代码更容易调试。相反，如果生成优化的IL代码，C#编译器会删除多余的NOP和分支指令。而在控制流程被优化之后，代码就难以在调试器中进行单步调试了。另外，若在调试器中执行，一些函数求值可能无法进行。不过，优化的IL代码变得更小，结果EXE/DLL文件也更小。</li>
 <li>只有指定<strong>/debug(+/full/pdbonly)</strong>开关，编译器才会生出Program Database(PDB)文件。PDB文件帮助调试器查找局部变量并将IL指令映射到源代码。<strong>/debug:full</strong>开关告诉JIT编译器你打算调试程序集，JIT编译器会记录每条IL指令所生成的本机代码。这样一来，就可以利用VS的“即时”调试功能，将调试器连接到正在运行的进程，并方便地对源代码进行调试。不指定<strong>/debug:full</strong>开关，JIT编译器默认不记录IL与本机代码的联系，这使JIT编译器运行得稍快，用的内存也稍少。如果进程用VS调试器启动，会强迫JIT编译器记录IL与本机代码的联系（无论/debug开关的设置是什么），除非在VS中关闭了“在模块加载时取消JIT优化（仅限托管）选项”。</li>
+<li>在Visual Studio中新建C#项目时，项目的“调试”配置指定的是<strong>/optimize-</strong>和<strong>/debug:full</strong>开关，而“发布”配置指定的是<strong>/optimize+</strong>和<strong>/debug:pdbonly</strong>开关。</li>
 </ul>
 
                 <hr>
