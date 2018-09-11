@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        ASP.NET Core + Ng6 实战（一）｜Zhendong&#39;s blog
+        我的C#学习笔记（四）类和接口｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/2018/08/31/ASP-NET-Core-Ng6-实战（一）/">
+    <link rel="canonical" href="https://zhdaa.github.io/2018/09/12/我的C-学习笔记（四）类和接口/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -145,18 +145,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>ASP.NET Core + Ng6 实战（一）</h1>
+                    <h1>我的C#学习笔记（四）类和接口</h1>
                     
                     <span class="meta">
                          作者 Zhendong Ho
                         <span>
-                          日期 2018-08-31
+                          日期 2018-09-12
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#ASP.NET Core"
-                           title="ASP.NET Core">ASP.NET Core</a>
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
                         
                     </div>
                 </div>
@@ -165,7 +165,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            ASP.NET Core + Ng6 实战（一）
+            我的C#学习笔记（四）类和接口
         </span>
     </div>
 </header>
@@ -176,102 +176,24 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>今天开始学习ASP.NET Core。作为.NET平台的初级搬砖，很想找个机会学习.NET Core的相关知识。今天找到一套视频教程，是ASP.NET Core Web API + Identity Server 4 + Angular 6 + Angular Material 小项目实战。希望通过这个项目的学习能够有所收获。PS：相关教程来自博客园博主草根专栏。</p>
-<p>项目实战分为4个部分：</p>
-<ol>
-<li>ASP.NET Core Web API 项目搭建</li>
-<li>Angular 6 客户端项目搭建</li>
-<li>Identity Server 4 项目搭建</li>
-<li>开发，优化功能</li>
-</ol>
-<p>开发工具：Visual Studio 2017</p>
-<h2 id="建立ASP-NET-core-项目"><a href="#建立ASP-NET-core-项目" class="headerlink" title="建立ASP.NET core 项目"></a>建立ASP.NET core 项目</h2><h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>第一步，新建项目，ASP.NET Core Web 应用程序。项目名称改为BlogDemo.Api，解决方案名称改为BlogDemo。</p>
-<p><img src="1535647389033.png" alt="1535647389033"></p>
-<p>选择.NET Core的版本为最新的2.1版本，然后模板是Empty。</p>
-<p><img src="1535650231379.png" alt="1535650231379"></p>
-<p>新建项目，选择.NET Core类库，分别添加BlogDemo.Core和BlogDemo.Infrastructure。 然后添加项目之间的依赖关系。</p>
-<ul>
-<li>BlogDemo.Infrastructure依赖于BlogDemo.Core。</li>
-<li>BlogDemo.Api依赖于BlogDemo.Core和BlogDemo.Infrastructure。</li>
-</ul>
-<p>我们可以看到解决方案上，三个项目的目录结构以及它们之间的依赖关系。</p>
-<p><img src="1535732131635.png" alt="1535732131635"></p>
-<h3 id="ASP-NET-core-Web-API-解决方案结构"><a href="#ASP-NET-core-Web-API-解决方案结构" class="headerlink" title="ASP.NET core Web API 解决方案结构"></a>ASP.NET core Web API 解决方案结构</h3><ul>
-<li>BlogDemo.Core，项目的核心，包括接口，Model，域模型。</li>
-<li>BlogDemo.Infrastructure，基础设施，包括数据库，DbContext。</li>
-<li>BlogDemo.Api，包括Controller和API。</li>
-</ul>
-<h3 id="csproj项目文件"><a href="#csproj项目文件" class="headerlink" title=".csproj项目文件"></a>.csproj项目文件</h3><p>右键项目名BlogDemo.Api，选择编辑BlogDemo.Api.csproj，即可以查看并编辑项目文件。</p>
-<p><img src="1535732765346.png" alt="1535732765346"></p>
-<ul>
-<li>.csproj项目文件包含了.NET工具构建项目所需的细节信息。如：<ol>
-<li>定义了项目的类型：Web，Console，Library等。</li>
-<li>定义了项目的目标平台：.NET Core，.NET Framework，Mono等。</li>
-<li>列出了项目依赖于哪些Nuget包。</li>
-</ol>
-</li>
-</ul>
-<h3 id="Program-和-Startup"><a href="#Program-和-Startup" class="headerlink" title="Program 和 Startup"></a>Program 和 Startup</h3><p>Program.cs和Startup是在运行时配置Web应用的启动和配置。</p>
-<h4 id="Program-cs"><a href="#Program-cs" class="headerlink" title="Program.cs"></a>Program.cs</h4><ul>
-<li>Program进行基础设施的配置，在项目中很少发生变化：<ol>
-<li>Http Server</li>
-<li>集成IIS</li>
-<li>配置信息来源</li>
-</ol>
-</li>
-</ul>
-<p><img src="1535733412813.png" alt="1535733412813"></p>
-<p><strong>代码分析：</strong></p>
-<ol>
-<li>首先WebHost类调用CreateDefaultBuilder方法返回一个IWebHostBuilder实例。</li>
-<li>然后IWebHostBuilder再使用UseStartup来进行配置。</li>
-<li>配置完之后IWebHostBuilder实例调用Build方法，返回IWebHost实例，然后通过Run方法运行Web宿主。</li>
-</ol>
-<p><strong>Program.cs - 构建Web宿主</strong></p>
-<ul>
-<li>Main方法，和Console项目一样。</li>
-<li>构建和运行IWebHost实例。</li>
-<li>IWebHost是ASP.NET Core应用的核心，包括配置和Kestrel。</li>
-</ul>
-<h4 id="Startup-cs"><a href="#Startup-cs" class="headerlink" title="Startup.cs"></a>Startup.cs</h4><p>Startup配置自定义行为，可能经常发生变化：</p>
-<ol>
-<li>组建，服务，功能</li>
-<li>中间件管道</li>
-</ol>
-<p><img src="1535734765437.png" alt="1535734765437"></p>
-<p><strong>代码分析：</strong></p>
-<ol>
-<li>ConfigureServices方法用来进行服务注册。</li>
-<li>Configure方法用于配置中间件管道，如何处理请求和返回响应。并且在ConfigureServices中注册的服务可以在Configure中调用。</li>
-<li>Configure方法中的IApplicationBuilder类是用来构建中间件管道的。</li>
-<li>IHostingEnvironment类型env参数是环境变量的参数。</li>
-<li>Configure配置中间件管道的顺序。Request&gt;中间件1&gt;中间件2&gt;中间件3&gt;中间件2&gt;中间件1&gt;Response。</li>
-</ol>
-<p><strong>Startup - 配置自定义行为</strong></p>
-<ul>
-<li>服务注册：应用中的所有类进行注册，以便在运行时能够正确的初始化。</li>
-<li>中间件和MVC：定义如何处理请求，并返回相应的响应。</li>
-</ul>
-<p><strong>添加控制器</strong></p>
-<p>在BlogDemo.Api项目中添加文件夹Controllers，并添加控制器ValueController，输入如下代码。</p>
-<p><img src="1535736055135.png" alt="1535736055135"></p>
-<p>启动项目BlogDemo.Api，输入api/values，即可看到结果。</p>
-<p><img src="1535736021023.png" alt="1535736021023"></p>
+                <h2 id="访问修饰符"><a href="#访问修饰符" class="headerlink" title="访问修饰符"></a>访问修饰符</h2><p>public：公开的公共的。</p>
+<p>private：私有的，只能在当前类的内部访问。</p>
+<p>protected：受保护的，只能在当前类的内部以及该类的子类中访问。</p>
+<p>internal：只能在当前程序集（项目）中访问。在同一个项目中，internal和public的权限是一样的。</p>
+<p>protected internal：protected的权限加上internal的权限。</p>
+<p><strong>注意</strong>：在同一个项目中，internal的权限比protected大。跨项目时，protected权限比internal大（继承的传递性）。</p>
+<h3 id="类的访问修饰符"><a href="#类的访问修饰符" class="headerlink" title="类的访问修饰符"></a>类的访问修饰符</h3><p>能够修饰类的访问修饰符只有两个，public和internal，默认是internal。</p>
+<h3 id="可访问性不一致"><a href="#可访问性不一致" class="headerlink" title="可访问性不一致"></a>可访问性不一致</h3><p>子类的访问权限不能高于父类的访问权限，会暴露父类的成员。</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/09/01/ASP-NET-Core-Ng6-实战（二）/" data-toggle="tooltip" data-placement="top"
-                           title="ASP.NET Core + Ng6 实战（二）">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/08/30/我的C#学习笔记（三）文件操作/" data-toggle="tooltip" data-placement="top"
-                           title="我的C#学习笔记（三）">Next Post &rarr;</a>
+                        <a href="/2018/09/04/CLR的执行模型/" data-toggle="tooltip" data-placement="top"
+                           title="CLR的执行模型">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -290,7 +212,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立ASP-NET-core-项目"><span class="toc-text">建立ASP.NET core 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建项目"><span class="toc-text">新建项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASP-NET-core-Web-API-解决方案结构"><span class="toc-text">ASP.NET core Web API 解决方案结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#csproj项目文件"><span class="toc-text">.csproj项目文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Program-和-Startup"><span class="toc-text">Program 和 Startup</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Program-cs"><span class="toc-text">Program.cs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Startup-cs"><span class="toc-text">Startup.cs</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#访问修饰符"><span class="toc-text">访问修饰符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类的访问修饰符"><span class="toc-text">类的访问修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可访问性不一致"><span class="toc-text">可访问性不一致</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -312,8 +234,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#ASP.NET Core"
-                           title="ASP.NET Core">ASP.NET Core</a>
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
                         
                     </div>
                 </section>
