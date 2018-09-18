@@ -210,6 +210,49 @@
 </ol>
 <p>查看D盘目录，发现文件MyLog120180918.log。打开文件，日志保存成功。</p>
 <p><img src="1537205090130.png" alt="1537205090130"></p>
+<h2 id="初始化配置文件"><a href="#初始化配置文件" class="headerlink" title="初始化配置文件"></a>初始化配置文件</h2><h3 id="两种初始化配置的形式"><a href="#两种初始化配置的形式" class="headerlink" title="两种初始化配置的形式"></a>两种初始化配置的形式</h3><ul>
+<li>通过代码来初始化配置，<strong>log4net.Config.XmlConfigurator.Configure();</strong></li>
+<li>通过反射形式进行初始化配置，<strong>[assembly: log4net.Config.XmlConfigurator()]</strong></li>
+</ul>
+<p><strong>注意</strong>：[assembly: log4net.Config.XmlConfigurator()] 可以加在当前使用文件的namespace上作用于当前文件。</p>
+<p><img src="1537287004374.png" alt="1537287004374"></p>
+<p>或者加在Properties/AssemblyInfo.cs中，则该项目全局都无须再初始化了。</p>
+<p><img src="1537287194974.png" alt="1537287194974"></p>
+<p>在实际项目中，默认的配置文件里可能包含很多框架的信息，这个时候把log4net的配置代码再放入进去，就会显得有点杂乱，因此一般通过log4net.Config.XmlConfigurator.Configure(); 来关联配置文件。</p>
+<h3 id="情况一：使用默认配置文件的情况"><a href="#情况一：使用默认配置文件的情况" class="headerlink" title="情况一：使用默认配置文件的情况"></a>情况一：使用默认配置文件的情况</h3><ol>
+<li>代码配置：log4net.Config.XmlConfigurator.Configure();</li>
+<li>反射配置：[assembly: log4net.Config.XmlConfigurator()]</li>
+</ol>
+<h3 id="情况二：修改默认配置文件的名称为App1-config"><a href="#情况二：修改默认配置文件的名称为App1-config" class="headerlink" title="情况二：修改默认配置文件的名称为App1.config"></a>情况二：修改默认配置文件的名称为App1.config</h3><p>这里只是举例，很少有修改默认配置文件名称的情况。</p>
+<ol>
+<li>代码配置：首先App1.config文件的属性中的“生成操作”改为“<strong>嵌入的资源</strong>”，然后通过以下代码进行配置。</li>
+</ol>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Assembly assembly = Assembly.GetExecutingAssembly();</span><br><span class="line"><span class="keyword">var</span> xml = assembly.GetManifestResourceStream(<span class="string">"_01_SimpleDemo.App1.config"</span>);</span><br><span class="line">log4net.Config.XmlConfigurator.Configure(xml);</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：代码中的“_01_SimpleDemo”为命名空间。</p>
+<ol start="2">
+<li>反射配置：[assembly: log4net.Config.XmlConfigurator(ConfigFile = “_01_SimpleDemo.App1.config”)]</li>
+</ol>
+<p><strong>注意</strong>：用这种方式属性中的：复制到输出目录需要改为：始终复制，生成操作不需要配置，使用默认：无  即可。</p>
+<h3 id="情况三：新建单独xml文件，进行log4net的配置"><a href="#情况三：新建单独xml文件，进行log4net的配置" class="headerlink" title="情况三：新建单独xml文件，进行log4net的配置"></a>情况三：新建单独xml文件，进行log4net的配置</h3><p>推荐采用这种方式，和原配置文件区分开，单独配置方便，处理方式和情况二是一致的。</p>
+<ol>
+<li>代码配置：首先将log4net.xml文件的属性中的“生成操作”改为“<strong>嵌入的资源</strong>”，然后通过以下代码进行配置。</li>
+</ol>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Assembly assembly = Assembly.GetExecutingAssembly();</span><br><span class="line"><span class="keyword">var</span> xml = assembly.GetManifestResourceStream(<span class="string">"_01_SimpleDemo.log4net.xml"</span>);</span><br><span class="line">log4net.Config.XmlConfigurator.Configure(xml);</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：代码中的“_01_SimpleDemo”为命名空间。</p>
+<ol start="2">
+<li>反射配置：[assembly: log4net.Config.XmlConfigurator(ConfigFile = “log4net.xml”)]。</li>
+</ol>
+<p><strong>注意</strong>：用这种方式属性中的：复制到输出目录需要改为：始终复制，生成操作不需要配置，使用默认：无  即可。</p>
+<h3 id="情况四：通过绝对路径的方式进行处理"><a href="#情况四：通过绝对路径的方式进行处理" class="headerlink" title="情况四：通过绝对路径的方式进行处理"></a>情况四：通过绝对路径的方式进行处理</h3><p>无论是修改默认配置文件的名称，或者新建单独的xml作为配置文件，都可以通过绝对路径的方式进行处理（不推荐）。</p>
+<ol>
+<li>直接写绝对路径（注意这种方式【不需要】配置文件属性为“嵌入的资源”）。</li>
+</ol>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">log4net.Config.XmlConfigurator.Configure(<span class="keyword">new</span> FileInfo(<span class="string">@"C:\Users\Administrator\source\repos\01-SimpleDemo\01-SimpleDemo\log4net.xml"</span>));</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>通过代码获取绝对路径（注意这种方式【不需要】配置文件属性为“嵌入的资源”，但需要改为“始终复制”，确保输出到bin文件下）。</li>
+</ol>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">string</span> assemblyFilePath = Assembly.GetExecutingAssembly().Location;</span><br><span class="line"><span class="keyword">string</span> assemblyDirPath = Path.GetDirectoryName(assemblyFilePath);</span><br><span class="line"><span class="keyword">string</span> configFilePath = assemblyDirPath + <span class="string">" //log4net.xml"</span>;</span><br><span class="line">log4net.Config.XmlConfigurator.Configure(<span class="keyword">new</span> FileInfo(configFilePath));</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：B/S程序下通过 log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath(“~”) + @”/log4net.xml”));来配置。</p>
 
                 <hr>
                 
@@ -238,7 +281,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4Net介绍"><span class="toc-text">Log4Net介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4Net简介"><span class="toc-text">Log4Net简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4Net日志的五个级别"><span class="toc-text">Log4Net日志的五个级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用步骤"><span class="toc-text">基本使用步骤</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4Net介绍"><span class="toc-text">Log4Net介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4Net简介"><span class="toc-text">Log4Net简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4Net日志的五个级别"><span class="toc-text">Log4Net日志的五个级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用步骤"><span class="toc-text">基本使用步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化配置文件"><span class="toc-text">初始化配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两种初始化配置的形式"><span class="toc-text">两种初始化配置的形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#情况一：使用默认配置文件的情况"><span class="toc-text">情况一：使用默认配置文件的情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#情况二：修改默认配置文件的名称为App1-config"><span class="toc-text">情况二：修改默认配置文件的名称为App1.config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#情况三：新建单独xml文件，进行log4net的配置"><span class="toc-text">情况三：新建单独xml文件，进行log4net的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#情况四：通过绝对路径的方式进行处理"><span class="toc-text">情况四：通过绝对路径的方式进行处理</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
