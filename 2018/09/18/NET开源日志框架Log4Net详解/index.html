@@ -155,6 +155,9 @@
                     </span>
                     <div class="tags text-center">
                         
+                        <a class="tag" href="/tags/#Log4Net"
+                           title="Log4Net">Log4Net</a>
+                        
                     </div>
                 </div>
             </div>
@@ -192,7 +195,7 @@
 <li><strong>新建01-SimpleDemo控制台程序</strong>，通过指令【Install-Package log4net】安装相应程序集。</li>
 </ol>
 <p><img src="1537200004721.png" alt="1537200004721"></p>
-<ol>
+<ol start="2">
 <li><strong>在默认配置文件App.config（B/S程序则为web.config）中进行配置</strong>，主要分两块：</li>
 </ol>
 <p>A.在<configuration></configuration> 节点下新增节点下新增（要在其最顶部）：</p>
@@ -201,11 +204,11 @@
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">log4net</span>&gt;</span><span class="tag">&lt;<span class="name">appender</span>&gt;</span><span class="tag">&lt;/<span class="name">appender</span>&gt;</span><span class="tag">&lt;<span class="name">root</span>&gt;</span><span class="tag">&lt;/<span class="name">root</span>&gt;</span><span class="tag">&lt;/<span class="name">log4net</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>详细代码如下：</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--1.添加log4net的节点声明配置代码--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">configSections</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">section</span> <span class="attr">name</span>=<span class="string">"log4net"</span> <span class="attr">type</span>=<span class="string">"log4net.Config.Log4NetConfigurationSectionHandler,log4net"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">configSections</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--2.log4net的核心配置代码--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">log4net</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--把日志信息输出到以日期命名的文件里--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"RollingFileAppender"</span> <span class="attr">type</span>=<span class="string">"log4net.Appender.RollingFileAppender"</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--文件夹的位置--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">file</span> <span class="attr">value</span>=<span class="string">"D:MyLog1"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">appendToFile</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--动态生成文件名--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"StaticLogFileName"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--以日期命名--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"DatePattern"</span> <span class="attr">value</span>=<span class="string">"yyyyMMdd&amp;quot;.log&amp;quot;"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">rollingStyle</span> <span class="attr">value</span>=<span class="string">"Date"</span> /&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--日志在日志文件中的布局方式--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">layout</span> <span class="attr">type</span>=<span class="string">"log4net.Layout.PatternLayout"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">conversionPattern</span> <span class="attr">value</span>=<span class="string">"%newline %n记录时间：%date %n线程ID:[%thread] %n日志级别：%-5level %n出错类：%logger property:[%property&#123;NDC&#125;]-%n错误描述：%message%newline %n"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">layout</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--使用最小锁定模型（minimal locking model），以允许多个进程可以写入同一个文件--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">lockingModel</span> <span class="attr">type</span>=<span class="string">"log4net.Appender.FileAppender+MinimalLock"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">level</span> <span class="attr">value</span>=<span class="string">"ALL"</span>&gt;</span><span class="tag">&lt;/<span class="name">level</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"RollingFileAppender"</span>&gt;</span><span class="tag">&lt;/<span class="name">appender-ref</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">log4net</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">startup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">supportedRuntime</span> <span class="attr">version</span>=<span class="string">"v4.0"</span> <span class="attr">sku</span>=<span class="string">".NETFramework,Version=v4.6.1"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">startup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="3">
 <li><strong>代码调用</strong></li>
 </ol>
 <figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    log4net.Config.XmlConfigurator.Configure();</span><br><span class="line">    ILog log = LogManager.GetLogger(<span class="string">"test"</span>);</span><br><span class="line">    log.Debug(<span class="string">"调试信息"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="4">
 <li><strong>运行结果</strong></li>
 </ol>
 <p>查看D盘目录，发现文件MyLog120180918.log。打开文件，日志保存成功。</p>
@@ -302,6 +305,9 @@
                         <a href="/tags/">FEATURED TAGS</a>
                     </h5>
                     <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Log4Net"
+                           title="Log4Net">Log4Net</a>
                         
                     </div>
                 </section>
