@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        前端性能优化｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2018/10/22/前端性能优化/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/blue-sky.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/blue-sky.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>前端性能优化</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2018-10-22
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            前端性能优化
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>大家平时浏览网页的时候有没有过这样的体验。某猫的响应速度为何这么快？体验为何这么流畅？为什么往下拉动时才加载图片？相反，某某银行网站的体验为何明显卡顿？Why？</p>
+<p>带着这些问题，我们一起来思考并寻找答案。</p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>掌握前端性能优化的原理</li>
+<li>了解主流前端性能优化实践</li>
+<li>分析自身业务，选择合适的性能优化方式</li>
+</ul>
+<h2 id="浏览器的一个请求从发送到返回都经历了什么？"><a href="#浏览器的一个请求从发送到返回都经历了什么？" class="headerlink" title="浏览器的一个请求从发送到返回都经历了什么？"></a>浏览器的一个请求从发送到返回都经历了什么？</h2><p>第一步、当用户在浏览器地址栏输入一个URL按下回车的时候，浏览器会将domain发送给域名服务器，DNS将domain对应的IP地址返回给浏览器。</p>
+<p>第二步、浏览器会将IP地址及请求的参数携带到协议中，并发送到网络中去。</p>
+<p>第三步、请求经过局域网、交换机、路由器、主干网络，发送到服务器。</p>
+<p>第四步、服务器是一个MVC架构，请求进入服务器后，会在Controller进行逻辑处理和请求分发，然后发送给Model层，Model层会跟Redis和DB进行交互，最后将渲染好的页面通过View层返回给网络。</p>
+<p>第五步、一个HTTP请求的Response就从服务端回到了浏览器，浏览器对返回回来的HTML，CSS，Js进行渲染。</p>
+<p>下面用一个简单的图来描述这个过程。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1442638/201810/1442638-20181019160824642-1092264290.png" alt="img"></p>
+<h2 id="网站在浏览器端是如何进行渲染的呢？"><a href="#网站在浏览器端是如何进行渲染的呢？" class="headerlink" title="网站在浏览器端是如何进行渲染的呢？"></a>网站在浏览器端是如何进行渲染的呢？</h2><p>第一步、当浏览器接受到从服务器返回的HTML文档后，遍历文档节点，渲染成DOM树。同时，CSS资源请求回来后由浏览器生成响应的CSS树。</p>
+<p>第二步、DOM树跟CSS树合并，生成Render树。</p>
+<p>第三步、进一步的布局跟绘制。</p>
+<p>实际上的绘制会更加复杂，HTML从上到下解析，与此同时会请求所需的外部资源，并对外部资源进行解析和执行，最后是页面的渲染。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1442638/201810/1442638-20181019160402873-150771158.png" alt="img"></p>
+<h2 id="请求过程中一些潜在的性能优化点"><a href="#请求过程中一些潜在的性能优化点" class="headerlink" title="请求过程中一些潜在的性能优化点"></a>请求过程中一些潜在的性能优化点</h2><ul>
+<li>dns是否可以通过缓存减少dns查询时间？</li>
+<li>网络请求的过程走最近的网络环境？</li>
+<li>相同的静态资源是否可以缓存？</li>
+<li>能否减少请求HTTP请求的大小？</li>
+<li>能否减少HTTP请求？</li>
+</ul>
+<h2 id="减少HTTP请求大小"><a href="#减少HTTP请求大小" class="headerlink" title="减少HTTP请求大小"></a>减少HTTP请求大小</h2><p> 减少HTTP请求大小的方法有很多种，主要方法有CSS压缩，Js压缩和混淆，图片优化。</p>
+<h3 id="CSS压缩"><a href="#CSS压缩" class="headerlink" title="CSS压缩"></a>CSS压缩</h3><p>对于CSS文件，我们可以删除无效的代码，并且对CSS代码的语义进行合并。</p>
+<h3 id="Js压缩和混淆"><a href="#Js压缩和混淆" class="headerlink" title="Js压缩和混淆"></a>Js压缩和混淆</h3><p>对于Js代码，可以删除无效的代码，剔除注释，对代码的语义进行缩减和优化，Js混淆还可以带来保护代码的作用。</p>
+<p><strong>压缩</strong>：删除代码中所有注释、跳格符号、换行符号及无用的空格，从而压缩文件大小，优化页面加载速度。</p>
+<p><strong>混淆</strong>：经过编码将变量和函数原命名改为毫无意义的命名（如function(a,b,c,e,g)等），以防止他人窥视和窃取 Javascript 源代码，也有一定压缩效果。</p>
+<p>压缩方法：</p>
+<ul>
+<li>使用在线网站进行压缩（<a href="http://tool.oschina.net/jscompress）" target="_blank" rel="noopener">http://tool.oschina.net/jscompress）</a></li>
+<li>使用html-minifier对html中的css/js进行压缩</li>
+<li>使用clean-css对css进行压缩</li>
+<li>使用uglifyjs2对js进行压缩</li>
+</ul>
+<h3 id="图片的优化"><a href="#图片的优化" class="headerlink" title="图片的优化"></a>图片的优化</h3><h4 id="CSS雪碧图"><a href="#CSS雪碧图" class="headerlink" title="CSS雪碧图"></a>CSS雪碧图</h4><p>把网站上用到的一些图片整合到一张单独的图片中，减少网站的HTTP请求数量。在线网站：<a href="http://www.sprite.com" target="_blank" rel="noopener">http://www.sprite.com</a></p>
+<p><img src="https://img2018.cnblogs.com/blog/1442638/201810/1442638-20181022163023315-1589767794.png" alt="img"></p>
+<p>《前端优化：css雪碧图实践应用详解》：<a href="https://blog.csdn.net/qq_31370987/article/details/53869742" target="_blank" rel="noopener">https://blog.csdn.net/qq_31370987/article/details/53869742</a></p>
+<h4 id="在线压缩图片"><a href="#在线压缩图片" class="headerlink" title="在线压缩图片"></a>在线压缩图片</h4><p>在线地址：<a href="https://tinypng.com" target="_blank" rel="noopener">https://tinypng.com</a></p>
+<h3 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h3><ul>
+<li>强缓存：在过期时间前浏览器可以直接从缓存中读取数据，而无需再次请求。与强缓存相关的header字段有：Cache-Control、Expires。</li>
+<li>协商缓存：基于客户端和服务端协商的缓存机制，与协商缓存相关的header字段有：Last-Modified/if-Modified-Since、Etag/if-None-Match。</li>
+</ul>
+<p><strong>强缓存：Cache-Control</strong></p>
+<ul>
+<li>max-age：指定的时间之内，是不会向服务端发起请求的。服务器端告诉浏览器，这张图片在这个时间内不会过期，都是有效的。</li>
+<li>s-maxage：指定缓存的时间，但只能指定public的缓存。</li>
+<li>private：缓存设备分为private缓存设备和public缓存设备。private缓存设备只能用于当前用户自己访问的缓存，比如用户的浏览器。</li>
+<li>public：缓存设备，比如CDN，可以供很多用户访问并读取信息。</li>
+<li>no-cache：不管怎么样，都会向服务器发起请求，不会从缓存读取。</li>
+<li>no-store：不缓存。</li>
+</ul>
+<p>注意：</p>
+<ol>
+<li>s-maxage优先级高于max-age，它只能对public缓存设备生效。</li>
+<li>当Cache-Control设置了s-maxage，浏览器不会从本地缓存去读取数据，而是向CDN发起请求。如果CDN的缓存是在s-maxage设置的时间之内，则CDN文件的缓存是不会过期的，此时会返回304状态码，并直接从CDN返回数据。如果CDN的缓存在s-maxage设置的时间之外，则浏览器需要向服务器发起请求，最终返回200状态码，并从服务器返回数据。</li>
+</ol>
+<p><strong>强缓存：Expires</strong></p>
+<p>缓存过期时间，用来指定资源的到期时间，是服务器端具体的时间。</p>
+<p>告诉浏览器在过期时间前，浏览器可以直接从浏览器缓存取数据，而无需再次请求。</p>
+<p>强缓存：有效期内，直接从缓存读取，不会向服务器发起请求。</p>
+<p>协商缓存：能感知服务端文件是否发生变化。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/10/14/我的C-学习笔记（六）委托和XML/" data-toggle="tooltip" data-placement="top"
+                           title="我的C#学习笔记（六）委托和XML">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目标"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器的一个请求从发送到返回都经历了什么？"><span class="toc-text">浏览器的一个请求从发送到返回都经历了什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网站在浏览器端是如何进行渲染的呢？"><span class="toc-text">网站在浏览器端是如何进行渲染的呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求过程中一些潜在的性能优化点"><span class="toc-text">请求过程中一些潜在的性能优化点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#减少HTTP请求大小"><span class="toc-text">减少HTTP请求大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS压缩"><span class="toc-text">CSS压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Js压缩和混淆"><span class="toc-text">Js压缩和混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片的优化"><span class="toc-text">图片的优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS雪碧图"><span class="toc-text">CSS雪碧图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在线压缩图片"><span class="toc-text">在线压缩图片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器缓存"><span class="toc-text">浏览器缓存</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhdaa">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2018
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/cat-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
