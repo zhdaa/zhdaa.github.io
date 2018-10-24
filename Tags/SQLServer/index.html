@@ -22,7 +22,7 @@
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/archives/2018/09/">
+    <link rel="canonical" href="https://zhdaa.github.io/tags/SQLServer/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="true
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -153,117 +153,19 @@
 
 <div class="post-preview "
      style="background-image: url('/images/blue-sky.jpg')">
-    <a href="/2018/09/27/我的C-学习笔记（五）多线程和Socket网络编程/">
+    <a href="/2018/10/24/SQLServer列名无效/">
         <h2 class="post-title">
-            我的C#学习笔记（五）多线程和Socket网络编程
+            SQLServer列名无效
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-27
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-10-24
         </p>
         
         <div class="post-content-preview">
             <p>
-                进程类获得所有的进程//获得当前程序中所有正在运行的进程Process[] pros = Process.GetProcesses();foreach (var item in pros)&#123;    //杀死进程    //item.Kill();    Console.WriteLin..
-            </p>
-        </div>
-    </a>
+                很多时候对数据库表修改字段后会出现“列名无效”，或者在查询分析器里面是红色的下划线，造成这个现象的原因是：SQL Server的intellisense（智能感知功能），没有感知到更改，需要重新整理一下
+方法：用快捷键Ctrl+Shift+R即可
 
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('post-default.jpg')">
-    <a href="/2018/09/18/NET开源日志框架Log4Net详解/">
-        <h2 class="post-title">
-            .NET开源日志框架Log4Net详解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-18
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                Log4Net介绍今天在公众号推送上看到了关于.NET开源日志框架Log4Net的一篇文章，恰巧现在做的项目中也有使用到Log4Net。由于本人对其的使用不是很熟练，于是想花点时间学习一下这个框架，了解其中的原理。
-在一个大型的项目中，日志文件扮演着十分重要的角色。当系统足够大，代码量很多的时候..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('/images/blue-sky.jpg')">
-    <a href="/2018/09/12/我的C-学习笔记（四）类和接口/">
-        <h2 class="post-title">
-            我的C#学习笔记（四）类和接口
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-12
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                访问修饰符public：公开的公共的。
-private：私有的，只能在当前类的内部访问。
-protected：受保护的，只能在当前类的内部以及该类的子类中访问。
-internal：只能在当前程序集（项目）中访问。在同一个项目中，internal和public的权限是一样的。
-protected ..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('/images/blue-sky.jpg')">
-    <a href="/2018/09/04/CLR的执行模型/">
-        <h2 class="post-title">
-            CLR的执行模型
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-04
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                将源代码编译成托管模块公共语言运行时CLR公共语言运行时（Common Language Runtime，CLR）是一个可由多种编程语言使用的运行时。CLR的核心功能（比如内存管理、程序集加载、安全性、异常处理和线程同步）可由面向CLR的所有语言使用。
-微软创建好了几个面向CLR的语言编译器，其..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('/images/blue-sky.jpg')">
-    <a href="/2018/09/01/ASP-NET-Core-Ng6-实战（二）/">
-        <h2 class="post-title">
-            ASP.NET Core + Ng6 实战（二）
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-01
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                运行时环境ASPNETCORE_ENVIRONMENT环境变量
-ASP.NET Core使用ASPNETCORE_ENVIRONMENT环境变量。
-ASP.NET Core应用启动时读取ASPNETCORE_ENVIRONMENT环境变量的值，并保存在IHostingEnvironment.En..
             </p>
         </div>
     </a>
