@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Zhendong&#39;s blog
+        jQuery回顾（一）｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/tags/Log4Net/">
+    <link rel="canonical" href="https://zhdaa.github.io/2018/10/26/jQuery回顾（一）/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,166 +124,154 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/cat-headimg.jpg"/>
-                        <h5><a href="/about/">Zhendong Ho</a></h5>
-                        <p>知其然知其所以然</p>
+
+<img class="wechat-title-img"
+     src="/images/blue-sky.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/blue-sky.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>jQuery回顾（一）</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2018-10-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#jQuery"
+                           title="jQuery">jQuery</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            jQuery回顾（一）
+        </span>
+    </div>
+</header>
 
-
-
-<div class="post-preview "
-     style="background-image: url('post-default.jpg')">
-    <a href="/2018/09/18/NET开源日志框架Log4Net详解/">
-        <h2 class="post-title">
-            .NET开源日志框架Log4Net详解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-18
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                Log4Net介绍今天在公众号推送上看到了关于.NET开源日志框架Log4Net的一篇文章，恰巧现在做的项目中也有使用到Log4Net。由于本人对其的使用不是很熟练，于是想花点时间学习一下这个框架，了解其中的原理。
-在一个大型的项目中，日志文件扮演着十分重要的角色。当系统足够大，代码量很多的时候..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="window-onload事件"><a href="#window-onload事件" class="headerlink" title="window.onload事件"></a>window.onload事件</h2><p>window.onload事件是js中用于当窗体加载完毕后执行的事件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	alert(<span class="string">'窗体加载完毕事件1'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'窗体加载完毕事件2'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//结果：输出“窗体加载完毕事件2”</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>上面的代码，当页面加载完毕后只会执行最后一个，因为最后一个window.onload赋值语句，会将前面所有设置的function () { }都覆盖掉。</li>
+<li>如果直接通过js动态注册事件，因为注册事件的时候是通过赋值语句设置的，所以只会应用最后一次注册的事件。</li>
 </ul>
+<h2 id="jQuery实现类似的效果"><a href="#jQuery实现类似的效果" class="headerlink" title="jQuery实现类似的效果"></a>jQuery实现类似的效果</h2><p>可以用jQuery的ready事件实现类似window.onload的页面加载完毕效果。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">jQuery(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'111111'</span>);</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'222222'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//完整的写法</span></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'333333'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//结果：分别输出111111、222222和333333</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用jQuery注册的事件，不会被覆盖，当注册了多个事件处理程序后。当事件被触发时，会依次执行这些事件。</li>
+<li>window.onload事件与jQuery的ready事件是有区别的。</li>
+</ul>
+<p>window.onload事件与jQuery的ready事件区别：</p>
+<ol>
+<li>window.onload需要等待页面全部加载完毕，其中包含页面中的标签所引用的其他资源。（整个页面需要全部加载完毕）。</li>
+<li>jQuery的ready事件，只要等待页面中所有的标签下载完毕就会被触发。所以用户“感觉”的角度来说，使用ready事件会让用户感觉速度更快了。</li>
+</ol>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/10/24/SQLServer列名无效/" data-toggle="tooltip" data-placement="top"
+                           title="SQLServer列名无效">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
 
 
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#window-onload事件"><span class="toc-text">window.onload事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery实现类似的效果"><span class="toc-text">jQuery实现类似的效果</span></a></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/cat-headimg.jpg"/>
-                    
-                    <h5><a href="/about/">Zhendong Ho</a></h5>
-                    
-                    <p>知其然知其所以然</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#jQuery"
+                           title="jQuery">jQuery</a>
+                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/zhdaa">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="http://laibh.top">赖同学</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Music 网易云音乐 -->
-            
-            <!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=461525011&auto=1&height=66"></iframe>-->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=1&height=66"></iframe>
-            
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#ASP.NET Core" title="ASP.NET Core"
-                       rel="2">ASP.NET Core</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#C#" title="C#"
-                       rel="7">C#</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://laibh.top" target="_blank">赖同学</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
-        
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
