@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        jQuery回顾（一）｜Zhendong&#39;s blog
+        Oracle工具介绍及安装配置｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/2018/10/26/jQuery回顾（一）/">
+    <link rel="canonical" href="https://zhdaa.github.io/2018/10/29/Oracle工具介绍及安装配置/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -145,18 +145,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>jQuery回顾（一）</h1>
+                    <h1>Oracle工具介绍及安装配置</h1>
                     
                     <span class="meta">
                          作者 Zhendong Ho
                         <span>
-                          日期 2018-10-26
+                          日期 2018-10-29
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#jQuery"
-                           title="jQuery">jQuery</a>
+                        <a class="tag" href="/tags/#Oracle"
+                           title="Oracle">Oracle</a>
                         
                     </div>
                 </div>
@@ -165,7 +165,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            jQuery回顾（一）
+            Oracle工具介绍及安装配置
         </span>
     </div>
 </header>
@@ -176,38 +176,189 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="window-onload事件"><a href="#window-onload事件" class="headerlink" title="window.onload事件"></a>window.onload事件</h2><p>window.onload事件是js中用于当窗体加载完毕后执行的事件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	alert(<span class="string">'窗体加载完毕事件1'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'窗体加载完毕事件2'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//结果：输出“窗体加载完毕事件2”</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>上面的代码，当页面加载完毕后只会执行最后一个，因为最后一个window.onload赋值语句，会将前面所有设置的function () { }都覆盖掉。</li>
-<li>如果直接通过js动态注册事件，因为注册事件的时候是通过赋值语句设置的，所以只会应用最后一次注册的事件。</li>
-</ul>
-<h2 id="jQuery实现类似的效果"><a href="#jQuery实现类似的效果" class="headerlink" title="jQuery实现类似的效果"></a>jQuery实现类似的效果</h2><p>可以用jQuery的ready事件实现类似window.onload的页面加载完毕效果。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">jQuery(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'111111'</span>);</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'222222'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//完整的写法</span></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">'333333'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//结果：分别输出111111、222222和333333</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用jQuery注册的事件，不会被覆盖，当注册了多个事件处理程序后。当事件被触发时，会依次执行这些事件。</li>
-<li>window.onload事件与jQuery的ready事件是有区别的。</li>
-</ul>
-<p>window.onload事件与jQuery的ready事件区别：</p>
+                <h2 id="Oracle数据库技术"><a href="#Oracle数据库技术" class="headerlink" title="Oracle数据库技术"></a>Oracle数据库技术</h2><p>Oracle是甲骨文公司的软件产品，是全球最优秀的数据库产品。</p>
+<h3 id="Oracle版本介绍"><a href="#Oracle版本介绍" class="headerlink" title="Oracle版本介绍"></a>Oracle版本介绍</h3><p><strong>Oracle 9i</strong></p>
+<p>Oracle 9i（其中“i”代表Internet），包括3部分。</p>
 <ol>
-<li>window.onload需要等待页面全部加载完毕，其中包含页面中的标签所引用的其他资源。（整个页面需要全部加载完毕）。</li>
-<li>jQuery的ready事件，只要等待页面中所有的标签下载完毕就会被触发。所以用户“感觉”的角度来说，使用ready事件会让用户感觉速度更快了。</li>
+<li>Oracle 9i数据库。又分为企业版、标准版和个人版。</li>
+<li>Oracle 9i应用服务器。有两种版本：企业版主要用于构建互联网应用，面向企业级应用；标准版用于建立面向部门级的Web应用。</li>
+<li>Oracle 9i开发工具套件。它是一整套的Oracle 9i应用程序开发工具。</li>
 </ol>
+<p><strong>Oracle 10g</strong></p>
+<p>Oracle 10g（其中“g”代表grid网格），是网格计算的意思，网格计算是Oracle 10g的主要技术之一。</p>
+<p><strong>Oracle 11g</strong></p>
+<p>2007年7月12日，甲骨文公司在美国纽约宣布推出数据库Oracle 11g，这是Oracle数据库的最新版本。</p>
+<h3 id="Oracle企业管理器"><a href="#Oracle企业管理器" class="headerlink" title="Oracle企业管理器"></a>Oracle企业管理器</h3><p>Oracle企业管理器通过一种独特的应用软件到磁盘的系统管理方法，使客户能够降低应用环境的复杂性并提高效率。</p>
+<p>Oracle 10g及以后版本的企业管理器的使用方法和以前的版本有所不同，以前版本的企业管理器类似于SQL Server中的企业管理器，是可视化的树形管理方式，而Oracle 10g等较新版本的数据库系统含有的企业管理器采用的是基于Web的数据库管理工具，它通过在客户端的浏览器中访问OEM控制台来实现管理功能。</p>
+<p>Oracle企业管理器（OEM）是管理Oracle数据库的主要工具，它随着Oracle 11g数据库系统一起被安装。</p>
+<h3 id="Oracle-SQL-Developer"><a href="#Oracle-SQL-Developer" class="headerlink" title="Oracle SQL Developer"></a>Oracle SQL Developer</h3><p>Oracle SQL Developer是一个图形化的数据库开发工具。使用SQL Developer，可以浏览数据库对象、运行SQL语句和SQL脚本，并且还可以编辑和调试PL/SQL语句。还可以运行所提供的任何数量的报表，以及创建和保存自己的报表。SQL Developer可以提高工作效率并简化数据库开发任务。</p>
+<p>安装Oracle 11g数据库服务器就含有SQL Developer，但SQL Developer也可以单独免费下载。</p>
+<h3 id="SQLPlus"><a href="#SQLPlus" class="headerlink" title="SQLPlus"></a>SQLPlus</h3><p>SQL Plus是Oracle数据库服务器最主要的接口，它提供了一个功能强大且易于使用的查询、定义和控制数据的环境。</p>
+<h2 id="命名规则和数据类型"><a href="#命名规则和数据类型" class="headerlink" title="命名规则和数据类型"></a>命名规则和数据类型</h2><h3 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h3><p><strong>标准命名方式</strong></p>
+<ol>
+<li>命名以字符打头</li>
+<li>除数据库名称长度为1~8个字符外，其余为30个字符以内</li>
+<li>对象名中只能包含a-z、A-Z0-9、_、$和#</li>
+<li>不能和同一个用户下的其他对象重名</li>
+<li>不能以Oracle服务器的保留字命名</li>
+</ol>
+<p><strong>非标准命名</strong></p>
+<p>非标准命名方式可以使用任何字符，包括中文、Oracle中的保留字和空格等，但是需要将对象名用双引号括起来。例如：Create Table “Table”(Test1 Varchar2(10));</p>
+<p>该命令建立一个表名为Table的表，没有语法错误。但这样命名就需要以后在使用该对象时必须用双引号将对象括起来。例如，select <em> From Table;是错误的，应该用select </em> From “Table”;。</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>Oracle数据库的数据类型可分为4类：字符数据类型、数字数据类型、日期数据类型和其他数据类型。</p>
+<p><strong>字符数据类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>说明</th>
+<th>域取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Char</td>
+<td>定长字符串</td>
+<td>[0，2000b]</td>
+</tr>
+<tr>
+<td>Varchar2</td>
+<td>变长字符串</td>
+<td>[0，4000b]</td>
+</tr>
+<tr>
+<td>Nchar</td>
+<td>根据字符集而定的定长字符串</td>
+<td>[0，2000b]</td>
+</tr>
+<tr>
+<td>Nvarchar2</td>
+<td>根据字符集而定的变长字符串</td>
+<td>[0，4000b]</td>
+</tr>
+<tr>
+<td>Long</td>
+<td>超长字符串</td>
+<td>[0，2gb]</td>
+</tr>
+<tr>
+<td>Clob</td>
+<td>字符数据</td>
+<td>[0，4gb]</td>
+</tr>
+<tr>
+<td>Nclob</td>
+<td>根据字符集而定的字符数据</td>
+<td>[0，4gb]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数字数据类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>说明</th>
+<th>域取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number</td>
+<td>格式为number(P,S)，P为整数位，s为小数位</td>
+<td>P Default 38，S∈[-84，127]</td>
+</tr>
+<tr>
+<td>Binary_Float</td>
+<td>32位的双精度浮点型数值</td>
+<td>[1.17549E-38F，3.40282E+38F]</td>
+</tr>
+<tr>
+<td>Binary_Double</td>
+<td>64位的双精度浮点型数值</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<p><strong>日期数据类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>说明</th>
+<th>域取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE</td>
+<td>有效的日期类型</td>
+<td>从January 1，4712 BC到December31,9999 AD</td>
+</tr>
+<tr>
+<td>TIMESTAMP（fractional_seconds_precision）</td>
+<td>时间戳类型（含秒的精度位数）</td>
+<td>秒的精度位数为0~9（默认为6）</td>
+</tr>
+<tr>
+<td>TIMESTAMP（fractional_seconds_precision）WITH{LOCAL}TIMEZONE</td>
+<td>带{局部}时区的时间戳类型（含秒的精度位数）</td>
+<td>秒的精度位数为0~9（默认为6）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>其他数据类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>说明</th>
+<th>域取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raw</td>
+<td>定长的二进制数据</td>
+<td>[0，2000b]</td>
+</tr>
+<tr>
+<td>Long Raw</td>
+<td>变长的二进制数据</td>
+<td>[0，2gb]</td>
+</tr>
+<tr>
+<td>Rowid</td>
+<td>数据表中记录的唯一行号</td>
+<td>10b</td>
+</tr>
+<tr>
+<td>Blob</td>
+<td>二进制数据</td>
+<td>[0，4gb]</td>
+</tr>
+<tr>
+<td>Bfile</td>
+<td>存放在数据库外的二进制数据</td>
+<td>[0，4gb]</td>
+</tr>
+<tr>
+<td>Urowid</td>
+<td>二进制数据表中记录的唯一行号</td>
+<td>[0，4000b]</td>
+</tr>
+</tbody>
+</table>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/10/29/Oracle工具介绍及安装配置/" data-toggle="tooltip" data-placement="top"
-                           title="Oracle工具介绍及安装配置">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/10/24/SQLServer列名无效/" data-toggle="tooltip" data-placement="top"
-                           title="SQLServer列名无效">Next Post &rarr;</a>
+                        <a href="/2018/10/26/jQuery回顾（一）/" data-toggle="tooltip" data-placement="top"
+                           title="jQuery回顾（一）">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -226,7 +377,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#window-onload事件"><span class="toc-text">window.onload事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery实现类似的效果"><span class="toc-text">jQuery实现类似的效果</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle数据库技术"><span class="toc-text">Oracle数据库技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle版本介绍"><span class="toc-text">Oracle版本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle企业管理器"><span class="toc-text">Oracle企业管理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-SQL-Developer"><span class="toc-text">Oracle SQL Developer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLPlus"><span class="toc-text">SQLPlus</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名规则和数据类型"><span class="toc-text">命名规则和数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名规则"><span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-text">数据类型</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -248,8 +399,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#jQuery"
-                           title="jQuery">jQuery</a>
+                        <a class="tag" href="/tags/#Oracle"
+                           title="Oracle">Oracle</a>
                         
                     </div>
                 </section>
