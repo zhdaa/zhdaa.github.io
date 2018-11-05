@@ -349,6 +349,28 @@
 </tr>
 </tbody>
 </table>
+<h2 id="Oracle安装"><a href="#Oracle安装" class="headerlink" title="Oracle安装"></a>Oracle安装</h2><h3 id="Oracle-Database-11g安装"><a href="#Oracle-Database-11g安装" class="headerlink" title="Oracle Database 11g安装"></a>Oracle Database 11g安装</h3><p>可从官网选择合适版本的Oracle下载（需要注册），得到两个压缩文件。先解压到同一个目录，运行setup.exe。</p>
+<p><img src="1541434776057.png" alt="1541434776057"></p>
+<p>配置安全更新，可以输入自己的电子邮箱，然后单击下一步。</p>
+<p><img src="1541434852831.png" alt="1541434852831"></p>
+<p>选择安装选项。首次安装一般选“创建和配置数据库”，单击下一步。</p>
+<p><img src="1541435041290.png" alt="1541435041290"></p>
+<p>选择系统类。一般学习或应用开发时选“桌面类”。点击下一步。（桌面类适用于台式机和笔记本，只包含最小数据库和最低配置要求，不允许远程访问。服务器类提供数据库服务，可用于企业级应用）</p>
+<p><img src="1541435495477.png" alt="1541435495477"></p>
+<p>典型安装配置。全局数据库名和管理口令一定要记录下来。管理口令是指对sys、system、dbsnmp等系统管理类账号通用的初始口令。设置好后单击下一步。</p>
+<p><img src="1541435645902.png" alt="1541435645902"></p>
+<p>先决条件检查通过后，显式安装概要。点击完成。</p>
+<p><img src="1541437048420.png" alt="1541437048420"></p>
+<p>开始安装，然后就是漫长的等待。</p>
+<p><img src="1541437141211.png" alt="1541437141211"></p>
+<p>安装完成后，出现安装完成的信息框。点击关闭按钮就可以开始使用Oracle数据库了。</p>
+<p><img src="1541438188624.png" alt="1541438188624"></p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>运行打开services.msc，至少要启动数据库服务和数据库监听后，才能进行Oracle 11g的基本操作。</li>
+<li>只有启动OracleDBConsoleorcl服务，才能以Web方式在IE浏览器中实现数据库的全面管理。</li>
+</ul>
+<p><img src="1541438645095.png" alt="1541438645095"></p>
 
                 <hr>
                 
@@ -377,7 +399,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle数据库技术"><span class="toc-text">Oracle数据库技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle版本介绍"><span class="toc-text">Oracle版本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle企业管理器"><span class="toc-text">Oracle企业管理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-SQL-Developer"><span class="toc-text">Oracle SQL Developer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLPlus"><span class="toc-text">SQLPlus</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名规则和数据类型"><span class="toc-text">命名规则和数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名规则"><span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-text">数据类型</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle数据库技术"><span class="toc-text">Oracle数据库技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle版本介绍"><span class="toc-text">Oracle版本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle企业管理器"><span class="toc-text">Oracle企业管理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-SQL-Developer"><span class="toc-text">Oracle SQL Developer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLPlus"><span class="toc-text">SQLPlus</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名规则和数据类型"><span class="toc-text">命名规则和数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名规则"><span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-text">数据类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle安装"><span class="toc-text">Oracle安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-Database-11g安装"><span class="toc-text">Oracle Database 11g安装</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
