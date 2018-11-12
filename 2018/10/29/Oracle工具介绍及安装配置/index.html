@@ -387,6 +387,31 @@
 <p>Oracle提供的Web服务器，服务进程为APACHE.EXE，参数文件为httpd.conf，默认端口为80。</p>
 <p><strong>OracleHOME_NAMEManagementServer（OEM管理服务）</strong></p>
 <p>使用OEM时需要OEM管理服务，服务进程为OMSNTSVR.EXE，日志文件为oms.nohup。</p>
+<h2 id="Oracle配置管理工具"><a href="#Oracle配置管理工具" class="headerlink" title="Oracle配置管理工具"></a>Oracle配置管理工具</h2><p>Oracle常用的配置管理工具有：</p>
+<ol>
+<li>Administration Assistant for Windows</li>
+<li>Database Configuration Assistant（数据库配置助手）</li>
+<li>Net Configuration Assistant（网络配置助手）</li>
+<li>Oracle Net Manager（网络管理器）</li>
+</ol>
+<h3 id="Net-Configuration-Assistant配置"><a href="#Net-Configuration-Assistant配置" class="headerlink" title="Net Configuration Assistant配置"></a>Net Configuration Assistant配置</h3><p>网络配置助手主要为用户提供Oracle数据库的监听程序配置、命名方法配置、本地NET服务名配置和目录使用配置。网络配置助手以向导的形式出现，使配置过程更加简单。</p>
+<h4 id="监听程序配置"><a href="#监听程序配置" class="headerlink" title="监听程序配置"></a>监听程序配置</h4><p>监听器是Oracle基于服务器端的一种网络服务。监听器创建在数据库服务器上，主要作用是监视客户端的连接请求，并将请求转发给服务器。Oracle监听器总是存在于数据库服务器端，因此在客户端创建监听器毫无意义。</p>
+<p>第一步，在Oracle安装后的程序组“配置和移植工具”中单击“Net Configuration Assistant”，出现欢迎界面。选择监听程序配置，下一步。</p>
+<p><img src="1542041694648.png" alt="1542041694648"></p>
+<p>选择添加，下一步。</p>
+<p><img src="1542041895686.png" alt="1542041895686"></p>
+<p>指定监听程序名，下一步。</p>
+<p><img src="1542041964364.png" alt="1542041964364"></p>
+<p>指定监听程序的协议，下一步。</p>
+<p><img src="1542042010618.png" alt="1542042010618"></p>
+<p>指定监听程序使用的TCP/IP端口，下一步。</p>
+<p><img src="1542042038296.png" alt="1542042038296"></p>
+<p>是否配置另一个监听程序，选否，下一步。</p>
+<p><img src="1542042161822.png" alt="1542042161822"></p>
+<p>配置完成！</p>
+<p><img src="1542042221694.png" alt="1542042221694"></p>
+<p>打开服务，可以看到配置后新添加的服务。</p>
+<p><img src="1542042301024.png" alt="1542042301024"></p>
 
                 <hr>
                 
@@ -415,7 +440,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle数据库技术"><span class="toc-text">Oracle数据库技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle版本介绍"><span class="toc-text">Oracle版本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle企业管理器"><span class="toc-text">Oracle企业管理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-SQL-Developer"><span class="toc-text">Oracle SQL Developer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLPlus"><span class="toc-text">SQLPlus</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名规则和数据类型"><span class="toc-text">命名规则和数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名规则"><span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-text">数据类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle安装"><span class="toc-text">Oracle安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-Database-11g安装"><span class="toc-text">Oracle Database 11g安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用Oracle系统服务"><span class="toc-text">常用Oracle系统服务</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle数据库技术"><span class="toc-text">Oracle数据库技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle版本介绍"><span class="toc-text">Oracle版本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle企业管理器"><span class="toc-text">Oracle企业管理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-SQL-Developer"><span class="toc-text">Oracle SQL Developer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLPlus"><span class="toc-text">SQLPlus</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名规则和数据类型"><span class="toc-text">命名规则和数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名规则"><span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-text">数据类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle安装"><span class="toc-text">Oracle安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-Database-11g安装"><span class="toc-text">Oracle Database 11g安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用Oracle系统服务"><span class="toc-text">常用Oracle系统服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle配置管理工具"><span class="toc-text">Oracle配置管理工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Net-Configuration-Assistant配置"><span class="toc-text">Net Configuration Assistant配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#监听程序配置"><span class="toc-text">监听程序配置</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
