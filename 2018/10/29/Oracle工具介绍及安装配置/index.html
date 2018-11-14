@@ -379,9 +379,9 @@
 </ul>
 <p><strong>OracleServiceSID（数据库服务）</strong></p>
 <p>数据库服务的功能是启动和停止数据库。服务名中的“ORCL”是在数据库安装过程中指定的数据库系统标识（SID）。服务进程为ORACLE.EXE。参数文件为initSID.ora，日志文件为SIDALRT.log，控制台为SVRMGRL.EXE和SQLPLUS.EXE。</p>
-<p><strong>OracleHome_NAMETNSListener（监听器服务）</strong></p>
+<p><strong>OracleHOME_NAMETNSListener（监听器服务）</strong></p>
 <p>在远程访问数据库时，监听器程序负责接受和处理对数据库的远程访问请求，并发送处理结果给请求客户端。如果是直接访问本地数据库，则不需要此监听器服务程序。服务进程为TNSLSNR.EXE，参数文件为Listener.ora，日志文件为listener.log，控制台为LSNRCTL.EXE，默认端口为1521和1526。</p>
-<p><strong>OracleHONE_NAMEAgent（OEM代理服务）</strong></p>
+<p><strong>OracleHOME_NAMEAgent（OEM代理服务）</strong></p>
 <p>OEM代理服务，接收和响应来自OEM控制台的任务和事件请求，只有使用OEM管理数据库时才需要。服务进程为DBSNMP.EXE，参数文件为snmp_rw.ora，日志文件为nmi.log，控制台为LSNRCTL.EXE，默认端口为1748。</p>
 <p><strong>OracleHOME_NAMEHTTPServer（Web服务器）</strong></p>
 <p>Oracle提供的Web服务器，服务进程为APACHE.EXE，参数文件为httpd.conf，默认端口为80。</p>
