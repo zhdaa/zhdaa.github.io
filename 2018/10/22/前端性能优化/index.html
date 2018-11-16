@@ -215,7 +215,8 @@
 <p><img src="1442638-20181022163023315-1589767794.png" alt="img"></p>
 <p>《前端优化：css雪碧图实践应用详解》：<a href="https://blog.csdn.net/qq_31370987/article/details/53869742" target="_blank" rel="noopener">https://blog.csdn.net/qq_31370987/article/details/53869742</a></p>
 <h4 id="在线压缩图片"><a href="#在线压缩图片" class="headerlink" title="在线压缩图片"></a>在线压缩图片</h4><p>在线地址：<a href="https://tinypng.com" target="_blank" rel="noopener">https://tinypng.com</a></p>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><ul>
+<h2 id="减少HTTP请求数量"><a href="#减少HTTP请求数量" class="headerlink" title="减少HTTP请求数量"></a>减少HTTP请求数量</h2><p>浏览器缓存</p>
+<ul>
 <li>强缓存：在过期时间前浏览器可以直接从缓存中读取数据，而无需再次请求。与强缓存相关的header字段有：Cache-Control、Expires。</li>
 <li>协商缓存：基于客户端和服务端协商的缓存机制，与协商缓存相关的header字段有：Last-Modified/if-Modified-Since、Etag/if-None-Match。</li>
 </ul>
@@ -223,10 +224,8 @@
 <li>max-age：指定的时间之内，是不会向服务端发起请求的。服务器端告诉浏览器，这张图片在这个时间内不会过期，都是有效的。</li>
 <li>s-maxage：指定缓存的时间，但只能指定public的缓存。</li>
 <li>private：缓存设备分为private缓存设备和public缓存设备。private缓存设备只能用于当前用户自己访问的缓存，比如用户的浏览器。</li>
-<li><p>public：缓存设备，比如CDN，可以供很多用户访问并读取信息。</p>
-</li>
-<li><p>no-cache：不管怎么样，都会向服务器发起请求，不会从缓存读取。</p>
-</li>
+<li>public：缓存设备，比如CDN，可以供很多用户访问并读取信息。</li>
+<li>no-cache：不管怎么样，都会向服务器发起请求，不会从缓存读取。</li>
 <li>no-store：不缓存。</li>
 </ul>
 <p>注意：</p>
@@ -253,17 +252,17 @@
 <h3 id="分级缓存策略"><a href="#分级缓存策略" class="headerlink" title="分级缓存策略"></a>分级缓存策略</h3><p>200状态：当浏览器本地没有缓存或者下一层失效，或者用户点击Ctrl+F5时，浏览器直接去服务器下载最新数据。</p>
 <p>304状态：【协商缓存】这一层由last-modified/etag控制。当下一层失效，或用户点击Ctrl+F5时，浏览器就会发送请求给服务器。如果服务器没有变化，则返回304给浏览器。</p>
 <p>200状态：【强缓存】这一层由expires/cache-control控制。只要没有失效，浏览器直接访问缓存。</p>
-<h2 id="CSS性能会让JavaScript变慢"><a href="#CSS性能会让JavaScript变慢" class="headerlink" title="CSS性能会让JavaScript变慢"></a>CSS性能会让JavaScript变慢</h2><p>CSS head中阻塞页面的渲染。</p>
+<h2 id="提升浏览器渲染效率"><a href="#提升浏览器渲染效率" class="headerlink" title="提升浏览器渲染效率"></a>提升浏览器渲染效率</h2><h3 id="CSS性能会让JavaScript变慢"><a href="#CSS性能会让JavaScript变慢" class="headerlink" title="CSS性能会让JavaScript变慢"></a>CSS性能会让JavaScript变慢</h3><p>CSS head中阻塞页面的渲染。</p>
 <p>CSS不阻塞脚本的加载，但会阻塞脚本的执行。（Js的执行依赖于CSS的属性）</p>
 <p>解决方案：</p>
 <p>1.CSS样式表置顶。</p>
 <p>2.用link代替import。</p>
 <p>3.提高CSS渲染效率。</p>
-<h2 id="重绘与回流"><a href="#重绘与回流" class="headerlink" title="重绘与回流"></a>重绘与回流</h2><p>重绘（repaint）：当只影响元素的外观，风格的属性发生变化时，就会触发重绘。</p>
+<h3 id="重绘与回流"><a href="#重绘与回流" class="headerlink" title="重绘与回流"></a>重绘与回流</h3><p>重绘（repaint）：当只影响元素的外观，风格的属性发生变化时，就会触发重绘。</p>
 <p>回流（reflow）：当页面布局和几何属性改变时会发生回流。</p>
 <p>回流会严重影响页面的性能，应该尽量避免回流的发生。</p>
 <p>《回流（reflow）与重绘（repaint）》：<a href="https://www.cnblogs.com/dujingjie/p/5784890.html" target="_blank" rel="noopener">https://www.cnblogs.com/dujingjie/p/5784890.html</a></p>
-<h3 id="触发页面重布局的属性"><a href="#触发页面重布局的属性" class="headerlink" title="触发页面重布局的属性"></a>触发页面重布局的属性</h3><ul>
+<h4 id="触发页面重布局的属性"><a href="#触发页面重布局的属性" class="headerlink" title="触发页面重布局的属性"></a>触发页面重布局的属性</h4><ul>
 <li>盒子模型相关属性会触发重布局</li>
 <li>定位属性及浮动也会触发重布局</li>
 <li>改变节点内部文字结构也会触发重布局</li>
@@ -316,7 +315,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="只触发重绘的属性"><a href="#只触发重绘的属性" class="headerlink" title="只触发重绘的属性"></a>只触发重绘的属性</h3><table>
+<h4 id="只触发重绘的属性"><a href="#只触发重绘的属性" class="headerlink" title="只触发重绘的属性"></a>只触发重绘的属性</h4><table>
 <thead>
 <tr>
 <th style="text-align:center">重绘有关属性</th>
@@ -351,7 +350,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="实战优化点"><a href="#实战优化点" class="headerlink" title="实战优化点"></a>实战优化点</h2><ol>
+<h3 id="实战优化点"><a href="#实战优化点" class="headerlink" title="实战优化点"></a>实战优化点</h3><ol>
 <li>用translate替代top改变。</li>
 <li>用opacity替代visibility。</li>
 <li>不要一条一条修改DOM的样式，预先定义好class，然后修改DOM的className。</li>
@@ -391,7 +390,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目标"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器的一个请求从发送到返回都经历了什么？"><span class="toc-text">浏览器的一个请求从发送到返回都经历了什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网站在浏览器端是如何进行渲染的呢？"><span class="toc-text">网站在浏览器端是如何进行渲染的呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求过程中一些潜在的性能优化点"><span class="toc-text">请求过程中一些潜在的性能优化点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#减少HTTP请求大小"><span class="toc-text">减少HTTP请求大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS压缩"><span class="toc-text">CSS压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Js压缩和混淆"><span class="toc-text">Js压缩和混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片的优化"><span class="toc-text">图片的优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS雪碧图"><span class="toc-text">CSS雪碧图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在线压缩图片"><span class="toc-text">在线压缩图片</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器缓存"><span class="toc-text">浏览器缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强缓存：Cache-Control"><span class="toc-text">强缓存：Cache-Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#强缓存：Expires"><span class="toc-text">强缓存：Expires</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协商缓存：Last-Modified-if-Modified-since"><span class="toc-text">协商缓存：Last-Modified/if-Modified-since</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协商缓存：Etag-if-None-Match"><span class="toc-text">协商缓存：Etag/if-None-Match</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分级缓存策略"><span class="toc-text">分级缓存策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS性能会让JavaScript变慢"><span class="toc-text">CSS性能会让JavaScript变慢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重绘与回流"><span class="toc-text">重绘与回流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#触发页面重布局的属性"><span class="toc-text">触发页面重布局的属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只触发重绘的属性"><span class="toc-text">只触发重绘的属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实战优化点"><span class="toc-text">实战优化点</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目标"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器的一个请求从发送到返回都经历了什么？"><span class="toc-text">浏览器的一个请求从发送到返回都经历了什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网站在浏览器端是如何进行渲染的呢？"><span class="toc-text">网站在浏览器端是如何进行渲染的呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求过程中一些潜在的性能优化点"><span class="toc-text">请求过程中一些潜在的性能优化点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#减少HTTP请求大小"><span class="toc-text">减少HTTP请求大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS压缩"><span class="toc-text">CSS压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Js压缩和混淆"><span class="toc-text">Js压缩和混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片的优化"><span class="toc-text">图片的优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS雪碧图"><span class="toc-text">CSS雪碧图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在线压缩图片"><span class="toc-text">在线压缩图片</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#减少HTTP请求数量"><span class="toc-text">减少HTTP请求数量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强缓存：Cache-Control"><span class="toc-text">强缓存：Cache-Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#强缓存：Expires"><span class="toc-text">强缓存：Expires</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协商缓存：Last-Modified-if-Modified-since"><span class="toc-text">协商缓存：Last-Modified/if-Modified-since</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协商缓存：Etag-if-None-Match"><span class="toc-text">协商缓存：Etag/if-None-Match</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分级缓存策略"><span class="toc-text">分级缓存策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提升浏览器渲染效率"><span class="toc-text">提升浏览器渲染效率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS性能会让JavaScript变慢"><span class="toc-text">CSS性能会让JavaScript变慢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重绘与回流"><span class="toc-text">重绘与回流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#触发页面重布局的属性"><span class="toc-text">触发页面重布局的属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#只触发重绘的属性"><span class="toc-text">只触发重绘的属性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实战优化点"><span class="toc-text">实战优化点</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
