@@ -247,6 +247,9 @@
 </tr>
 </tbody>
 </table>
+<p><strong>$(selector, context)用法</strong></p>
+<p>表示在context的范围内，搜索selector</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">$(<span class="string">'#t1 tr'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">'td:even'</span>, <span class="keyword">this</span>).css(<span class="string">'backgroundColor'</span>, <span class="string">'blue'</span>);<span class="comment">//当前对象中，索引序号为偶数的td</span></span><br><span class="line">    $(<span class="string">'td:odd'</span>, <span class="keyword">this</span>).css(<span class="string">'backgroundColor'</span>, <span class="string">'red'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
