@@ -190,6 +190,26 @@
 <p>通常来说，我们编写的单元测试并不是针对一段代码或者一个方法，而是针对一个应用场景。即判断某个特定条件下，某个特定函数的行为是否正确。</p>
 <h3 id="为什么要使用单元测试"><a href="#为什么要使用单元测试" class="headerlink" title="为什么要使用单元测试"></a>为什么要使用单元测试</h3><p>单元测试不但会使你的工作完成得更轻松，而且会令你的设计变得更好，甚至大大减少你花在调试上面的时间。</p>
 <h3 id="间接损害"><a href="#间接损害" class="headerlink" title="间接损害"></a>间接损害</h3><p>间接损害是：在整个系统中，当某一部分加入了新特性，或者修复了一个Bug之后，给系统的其他（与前面可能是互不相关的）部分引入了一个新的Bug（或者损害）。如果无视这种损害并且继续开发的话，那么将可能带来一个很危险的问题，最后可能会导致整个系统崩溃，并且没人能够修复。</p>
+<h2 id="如何使用NUnit进行测试"><a href="#如何使用NUnit进行测试" class="headerlink" title="如何使用NUnit进行测试"></a>如何使用NUnit进行测试</h2><h3 id="NUnit集成到Visual-Studio-2017中使用"><a href="#NUnit集成到Visual-Studio-2017中使用" class="headerlink" title="NUnit集成到Visual Studio 2017中使用"></a>NUnit集成到Visual Studio 2017中使用</h3><p>点击菜单栏工具，打开扩展和更新，联机搜索nunit，下载NUnit 3 Test Adapter、NUnit VS Template和Test Generator NUnit extension三个插件。</p>
+<p><img src="1544537341991.png" alt="1544537341991"></p>
+<p>下载完成后关闭Visual Studio 2017，随后弹出一个界面，点击修改按钮。修改完成后如下。</p>
+<p><img src="1544371101477.png" alt="1544371101477"></p>
+<p>重新打开Visual Studio 2017，此时已经可以在VS中使用NUnit了。</p>
+<h3 id="使用NUnit教程"><a href="#使用NUnit教程" class="headerlink" title="使用NUnit教程"></a>使用NUnit教程</h3><p>首先在VS2017中新建一个控制台项目，取名为NUnitTest。并添加一类Cmp.cs，修改代码如下，其中包括被测试的方法。</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Cmp</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">Largest</span>(<span class="params"><span class="keyword">int</span>[] list</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> index, max = Int32.MaxValue;</span><br><span class="line">        <span class="keyword">for</span> (index = <span class="number">0</span>; index &lt; list.Length - <span class="number">1</span>; index++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (list[index] &gt; max)</span><br><span class="line">            &#123;</span><br><span class="line">                max = list[index];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在项目中引入NUnit。点击菜单栏工具，选中Nuget包管理器，打开程序包管理控制台，输入命令Install-Package NUnit。</p>
+<p><img src="1544538493382.png" alt="1544538493382"></p>
+<p>新建一个用于测试的单元测试类TestLargest.cs，修改代码如下，其中包含测试的方法。</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> NUnit.Framework;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">NUnitTest</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">TestFixture</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestLargest</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">Test</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LargestOf3</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Assert.AreEqual(<span class="number">9</span>, Cmp.Largest(<span class="keyword">new</span> <span class="keyword">int</span>[] &#123; <span class="number">8</span>, <span class="number">9</span>, <span class="number">7</span> &#125;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>[TestFixture(argument)]属性标记类为测试类，若没有填写参数，则测试类必须包含无参构造函数，否则需要相应的有参构造函数。</li>
+<li>[Test]属性标记方法为测试方法。</li>
+</ul>
+<p>点击菜单栏测试，选中窗口，打开测试资源管理器。点击运行测试。</p>
+<p><img src="1544539417456.png" alt="1544539417456"></p>
+<p>测试显示没有通过，结果与期望值不一致。可以查看错误的详细信息。</p>
+<p><img src="1544539645117.png" alt="1544539645117"></p>
 
                 <hr>
                 
@@ -218,7 +238,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自信的编码"><span class="toc-text">自信的编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是单元测试"><span class="toc-text">什么是单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用单元测试"><span class="toc-text">为什么要使用单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#间接损害"><span class="toc-text">间接损害</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自信的编码"><span class="toc-text">自信的编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是单元测试"><span class="toc-text">什么是单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用单元测试"><span class="toc-text">为什么要使用单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#间接损害"><span class="toc-text">间接损害</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用NUnit进行测试"><span class="toc-text">如何使用NUnit进行测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NUnit集成到Visual-Studio-2017中使用"><span class="toc-text">NUnit集成到Visual Studio 2017中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用NUnit教程"><span class="toc-text">使用NUnit教程</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
