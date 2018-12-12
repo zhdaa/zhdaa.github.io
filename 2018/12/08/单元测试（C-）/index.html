@@ -210,6 +210,21 @@
 <p><img src="1544539417456.png" alt="1544539417456"></p>
 <p>测试显示没有通过，结果与期望值不一致。可以查看错误的详细信息。</p>
 <p><img src="1544539645117.png" alt="1544539645117"></p>
+<h2 id="NUnit的各种断言"><a href="#NUnit的各种断言" class="headerlink" title="NUnit的各种断言"></a>NUnit的各种断言</h2><p>NUnit提供了一些辅助函数用于帮助你确定某个被测试函数是否工作正常。这些函数称为断言。</p>
+<h3 id="AreEquals"><a href="#AreEquals" class="headerlink" title="AreEquals"></a>AreEquals</h3><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Assert.AreEquals(expected, actual, tolerance  [, <span class="keyword">string</span> message]);</span><br></pre></td></tr></table></figure>
+<p>expected：你期望的值，通常是硬编码。</p>
+<p>actual：被测试代码实际产生的值。</p>
+<p>message：一个可选的消息，如果提供的话，将会在发生错误时显示。</p>
+<p>tolerance：误差。</p>
+<h3 id="IsNull"><a href="#IsNull" class="headerlink" title="IsNull"></a>IsNull</h3><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Assert.IsNull(<span class="keyword">object</span>, [, <span class="keyword">string</span> message]);</span><br><span class="line">Assert.IsNotNull(<span class="keyword">object</span>, [, <span class="keyword">string</span> message]);</span><br></pre></td></tr></table></figure>
+<p>验证一个给定的对象是否为null（或者为非null），如果答案为否，则将会失败。message参数是可选的。</p>
+<h3 id="AreSame"><a href="#AreSame" class="headerlink" title="AreSame"></a>AreSame</h3><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Assert.AreSame(expected, actual [, <span class="keyword">string</span> message]);</span><br></pre></td></tr></table></figure>
+<p>验证expected参数和actual参数所引用的是否为同一对象，如果不是，将会失败。message参数是可选的。</p>
+<h3 id="IsTrue"><a href="#IsTrue" class="headerlink" title="IsTrue"></a>IsTrue</h3><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Assert.IsTrue(<span class="keyword">bool</span> condition [, <span class="keyword">string</span> message]);</span><br><span class="line">Assert.IsFalse(<span class="keyword">bool</span> condition [, <span class="keyword">string</span> message]);</span><br></pre></td></tr></table></figure>
+<p>验证给定的二元条件是否为真（假），如果为假（真）的话，将会失败。message参数是可选的。</p>
+<h3 id="Fail"><a href="#Fail" class="headerlink" title="Fail"></a>Fail</h3><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">Assert.Fail([<span class="keyword">string</span> message]);</span><br></pre></td></tr></table></figure>
+<p>上面的断言将会使测试立即失败，其中message参数是可选的。这种断言通常被用于标记某个不应该被到达的分支。</p>
+<h3 id="使用断言"><a href="#使用断言" class="headerlink" title="使用断言"></a>使用断言</h3><p>一般而言，一个测试方法会包含有多个断言。当一个断言失败的时候，该测试方法将会被终止，从而导致该方法中剩余的断言这次就无法执行了。因此在继续测试之前先修复这个失败的测试。</p>
 
                 <hr>
                 
@@ -238,7 +253,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自信的编码"><span class="toc-text">自信的编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是单元测试"><span class="toc-text">什么是单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用单元测试"><span class="toc-text">为什么要使用单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#间接损害"><span class="toc-text">间接损害</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用NUnit进行测试"><span class="toc-text">如何使用NUnit进行测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NUnit集成到Visual-Studio-2017中使用"><span class="toc-text">NUnit集成到Visual Studio 2017中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用NUnit教程"><span class="toc-text">使用NUnit教程</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自信的编码"><span class="toc-text">自信的编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是单元测试"><span class="toc-text">什么是单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用单元测试"><span class="toc-text">为什么要使用单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#间接损害"><span class="toc-text">间接损害</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用NUnit进行测试"><span class="toc-text">如何使用NUnit进行测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NUnit集成到Visual-Studio-2017中使用"><span class="toc-text">NUnit集成到Visual Studio 2017中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用NUnit教程"><span class="toc-text">使用NUnit教程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NUnit的各种断言"><span class="toc-text">NUnit的各种断言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AreEquals"><span class="toc-text">AreEquals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IsNull"><span class="toc-text">IsNull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AreSame"><span class="toc-text">AreSame</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IsTrue"><span class="toc-text">IsTrue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fail"><span class="toc-text">Fail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用断言"><span class="toc-text">使用断言</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
