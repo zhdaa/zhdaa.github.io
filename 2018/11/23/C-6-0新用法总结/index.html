@@ -256,6 +256,92 @@
 <h4 id="按位赋值操作符"><a href="#按位赋值操作符" class="headerlink" title="按位赋值操作符"></a>按位赋值操作符</h4><p>按位操作符可以和赋值操作符合并，即&amp;=、|=和^=。</p>
 <figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">byte</span> and = <span class="number">12</span>, or = <span class="number">12</span>, xor = <span class="number">12</span>;</span><br><span class="line">and &amp;= <span class="number">7</span>;	<span class="comment">// and = 4</span></span><br><span class="line">or |= <span class="number">7</span>;	<span class="comment">// or = 15</span></span><br><span class="line">xor ^= <span class="number">7</span>;	<span class="comment">// xor = 11</span></span><br></pre></td></tr></table></figure>
 <h4 id="按位取反操作符"><a href="#按位取反操作符" class="headerlink" title="按位取反操作符"></a>按位取反操作符</h4><p>按位取反操作符（~）是对操作数的每一位取反。</p>
+<h2 id="C-预处理指令"><a href="#C-预处理指令" class="headerlink" title="C#预处理指令"></a>C#预处理指令</h2><p>控制流语句中的条件表达式在运行时求值。相反，C#预处理器在编译时调用。预处理指令告诉C#编译器要编译哪些代码，并指出如何处理代码中的特定错误和警告。C#预处理指令还可告诉C#编译器有关代码组织的信息。</p>
+<p>每个预处理指令都以#开头，而且必须在一行中写完。换行符标志着预处理指令的结束。</p>
+<table>
+<thead>
+<tr>
+<th>语句或表达式</th>
+<th>常规语法结构</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#if指令</td>
+<td>#if preprocessor-expression<br>&nbsp;&nbsp;&nbsp;&nbsp;code<br>#endif</td>
+<td>#if CSHARP2PLUS<br>&nbsp;&nbsp;&nbsp;&nbsp;Console.Clear();<br>#endif</td>
+</tr>
+<tr>
+<td>#elif指令</td>
+<td>#if preprocessor-expression1<br>&nbsp;&nbsp;&nbsp;&nbsp;code<br>#elif preprocessor-expression2<br>&nbsp;&nbsp;&nbsp;&nbsp;code<br>#endif</td>
+<td>#if LINUX<br>…<br>#elif WINDOWS<br>…<br>#endif</td>
+</tr>
+<tr>
+<td>#else指令</td>
+<td>#if<br>&nbsp;&nbsp;&nbsp;&nbsp;code<br>#else<br>&nbsp;&nbsp;&nbsp;&nbsp;code<br>#endif</td>
+<td>#if CSHARP1<br>…<br>#else<br>…<br>#endif</td>
+</tr>
+<tr>
+<td>#define指令</td>
+<td>#define conditional-symbol</td>
+<td>#define CSHARP2PLUS</td>
+</tr>
+<tr>
+<td>#undef指令</td>
+<td>#undef conditional-symbol</td>
+<td>#undef CSHARP2PlUS</td>
+</tr>
+<tr>
+<td>#error指令</td>
+<td>#error preproc-message</td>
+<td>#error Buggy implementation</td>
+</tr>
+<tr>
+<td>#warning指令</td>
+<td>#warning preproc-message</td>
+<td>#warning Needs code review</td>
+</tr>
+<tr>
+<td>#pragma指令</td>
+<td>#pragma warning</td>
+<td>#pragma warning disable 1030</td>
+</tr>
+<tr>
+<td>#line指令</td>
+<td>#line org-line new-line</td>
+<td>#line 467<br>“TicTacToe.cs”<br>…</td>
+</tr>
+<tr>
+<td></td>
+<td>#line default</td>
+<td>#line default</td>
+</tr>
+<tr>
+<td>#region指令</td>
+<td>#region preproc-message<br>&nbsp;&nbsp;&nbsp;&nbsp;code<br>#endregion</td>
+<td>#region<br>&nbsp;&nbsp;&nbsp;&nbsp;…<br>#endregion</td>
+</tr>
+</tbody>
+</table>
+<h3 id="排除和包含代码"><a href="#排除和包含代码" class="headerlink" title="排除和包含代码"></a>排除和包含代码</h3><p>或许最常用的预处理指令就是控制何时以及如何包含代码的指令。</p>
+<p>例如，要使代码兼容C#2.0（及以后版本）和C#1.0的编译器，可以使用一个预处理指令指示在遇到1.0编译器时排除C#2.0特有的代码。</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> CSHARP2PLUS</span></span><br><span class="line">System.Console.Clear();</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>System.Console.Clear()方法，是CLI2.0或更高版本才支持的方法。是用#if和#endif预处理指令，这行代码只有在定义了预处理符号CSHARP2PLUS的前提下才会编译。</p>
+<h3 id="define指令"><a href="#define指令" class="headerlink" title="#define指令"></a>#define指令</h3><p>#define指令，可以把它看作声明一个变量。具体和代码中声明变量又有如下区别：</p>
+<ul>
+<li>#define指令必须在代码文件中的第一句。</li>
+<li>没有分号作为结束标记。</li>
+<li>单独使用是没有任何意义的，但是和#if，#elif，#else，#endif一起使用就截然不同了。</li>
+</ul>
+<p>可以采用两种方式定义预处理符号。第一种方式是使用#define指令。</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CSHARP2PLUS</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">PreprocessDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> CSHARP2PLUS</span></span><br><span class="line">            Console.WriteLine(<span class="string">"CSHARP2PLUS"</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">            Console.ReadKey();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种方式是在编译时使用define选项。</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">&gt;csc.exe /define:CSHARP2PLUS TicTacToe.cs</span><br></pre></td></tr></table></figure>
+<p>用Mono编译器实现上面相同的功能。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;mcs.exe -define:CSHARP2PLUS TicTacToe.cs</span><br></pre></td></tr></table></figure>
+<p>多个定义以分号分隔。使用define编译器选项的优点是不需要更改源代码，所以可用相同的源代码文件生成两套不同的二进制程序。</p>
+<p>要取消符号定义，可以采用和#define相同的方式来使用#undef指令。</p>
 
                 <hr>
                 
@@ -289,7 +375,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串插值"><span class="toc-text">字符串插值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本用法"><span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深入理解"><span class="toc-text">深入理解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#using和using-static"><span class="toc-text">using和using static</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#换行符"><span class="toc-text">换行符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式局部变量和匿名类型"><span class="toc-text">隐式局部变量和匿名类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可空修饰符"><span class="toc-text">可空修饰符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型之间转换"><span class="toc-text">数据类型之间转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#checked和unchecked转换"><span class="toc-text">checked和unchecked转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TryParse"><span class="toc-text">TryParse</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#default关键字"><span class="toc-text">default关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二维数组"><span class="toc-text">二维数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#交错数组"><span class="toc-text">交错数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组实例方法"><span class="toc-text">数组实例方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作符"><span class="toc-text">操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#空接合操作符"><span class="toc-text">空接合操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null条件操作符"><span class="toc-text">null条件操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#按位操作符"><span class="toc-text">按位操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#移位操作符"><span class="toc-text">移位操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位操作符-1"><span class="toc-text">按位操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位赋值操作符"><span class="toc-text">按位赋值操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位取反操作符"><span class="toc-text">按位取反操作符</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串插值"><span class="toc-text">字符串插值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本用法"><span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深入理解"><span class="toc-text">深入理解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#using和using-static"><span class="toc-text">using和using static</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#换行符"><span class="toc-text">换行符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式局部变量和匿名类型"><span class="toc-text">隐式局部变量和匿名类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可空修饰符"><span class="toc-text">可空修饰符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型之间转换"><span class="toc-text">数据类型之间转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#checked和unchecked转换"><span class="toc-text">checked和unchecked转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TryParse"><span class="toc-text">TryParse</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#default关键字"><span class="toc-text">default关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二维数组"><span class="toc-text">二维数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#交错数组"><span class="toc-text">交错数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组实例方法"><span class="toc-text">数组实例方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作符"><span class="toc-text">操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#空接合操作符"><span class="toc-text">空接合操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null条件操作符"><span class="toc-text">null条件操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#按位操作符"><span class="toc-text">按位操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#移位操作符"><span class="toc-text">移位操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位操作符-1"><span class="toc-text">按位操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位赋值操作符"><span class="toc-text">按位赋值操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位取反操作符"><span class="toc-text">按位取反操作符</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-预处理指令"><span class="toc-text">C#预处理指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#排除和包含代码"><span class="toc-text">排除和包含代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#define指令"><span class="toc-text">#define指令</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
