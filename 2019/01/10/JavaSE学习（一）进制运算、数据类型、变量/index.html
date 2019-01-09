@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Java语言基础｜Zhendong&#39;s blog
+        JavaSE学习（一）进制运算、数据类型、变量｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/2019/01/07/Java语言基础/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/01/10/JavaSE学习（一）进制运算、数据类型、变量/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -145,12 +145,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Java语言基础</h1>
+                    <h1>JavaSE学习（一）进制运算、数据类型、变量</h1>
                     
                     <span class="meta">
                          作者 Zhendong Ho
                         <span>
-                          日期 2019-01-07
+                          日期 2019-01-10
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -165,7 +165,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Java语言基础
+            JavaSE学习（一）进制运算、数据类型、变量
         </span>
     </div>
 </header>
@@ -176,119 +176,33 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="Java语言概述"><a href="#Java语言概述" class="headerlink" title="Java语言概述"></a>Java语言概述</h2><h3 id="Java语言平台版本"><a href="#Java语言平台版本" class="headerlink" title="Java语言平台版本"></a>Java语言平台版本</h3><ul>
-<li>J2SE（Java 2 Platform Standard Edition）标准版<ul>
-<li>是为开发普通桌面和商务应用程序提供的解决方案</li>
-<li>该技术体系是其他两者的基础，可以完成一些桌面应用程序的开发</li>
+                <h2 id="常量的概述和使用"><a href="#常量的概述和使用" class="headerlink" title="常量的概述和使用"></a>常量的概述和使用</h2><h3 id="什么是常量"><a href="#什么是常量" class="headerlink" title="什么是常量"></a>什么是常量</h3><p>在程序执行的过程中其值不可以发生改变。</p>
+<h3 id="Java中常量的分类"><a href="#Java中常量的分类" class="headerlink" title="Java中常量的分类"></a>Java中常量的分类</h3><ul>
+<li>字面值常量</li>
+<li>自定义常量</li>
 </ul>
-</li>
-<li>J2ME（Java 2 Platform Micro Edition）小型版<ul>
-<li>是为开发电子消费产品和嵌入式设备提供的解决方案</li>
-</ul>
-</li>
-<li>J2EE（Java 2 Platform Enterprise Edition）企业版<ul>
-<li>是为开发企业环境下的应用程序提供的一套解决方案</li>
-<li>该技术体系中包含的技术如Servlet、Jsp等，主要针对于Web应用程序开发</li>
-</ul>
-</li>
-</ul>
-<h3 id="Java语言特点"><a href="#Java语言特点" class="headerlink" title="Java语言特点"></a>Java语言特点</h3><ul>
-<li>简单性</li>
-<li>解释性</li>
-<li>面向对象</li>
-<li>高性能</li>
-<li>分布式处理</li>
-<li>多线程</li>
-<li>健壮性</li>
-<li>动态</li>
-<li>结构中立</li>
-<li>安全性</li>
-<li>开源</li>
-<li>跨平台</li>
-</ul>
-<h2 id="Java语言跨平台原理"><a href="#Java语言跨平台原理" class="headerlink" title="Java语言跨平台原理"></a>Java语言跨平台原理</h2><h3 id="跨平台性"><a href="#跨平台性" class="headerlink" title="跨平台性"></a>跨平台性</h3><ul>
-<li><p>什么是跨平台性？</p>
-<p>通过Java语言编写的应用程序在不同的系统平台上都可以运行。</p>
-</li>
-<li><p>原理是什么？</p>
-<p>只要在需要运行java应用程序的操作系统上，先安装一个Java虚拟机（JVM，Java Virtual Machine）即可。由JVM来负责Java程序在该系统中的运行。</p>
-<p>因为有了JVM，所以同一个Java程序在三个不同的操作系统中都可以执行。这样就实现了Java程序的跨平台性。也称为Java具有良好的可移植性。</p>
-</li>
-<li><p>Write once, run anywhere! 一处编译，到处运行！</p>
-</li>
-</ul>
-<h2 id="JRE和JDK的概述"><a href="#JRE和JDK的概述" class="headerlink" title="JRE和JDK的概述"></a>JRE和JDK的概述</h2><p>JRE（Java Runtime Environment）是<strong>Java运行环境</strong>，包括Java虚拟机（JVM）和Java程序所需的核心类库等。如果想要运行一个开发好的Java程序，计算机中只需要安装JRE即可。</p>
-<p>JDK（Java Development Kit）是<strong>Java开发工具包</strong>，提供给Java开发人员使用。包含了Java的开发工具（编译工具javac.exe，打包工具jar.exe等），也包括了JRE，所以安装了JDK，就不用再单独安装JRE了。</p>
-<p><strong>注意</strong>：</p>
-<ul>
-<li>JRE：JVM + 类库</li>
-<li>JDK：JRE + Java的开发工具</li>
-<li>简而言之，使用JDK开发完成的Java程序，交给JRE去运行</li>
-</ul>
-<h3 id="JDK安装路径下的目录"><a href="#JDK安装路径下的目录" class="headerlink" title="JDK安装路径下的目录"></a>JDK安装路径下的目录</h3><ul>
-<li><p><strong>bin目录</strong>：该目录用于存放一些可执行程序。如javac.exe（java编译器）、java.exe（java运行工具）、jar.exe（打包工具）和javadoc.exe（文档生成工具）等。</p>
-</li>
-<li><p><strong>db目录</strong>：db目录是一个小型的数据库。从JDK6.0开始，Java中引用了一个新的成员JavaDB，这是一个纯Java实现、开源的数据库管理系统。这个数据库不仅轻便，而且支持JDBC4.0所有的规范，在学习JDBC时，不再需要额外地安装一个数据库软件，选择直接使用JavaDB即可。</p>
-</li>
-<li><strong>jre目录</strong>：此目录是Java运行时环境的根目录，它包括Java虚拟机，运行时的类包，Java应用启动器以及一个bin目录，但不包含开发环境中的开发工具。</li>
-<li><strong>include目录</strong>：由于JDK是通过C和C++实现的，因此在启动时需要引入一些C语言的头文件，该目录就是用于存放这些头文件的。</li>
-<li><strong>lib目录</strong>：lib是library的缩写，意为Java类库或库文件，是开发工具使用的归档包文件。</li>
-<li><strong>src.zip文件</strong>：src中放置的是JDK核心类的源代码，通过该文件可以查看Java基础类的源代码。</li>
-</ul>
-<h2 id="环境变量的作用和配置"><a href="#环境变量的作用和配置" class="headerlink" title="环境变量的作用和配置"></a>环境变量的作用和配置</h2><ul>
-<li><strong>path</strong>环境变量里面记录的是可执行性文件，如.exe文件，对可执行文件先在当前路径去找，如果没找到就去path环境变量中配置的路径去找。</li>
-<li><strong>classpath</strong>环境变量里记录的是java类的运行文件所在的目录。</li>
-</ul>
-<h2 id="Java常见命名规则"><a href="#Java常见命名规则" class="headerlink" title="Java常见命名规则"></a>Java常见命名规则</h2><table>
-<thead>
-<tr>
-<th>标识符</th>
-<th>要求</th>
-<th>举例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>包（文件夹）</td>
-<td>包名全部小写，一般是公司的域名倒着写</td>
-<td>com.xxx.包的作用</td>
-</tr>
-<tr>
-<td>类或者接口</td>
-<td>如果是一个单词，要求首字母大写；<br>如果是多个单词，要求每个单词首字母大写（Pascal）</td>
-<td>Demo、<br>DemoStudent</td>
-</tr>
-<tr>
-<td>方法和变量</td>
-<td>如果是一个单词，每个字符都小写；<br>如果是多个单词，从第二个单词开始首字母大写（Camel）</td>
-<td>getName、setName、<br>maxValue、main</td>
-</tr>
-<tr>
-<td>常量</td>
-<td>如果是一个单词，所有字母大写；<br>如果是多个单词，也是所有字母大写，但是用_分开</td>
-<td>MAX、<br>MAX_VALUE</td>
-</tr>
-</tbody>
-</table>
-<p><strong>注意</strong>：</p>
-<ul>
-<li>在C#中，方法的是以Pascal方式命名，而在Java中，方法以Camel方式命名。</li>
-</ul>
+<h3 id="字面值常量的分类"><a href="#字面值常量的分类" class="headerlink" title="字面值常量的分类"></a>字面值常量的分类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo1_Constant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * 字符串常量		用双引号括起来的内容</span></span><br><span class="line"><span class="comment">        * 整数常量		所有整数</span></span><br><span class="line"><span class="comment">        * 小数常量		所有小数</span></span><br><span class="line"><span class="comment">        * 字符常量		用单引号括起来的内容，里面只能放单个数字，单个字母或单个字符</span></span><br><span class="line"><span class="comment">        * 布尔类型		只有true和false</span></span><br><span class="line"><span class="comment">        * 空常量		null</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        System.out.println(<span class="string">"abc"</span>);		<span class="comment">//字符串常量</span></span><br><span class="line">        System.out.println(<span class="number">123</span>);		<span class="comment">//整数常量</span></span><br><span class="line">        System.out.println(<span class="string">' '</span>);		<span class="comment">//代表空格字符</span></span><br><span class="line">        System.out.println(<span class="keyword">true</span>);		<span class="comment">//布尔常量</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="进制运算"><a href="#进制运算" class="headerlink" title="进制运算"></a>进制运算</h2><h3 id="不同进制数据的表现形式"><a href="#不同进制数据的表现形式" class="headerlink" title="不同进制数据的表现形式"></a>不同进制数据的表现形式</h3><p>二进制：由0，1组成。<strong>以0b（b可以大写也可以小写）开头</strong>。（JDK1.7版本以后可以表示二进制）</p>
+<p>八进制：由0，1-7组成。<strong>以0开头</strong>。</p>
+<p>十进制：由0，1-9组成。整数默认是十进制的。</p>
+<p>十六进制：由0,1-9，a，b，c，d，e，f（大小写均可）组成。<strong>以0x开头</strong>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo1_Scale</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="number">0b100</span>);		<span class="comment">//4，二进制表示形式前面加0b（b可以大写也可以小写）</span></span><br><span class="line">        System.out.println(<span class="number">0100</span>);		<span class="comment">//64，八进制表示形式前面加0</span></span><br><span class="line">        System.out.println(<span class="number">100</span>);		<span class="comment">//100，十进制</span></span><br><span class="line">        System.out.println(<span class="number">0x100</span>);		<span class="comment">//265，十六进制表示形式前面加0x（可以大写也可以小写）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="任意进制到十进制的转换"><a href="#任意进制到十进制的转换" class="headerlink" title="任意进制到十进制的转换"></a>任意进制到十进制的转换</h3><p>12345 = 10000 + 2000 + 300 + 40 + 5</p>
+<p>​       = 1 * 10 ^ 4 + 2 * 10 ^ 3 + 3 * 10 ^ 2 + 4 * 10 ^ 1 + 5 * 10 ^ 0</p>
+<p><strong>系数</strong>：就是每一位上的数据。</p>
+<p><strong>基数</strong>：X进制，基数就是X。</p>
+<p><strong>权</strong>：在右边，从0开始编号，对应位上的编号即为该位的权。</p>
+<p><strong>结果</strong>：把系数*基数的权次幂相加即可。</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2019/01/10/JavaSE学习（一）进制运算、数据类型、变量/" data-toggle="tooltip" data-placement="top"
-                           title="JavaSE学习（一）进制运算、数据类型、变量">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2019/01/06/常用的DOS命令/" data-toggle="tooltip" data-placement="top"
-                           title="常用的DOS命令">Next Post &rarr;</a>
+                        <a href="/2019/01/07/Java语言基础/" data-toggle="tooltip" data-placement="top"
+                           title="Java语言基础">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -307,7 +221,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java语言概述"><span class="toc-text">Java语言概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java语言平台版本"><span class="toc-text">Java语言平台版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java语言特点"><span class="toc-text">Java语言特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java语言跨平台原理"><span class="toc-text">Java语言跨平台原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#跨平台性"><span class="toc-text">跨平台性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JRE和JDK的概述"><span class="toc-text">JRE和JDK的概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK安装路径下的目录"><span class="toc-text">JDK安装路径下的目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境变量的作用和配置"><span class="toc-text">环境变量的作用和配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java常见命名规则"><span class="toc-text">Java常见命名规则</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常量的概述和使用"><span class="toc-text">常量的概述和使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是常量"><span class="toc-text">什么是常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中常量的分类"><span class="toc-text">Java中常量的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字面值常量的分类"><span class="toc-text">字面值常量的分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进制运算"><span class="toc-text">进制运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不同进制数据的表现形式"><span class="toc-text">不同进制数据的表现形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意进制到十进制的转换"><span class="toc-text">任意进制到十进制的转换</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
