@@ -214,6 +214,98 @@
 <li>运算通常以补码的形式进行计算，如+7加-7。</li>
 <li>反码的作用是，通过反码求出补码。</li>
 </ul>
+<h2 id="数据类型的分类和概述"><a href="#数据类型的分类和概述" class="headerlink" title="数据类型的分类和概述"></a>数据类型的分类和概述</h2><p>Java语言是强类型语言，对于每一种数据都定义了明确的具体数据类型，在内存中分配了不同大小的内存空间。</p>
+<h3 id="Java中数据类型的分类"><a href="#Java中数据类型的分类" class="headerlink" title="Java中数据类型的分类"></a>Java中数据类型的分类</h3><ol>
+<li>基本数据类型</li>
+<li>引用数据类型</li>
+</ol>
+<h3 id="基本数据类型分类（4类8种）"><a href="#基本数据类型分类（4类8种）" class="headerlink" title="基本数据类型分类（4类8种）"></a>基本数据类型分类（4类8种）</h3><p><strong>整数型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>占用空间</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>一个字节</td>
+<td>-128到127</td>
+</tr>
+<tr>
+<td>short</td>
+<td>两个字节</td>
+<td>-2^15到2^15-1</td>
+</tr>
+<tr>
+<td>int</td>
+<td>四个字节</td>
+<td>-2^31到2^31-1</td>
+</tr>
+<tr>
+<td>long</td>
+<td>八个字节</td>
+<td>-2^63到2^63-1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>浮点型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>占用空间</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float</td>
+<td>四个字节</td>
+<td>-3.403E38到3.408E38</td>
+</tr>
+<tr>
+<td>double</td>
+<td>八个字节</td>
+<td>-1.798E308到1.798E308</td>
+</tr>
+</tbody>
+</table>
+<p><strong>字符型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>占用空间</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char</td>
+<td>两个字节</td>
+<td>0到65535</td>
+</tr>
+</tbody>
+</table>
+<p><strong>布尔型</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>占用空间</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td>Java中没有明确指定大小</td>
+</tr>
+</tbody>
+</table>
 
                 <hr>
                 
@@ -242,7 +334,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常量的概述和使用"><span class="toc-text">常量的概述和使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是常量"><span class="toc-text">什么是常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中常量的分类"><span class="toc-text">Java中常量的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字面值常量的分类"><span class="toc-text">字面值常量的分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进制运算"><span class="toc-text">进制运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不同进制数据的表现形式"><span class="toc-text">不同进制数据的表现形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意进制到十进制的转换"><span class="toc-text">任意进制到十进制的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十进制到任意进制的转换"><span class="toc-text">十进制到任意进制的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速的进制转换法"><span class="toc-text">快速的进制转换法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8421码"><span class="toc-text">8421码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过8421码的方式进行二进制到十进制的转换"><span class="toc-text">通过8421码的方式进行二进制到十进制的转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制到八进制的简易方式"><span class="toc-text">二进制到八进制的简易方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制到十六进制的简易方式"><span class="toc-text">二进制到十六进制的简易方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任意进制到二进制的简易方式"><span class="toc-text">任意进制到二进制的简易方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原码反码补码"><span class="toc-text">原码反码补码</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常量的概述和使用"><span class="toc-text">常量的概述和使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是常量"><span class="toc-text">什么是常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中常量的分类"><span class="toc-text">Java中常量的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字面值常量的分类"><span class="toc-text">字面值常量的分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进制运算"><span class="toc-text">进制运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不同进制数据的表现形式"><span class="toc-text">不同进制数据的表现形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意进制到十进制的转换"><span class="toc-text">任意进制到十进制的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十进制到任意进制的转换"><span class="toc-text">十进制到任意进制的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速的进制转换法"><span class="toc-text">快速的进制转换法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8421码"><span class="toc-text">8421码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过8421码的方式进行二进制到十进制的转换"><span class="toc-text">通过8421码的方式进行二进制到十进制的转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制到八进制的简易方式"><span class="toc-text">二进制到八进制的简易方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制到十六进制的简易方式"><span class="toc-text">二进制到十六进制的简易方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任意进制到二进制的简易方式"><span class="toc-text">任意进制到二进制的简易方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原码反码补码"><span class="toc-text">原码反码补码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型的分类和概述"><span class="toc-text">数据类型的分类和概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中数据类型的分类"><span class="toc-text">Java中数据类型的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本数据类型分类（4类8种）"><span class="toc-text">基本数据类型分类（4类8种）</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
