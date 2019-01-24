@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Zhendong&#39;s blog
+        JavaSE学习（四）面向对象-构造方法&amp;静态static｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/tags/个人日记/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/01/24/JavaSE学习（四）面向对象-构造方法-静态static/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,184 +124,152 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/forzen.jpg"/>
-                        <h5><a href="/about/">Zhendong Ho</a></h5>
-                        <p>知其然知其所以然</p>
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>JavaSE学习（四）面向对象-构造方法&amp;静态static</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-01-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Java"
+                           title="Java">Java</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            JavaSE学习（四）面向对象-构造方法&静态static
+        </span>
+    </div>
+</header>
 
-
-
-<div class="post-preview "
-     style="background-image: url('/images/post-ocean.jpg')">
-    <a href="/2019/01/04/2018个人总结/">
-        <h2 class="post-title">
-            2018个人总结
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-01-04
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                时间过得好快，转眼已经来到2019年。
-回首2018年，下半年忙忙碌碌，却好像没有一件事是做成功的。想学的知识还有好多没有学完，买的几本书也没有翻过几页，目前自己的技术水平还是差好远。在博客园溜达了一圈，看了很多人写的年终总结，觉得大家都很了不起啊，在不断地努力追求自己的目标和生活。看到身边的人..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><h3 id="构造方法的概述和作用"><a href="#构造方法的概述和作用" class="headerlink" title="构造方法的概述和作用"></a>构造方法的概述和作用</h3><p>给对象的数据（属性）进行初始化。</p>
+<h3 id="构造方法格式特点"><a href="#构造方法格式特点" class="headerlink" title="构造方法格式特点"></a>构造方法格式特点</h3><ul>
+<li>方法名与类型相同。</li>
+<li>没有返回值，连void都没有。</li>
+<li>没有具体的返回值return。</li>
 </ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//return;			//构造方法也是有return语句的，格式是return;</span></span><br><span class="line">        name = <span class="string">"张三"</span>;</span><br><span class="line">        age = <span class="number">23</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="构造方法的重载"><a href="#构造方法的重载" class="headerlink" title="构造方法的重载"></a>构造方法的重载</h3><p>方法名相同，与返回值类型无关（构造方法没有返回值），只看参数列表。</p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>如果没有给出构造方法，系统将自动提供一个无参构造方法。</li>
+<li>如果给出了构造方法，系统将不再提供默认的无参构造方法。</li>
+<li>建议永远自己给出无参的构造方法。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"空参的构造"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">        System.out.println(<span class="string">"有参的构造"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/01/21/JavaSE学习（三）数组/" data-toggle="tooltip" data-placement="top"
+                           title="JavaSE学习（三）数组">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
 
 
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造方法"><span class="toc-text">构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的概述和作用"><span class="toc-text">构造方法的概述和作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法格式特点"><span class="toc-text">构造方法格式特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的重载"><span class="toc-text">构造方法的重载</span></a></li></ol></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/forzen.jpg"/>
-                    
-                    <h5><a href="/about/">Zhendong Ho</a></h5>
-                    
-                    <p>知其然知其所以然</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#Java"
+                           title="Java">Java</a>
+                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/zhdaa">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="http://laibh.top">赖同学</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Music 网易云音乐 -->
-            
-            <!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=461525011&auto=1&height=66"></iframe>-->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=1&height=66"></iframe>
-            
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#ASP.NET Core" title="ASP.NET Core"
-                       rel="2">ASP.NET Core</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#Java" title="Java"
-                       rel="5">Java</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#C#" title="C#"
-                       rel="8">C#</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#jQuery" title="jQuery"
-                       rel="2">jQuery</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://laibh.top" target="_blank">赖同学</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
-        
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
