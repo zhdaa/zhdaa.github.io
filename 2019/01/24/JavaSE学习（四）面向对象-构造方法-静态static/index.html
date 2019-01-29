@@ -191,6 +191,17 @@
 <li>建议永远自己给出无参的构造方法。</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"空参的构造"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">        System.out.println(<span class="string">"有参的构造"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="静态static"><a href="#静态static" class="headerlink" title="静态static"></a>静态static</h2><h3 id="static关键字的特点"><a href="#static关键字的特点" class="headerlink" title="static关键字的特点"></a>static关键字的特点</h3><ol>
+<li>随着类的加载而加载。</li>
+<li>优先于对象存在。</li>
+<li>被类的所有对象共享。（共性用静态，特性用非静态）</li>
+<li>可以通过类名调用。（本身也可以通过对象名调用，但是推荐使用类名调用）</li>
+</ol>
+<h3 id="static的注意事项"><a href="#static的注意事项" class="headerlink" title="static的注意事项"></a>static的注意事项</h3><ul>
+<li>在静态方法中是没有this关键字的。</li>
+<li>静态方法只能访问静态的成员变量和静态的成员方法。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num1 = <span class="number">10</span>;				<span class="comment">//非静态的成员变量</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> num2 = <span class="number">20</span>;		<span class="comment">//静态的成员变量</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print1</span><span class="params">()</span> </span>&#123;				<span class="comment">//非静态的成员方法</span></span><br><span class="line">        System.out.println(num1);		<span class="comment">//既可以访问静态的成员变量，也可以访问非晶态的</span></span><br><span class="line">        System.out.println(num2);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">print2</span><span class="params">()</span> </span>&#123;		<span class="comment">//静态成员方法</span></span><br><span class="line">        <span class="comment">//System.out.println(this.num1);		//静态的成员方法不能访问非静态的</span></span><br><span class="line">        System.out.println(num2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
@@ -219,7 +230,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造方法"><span class="toc-text">构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的概述和作用"><span class="toc-text">构造方法的概述和作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法格式特点"><span class="toc-text">构造方法格式特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的重载"><span class="toc-text">构造方法的重载</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造方法"><span class="toc-text">构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的概述和作用"><span class="toc-text">构造方法的概述和作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法格式特点"><span class="toc-text">构造方法格式特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的重载"><span class="toc-text">构造方法的重载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态static"><span class="toc-text">静态static</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#static关键字的特点"><span class="toc-text">static关键字的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static的注意事项"><span class="toc-text">static的注意事项</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
