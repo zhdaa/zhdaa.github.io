@@ -202,6 +202,13 @@
 <li>静态方法只能访问静态的成员变量和静态的成员方法。</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num1 = <span class="number">10</span>;				<span class="comment">//非静态的成员变量</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> num2 = <span class="number">20</span>;		<span class="comment">//静态的成员变量</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print1</span><span class="params">()</span> </span>&#123;				<span class="comment">//非静态的成员方法</span></span><br><span class="line">        System.out.println(num1);		<span class="comment">//既可以访问静态的成员变量，也可以访问非晶态的</span></span><br><span class="line">        System.out.println(num2);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">print2</span><span class="params">()</span> </span>&#123;		<span class="comment">//静态成员方法</span></span><br><span class="line">        <span class="comment">//System.out.println(this.num1);		//静态的成员方法不能访问非静态的</span></span><br><span class="line">        System.out.println(num2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="静态变量和成员变量的区别"><a href="#静态变量和成员变量的区别" class="headerlink" title="静态变量和成员变量的区别"></a>静态变量和成员变量的区别</h3><p>静态变量也叫<strong>类变量</strong>，成员变量也叫<strong>对象变量</strong>。</p>
+<ul>
+<li><strong>所属不同</strong>。静态变量属于类，所以也称为类变量；成员变量属于对象，所以也成为实例变量（对象变量）。</li>
+<li><strong>内存中位置不同</strong>。静态变量存储于方法区的静态区；成员变量存储于堆内存。</li>
+<li><strong>内存出现时间不同</strong>。静态变量随着类的加载而加载，随着类的消失而消失；成员变量随着对象的创建而存在，随着对象的消失而消失。</li>
+<li><strong>调用不同</strong>。静态变量可以通过类名调用，也可以通过对象调用；成员变量只能通过对象名调用。</li>
+</ul>
 
                 <hr>
                 
@@ -230,7 +237,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造方法"><span class="toc-text">构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的概述和作用"><span class="toc-text">构造方法的概述和作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法格式特点"><span class="toc-text">构造方法格式特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的重载"><span class="toc-text">构造方法的重载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态static"><span class="toc-text">静态static</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#static关键字的特点"><span class="toc-text">static关键字的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static的注意事项"><span class="toc-text">static的注意事项</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造方法"><span class="toc-text">构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的概述和作用"><span class="toc-text">构造方法的概述和作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法格式特点"><span class="toc-text">构造方法格式特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造方法的重载"><span class="toc-text">构造方法的重载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态static"><span class="toc-text">静态static</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#static关键字的特点"><span class="toc-text">static关键字的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static的注意事项"><span class="toc-text">static的注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态变量和成员变量的区别"><span class="toc-text">静态变量和成员变量的区别</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
