@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        JavaSE学习（六）面向对象-多态、抽象类、接口｜Zhendong&#39;s blog
+        （转）为什么JS中0.1+0.2不等于0.3？｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/2019/02/09/JavaSE学习（六）面向对象-多态、抽象类、接口/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/02/11/（转）为什么JS中0-1-0-2不等于0-3？/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -145,18 +145,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>JavaSE学习（六）面向对象-多态、抽象类、接口</h1>
+                    <h1>（转）为什么JS中0.1+0.2不等于0.3？</h1>
                     
                     <span class="meta">
                          作者 Zhendong Ho
                         <span>
-                          日期 2019-02-09
+                          日期 2019-02-11
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Java"
-                           title="Java">Java</a>
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
                         
                     </div>
                 </div>
@@ -165,7 +165,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            JavaSE学习（六）面向对象-多态、抽象类、接口
+            （转）为什么JS中0.1+0.2不等于0.3？
         </span>
     </div>
 </header>
@@ -176,33 +176,36 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><h3 id="多态（polymorphic）概述"><a href="#多态（polymorphic）概述" class="headerlink" title="多态（polymorphic）概述"></a>多态（polymorphic）概述</h3><p>事物存在的多种形态。</p>
-<p><strong>多态前提</strong>：</p>
-<ul>
-<li>要有继承关系。</li>
-<li>要有方法重写。</li>
-<li>要有父类引用指向子类对象。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo1_Polymorphic</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Cat c = <span class="keyword">new</span> Cat();</span><br><span class="line">        cat.eat();</span><br><span class="line">        </span><br><span class="line">        Animal a = <span class="keyword">new</span> Cat();           <span class="comment">//父类引用指向子类对象</span></span><br><span class="line">        a.eat();                        <span class="comment">//猫吃鱼</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"动物吃饭"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"猫吃鱼"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="多态中的成员访问特点"><a href="#多态中的成员访问特点" class="headerlink" title="多态中的成员访问特点"></a>多态中的成员访问特点</h3><h4 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h4><p>编译看左边（父类），运行看左边（父类）。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2_polymorphic</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Father f = <span class="keyword">new</span> Son();               <span class="comment">//父类引用指向子类对象</span></span><br><span class="line">        System.out.println(f.num);          <span class="comment">//10</span></span><br><span class="line">        </span><br><span class="line">        Son s = <span class="keyword">new</span> Son();</span><br><span class="line">        System.out.println(s.num);          <span class="comment">//20</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">20</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="成员方法"><a href="#成员方法" class="headerlink" title="成员方法"></a>成员方法</h4><p>编译看左边（父类），运行看右边（子类）。<strong>也称作动态绑定</strong>。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2_polymorphic</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Father f = <span class="keyword">new</span> Son();               <span class="comment">//编译时先看Father类有无print方法，若无则编译不通过</span></span><br><span class="line">        f.print();                          <span class="comment">//son，运行时运行子类的print方法，输出son</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"father"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">20</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"son"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                <p><a href="https://www.baidu.com/s?wd=JS&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">JS</a>中数字运算时，有一个叫做<strong>数字运算中的精度缺失</strong>的问题。这篇文章，就带着大家了解下JS运算中精度的缺失问题。</p>
+<p>首先我们先来看一个例子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">0.1</span> + <span class="number">0.2</span>);		<span class="comment">//结果是0.30000000000000004，而不是0.3</span></span><br></pre></td></tr></table></figure>
+<p><strong>这里0.1 + 0.2 != 0.3 这个就是我们要解决的问题了</strong>。</p>
+<h3 id="精度缺失原因"><a href="#精度缺失原因" class="headerlink" title="精度缺失原因"></a>精度缺失原因</h3><p>要弄清这个问题的原因，首先我们需要了解下在计算机中数字是如何存储和运算的。在计算机中，数字无论是定点数还是浮点数都是以<strong>多位二进制的方式</strong>进行存储的。</p>
+<p>在JS中数字采用的IEEE 754的双精度标准进行存储，我们可以无需知道他的存储形式，只需要简单的理解成就是存储一个数值所使用的二进制位数比较多而已，这样得到的数会更加精确。</p>
+<p>这里为了简单直观，我们使用定点数来说明问题。在定点数中，如果我们以8位二进制来存储数字。</p>
+<p>对于整数来说，十进制的35会被存储为： 00100011 其代表 2^5 + 2^1 + 2^0。</p>
+<p>对于纯小数来说，十进制的0.375会被存储为： 0.011 其代表 1/2^2 + 1/2^3 = 1/4 + 1/8 = 0.375。</p>
+<p><strong>而对于像0.1这样的数值用二进制表示你就会发现无法整除，最后算下来会是 0.000110011….由于存储空间有限，最后计算机会舍弃后面的数值，所以我们最后就只能得到一个近似值</strong>。</p>
+<p>在JS中采用的IEEE 754的双精度标准也是一样的道理，我们且不管这个标准下的存储方式跟定点数存储有何不同，单单在这一点上他们都是相同的，也就是存储空间有限，<strong>当出现这种无法整除的小数的时候就会取一个近似值，在js中如果这个近似值足够近似，那么js就会认为他就是那个值</strong>。</p>
+<p>比较拗口，举个例子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">0.1000000000000001</span>);</span><br><span class="line"><span class="comment">//0.1000000000000001（中间14个0，会打印出它本身）</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0.10000000000000001</span>);</span><br><span class="line"><span class="comment">//0.1（中间15个0，js会认为这两个值足够接近，所以会显示0.1）</span></span><br></pre></td></tr></table></figure>
+<p>所以我们现在应该可以理解，就是说由于0.1转换成二进制时是无限循环的，所以在计算机中0.1只能存储成一个近似值。另外说一句，<strong>除了那些能表示成 x/2^n 的数可以被精确表示以外，其余小数都是以近似值得方式存在的</strong>。</p>
+<p>在0.1 + 0.2这个式子中，0.1和0.2都是近似表示的，在他们相加的时候，两个近似值进行了计算，导致最后得到的值是0.30000000000000004，此时对于JS来说，其不够近似于0.3，于是就出现了0.1 + 0.2 != 0.3 这个现象。<strong>当然，也并非所有的近似值相加都得不到正确的结果</strong>。</p>
+<p><strong>有时两个近似值进行计算的时候，得到的值是在JS的近似范围内的，于是就可以得到正确答案</strong>。至于哪些值计算后能得到正确结果，哪些不能，我们也不需要去记。</p>
+<p>最好的方法就是我们想办法规避掉这类小数计算时的精度问题就好了，那么最常用的方法就是将浮点数转化成整数计算。因为整数都是可以精确表示的。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>那么应该怎样来解决0.1 + 0.2等于0.3呢？ </p>
+<p>最好的方法是设置一个误差范围值，通常称为“机器精度”。而对于 JavaScript 来说，这个值通常是2^-52。而在 ES6 中，已经为我们提供了这样一个属性：Number.EPSILON，而这个值正等于2^-52。这个值非常非常小，在底层计算机已经帮我们运算好，并且无限接近0，但不等于0。这个时候我们只要判断(0.1 + 0.2) - 0.3小于Number.EPSILON，在这个误差的范围内就可以判定0.1 + 0.2 === 0.3为true了。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">numbersEqual</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.abs(a-b) &lt; <span class="built_in">Number</span>.EPSILON;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">0.1</span> + <span class="number">0.2</span>, b = <span class="number">0.3</span>;</span><br><span class="line"><span class="built_in">console</span>.log(numbersEqual(a,b));    <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2019/02/11/（转）为什么JS中0-1-0-2不等于0-3？/" data-toggle="tooltip" data-placement="top"
-                           title="（转）为什么JS中0.1+0.2不等于0.3？">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2019/02/02/JavaSE学习（五）面向对象-继承、方法、final/" data-toggle="tooltip" data-placement="top"
-                           title="JavaSE学习（五）面向对象-继承、方法、final">Next Post &rarr;</a>
+                        <a href="/2019/02/09/JavaSE学习（六）面向对象-多态、抽象类、接口/" data-toggle="tooltip" data-placement="top"
+                           title="JavaSE学习（六）面向对象-多态、抽象类、接口">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -221,7 +224,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#多态"><span class="toc-text">多态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多态（polymorphic）概述"><span class="toc-text">多态（polymorphic）概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多态中的成员访问特点"><span class="toc-text">多态中的成员访问特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#成员变量"><span class="toc-text">成员变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#成员方法"><span class="toc-text">成员方法</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#精度缺失原因"><span class="toc-text">精度缺失原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方法"><span class="toc-text">解决方法</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -243,8 +246,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Java"
-                           title="Java">Java</a>
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
                         
                     </div>
                 </section>
