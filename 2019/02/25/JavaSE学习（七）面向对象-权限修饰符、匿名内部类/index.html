@@ -193,6 +193,53 @@
 <p>格式：<strong>import 包名;</strong></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zhdaa;</span><br><span class="line"><span class="keyword">import</span> com.baidu.Person;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;		<span class="comment">//在开发中都是导入具体的类</span></span><br><span class="line"><span class="comment">//import java.util.*;				//也可以写成通配符</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo1_Package</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Person p = <span class="keyword">new</span> Person(<span class="string">"张三"</span>, <span class="number">23</span>);</span><br><span class="line">		System.out.println(p.getName() + <span class="string">"..."</span> + p.getAge());</span><br><span class="line">        </span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> x = sc.nextInt();</span><br><span class="line">        System.out.println(x);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>注意</strong>：package、import和class有先后顺序。先是package（只能写一个），再来是import（多个），最后是class。</p>
+<h2 id="权限修饰符"><a href="#权限修饰符" class="headerlink" title="权限修饰符"></a>权限修饰符</h2><h3 id="四种访问修饰符"><a href="#四种访问修饰符" class="headerlink" title="四种访问修饰符"></a>四种访问修饰符</h3><table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>本类</th>
+<th>同一个包下（子类和无关类）</th>
+<th>不同包下（子类）</th>
+<th>不同包下（无关类）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>private</td>
+<td>Y</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>默认</td>
+<td>Y</td>
+<td>Y</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>protected</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td></td>
+</tr>
+<tr>
+<td>public</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+</tbody>
+</table>
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><h3 id="内部类的特点"><a href="#内部类的特点" class="headerlink" title="内部类的特点"></a>内部类的特点</h3><ul>
+<li>内部类可以直接访问外部类的成员，包括私有。</li>
+<li>外部类要访问内部类的成员，必须创建对象。</li>
+<li>外部类名.内部类名 对象名 = 外部类对象.内部对象;。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo1_InnerClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Outer.Inner oi = <span class="keyword">new</span> Outer().new Inner();		<span class="comment">//创建内部类对象</span></span><br><span class="line">        oi.method();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(num);		<span class="comment">//内部类可以访问内部类的私有成员</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
@@ -221,7 +268,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#package关键字"><span class="toc-text">package关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#包的定义"><span class="toc-text">包的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#带包的类编译和运行"><span class="toc-text">带包的类编译和运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不同包下类之间的访问"><span class="toc-text">不同包下类之间的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import关键字"><span class="toc-text">import关键字</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#package关键字"><span class="toc-text">package关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#包的定义"><span class="toc-text">包的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#带包的类编译和运行"><span class="toc-text">带包的类编译和运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不同包下类之间的访问"><span class="toc-text">不同包下类之间的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import关键字"><span class="toc-text">import关键字</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限修饰符"><span class="toc-text">权限修饰符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#四种访问修饰符"><span class="toc-text">四种访问修饰符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部类"><span class="toc-text">内部类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内部类的特点"><span class="toc-text">内部类的特点</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
