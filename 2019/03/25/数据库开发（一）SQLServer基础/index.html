@@ -191,6 +191,24 @@
 <li><p>其他数据库：DB2（大型）、Oracle（大型）、Access（文件型数据库）、SQLite（极其轻量级数据库）。</p>
 </li>
 </ul>
+<h2 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h2><h3 id="主键概述"><a href="#主键概述" class="headerlink" title="主键概述"></a>主键概述</h3><p><strong>主键</strong>就是数据行的<strong>唯一标识</strong>。</p>
+<p>主键的作用：唯一标识表中的一条记录。</p>
+<p>主键的特点：</p>
+<ol>
+<li>不能重复。</li>
+<li>主键不能为空。不允许为null。</li>
+</ol>
+<h3 id="主键的选择"><a href="#主键的选择" class="headerlink" title="主键的选择"></a>主键的选择</h3><p>主键有两种选用途径：<strong>业务主键</strong>和<strong>逻辑主键</strong>。推荐使用逻辑主键。</p>
+<p>选择什么样的列作为主键：</p>
+<ol>
+<li>不允许为空的列。</li>
+<li>没有重复的列。</li>
+<li>与实际业务没有关系的列。（逻辑主键）</li>
+<li>稳定的列。（列种保存的数据不经常改变）</li>
+<li>选择单列作为主键。（当通过多列共同唯一标识表中的一条记录的时候，此时可以选择多列来共同组成一个主键，叫做组合主键或复合主键）一般不推荐使用组合主键。</li>
+<li>尽量选择数字类型作为主键，不要选择字符串，或者数据类型比较大的列作为主键。（选择比较小的列作为主键）</li>
+</ol>
+<p><strong>注意</strong>：一个表中只能有<strong>一个</strong>主键（也可以没有主键，不推荐）。当建立好主键后，默认会<strong>建立索引</strong>，而实际数据在磁盘上存储的顺序和主键的顺序是一致的。因为实际的物理顺序只能有一种，所以一个表中只能有一个主键。</p>
 
                 <hr>
                 
@@ -219,7 +237,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
