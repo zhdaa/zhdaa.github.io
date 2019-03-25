@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Zhendong&#39;s blog
+        数据库开发（一）SQLServer基础｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/tags/jQuery/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/03/25/数据库开发（一）SQLServer基础/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,214 +124,152 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/zhdaa-headimg.jpg"/>
-                        <h5><a href="/about/">Zhendong Ho</a></h5>
-                        <p>知其然知其所以然</p>
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据库开发（一）SQLServer基础</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-03-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            数据库开发（一）SQLServer基础
+        </span>
+    </div>
+</header>
 
-
-
-<div class="post-preview "
-     style="background-image: url('/images/post-ocean.jpg')">
-    <a href="/2018/11/18/jQuery回顾（二）/">
-        <h2 class="post-title">
-            jQuery回顾（二）
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-11-18
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                jQuery包装集判断元素是否存在于页面Js实现
-判断getElementById返回的是否等于null或undefined
-window.onload = function () &#123;    //getElementById返回单独一个Dom对象，如果id为btn1的元素不存在，则点击..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('/images/post-ocean.jpg')">
-    <a href="/2018/10/26/jQuery回顾（一）/">
-        <h2 class="post-title">
-            jQuery回顾（一）
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-10-26
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                window.onload事件window.onload事件是js中用于当窗体加载完毕后执行的事件。
-window.onload = function () &#123;    alert('窗体加载完毕事件1');&#125;;window.onload = function () &#123..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="数据库介绍"><a href="#数据库介绍" class="headerlink" title="数据库介绍"></a>数据库介绍</h2><h3 id="数据库特点"><a href="#数据库特点" class="headerlink" title="数据库特点"></a>数据库特点</h3><ol>
+<li>海量存储</li>
+<li>查询速度快</li>
+<li>控制并发访问</li>
+<li>安全性</li>
+<li>数据完整性（保存在数据库中的数据是正确的、真实的）。</li>
+</ol>
+<h3 id="各种DBMS的特点"><a href="#各种DBMS的特点" class="headerlink" title="各种DBMS的特点"></a>各种DBMS的特点</h3><ul>
+<li><p>MySQL：适合网站系统，速度很快，但是数据要不不严谨，去掉了很多中小型企业中不常用的功能。（facebook、symantec、wikipedia、百度博客、新浪博客、twitter、youtube、wordpress）</p>
+</li>
+<li><p>MSSQLServer：与.NET结合很好，功能比MySQL多，但是处理大量数据、大交易量表现表现并不十分好。（雅虎广告业务、携程网、速8酒店、阿里巴巴呼叫中心、凡客诚品）</p>
+</li>
+<li><p>其他数据库：DB2（大型）、Oracle（大型）、Access（文件型数据库）、SQLite（极其轻量级数据库）。</p>
+</li>
 </ul>
 
+                <hr>
+                
 
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/02/25/JavaSE学习（七）面向对象-权限修饰符、匿名内部类/" data-toggle="tooltip" data-placement="top"
+                           title="JavaSE学习（七）面向对象-权限修饰符、匿名内部类">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/zhdaa-headimg.jpg"/>
-                    
-                    <h5><a href="/about/">Zhendong Ho</a></h5>
-                    
-                    <p>知其然知其所以然</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
+                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/zhdaa">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="http://laibh.top">赖同学</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Music 网易云音乐 -->
-            
-            <!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=461525011&auto=1&height=66"></iframe>-->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=1&height=66"></iframe>
-            
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#ASP.NET Core" title="ASP.NET Core"
-                       rel="2">ASP.NET Core</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#Java" title="Java"
-                       rel="8">Java</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#C#" title="C#"
-                       rel="8">C#</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#JavaScript" title="JavaScript"
-                       rel="2">JavaScript</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#jQuery" title="jQuery"
-                       rel="2">jQuery</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://laibh.top" target="_blank">赖同学</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
-        
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
