@@ -209,6 +209,13 @@
 <li>尽量选择数字类型作为主键，不要选择字符串，或者数据类型比较大的列作为主键。（选择比较小的列作为主键）</li>
 </ol>
 <p><strong>注意</strong>：一个表中只能有<strong>一个</strong>主键（也可以没有主键，不推荐）。当建立好主键后，默认会<strong>建立索引</strong>，而实际数据在磁盘上存储的顺序和主键的顺序是一致的。因为实际的物理顺序只能有一种，所以一个表中只能有一个主键。</p>
+<h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><p>数据冗余的问题：</p>
+<ol>
+<li>造成了存储空间的浪费。</li>
+<li>更新异常，删除异常。</li>
+</ol>
+<p>解决方法：</p>
+<p>把原来表中的数据拆分成多个表来存储。使用主键和外键将两张表中的数据关联起来。<strong>因为外键列中引用的是另外一张表中的主键列的数据，所以外键列中的数据是不能随便写的，必须是在另外一张表中的主键列中已经存在的数据。</strong></p>
 
                 <hr>
                 
@@ -237,7 +244,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外键"><span class="toc-text">外键</span></a></li></ol>
                 </div>
             </div>
         </div>
