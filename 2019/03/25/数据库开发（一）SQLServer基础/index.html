@@ -216,6 +216,14 @@
 </ol>
 <p>解决方法：</p>
 <p>把原来表中的数据拆分成多个表来存储。使用主键和外键将两张表中的数据关联起来。<strong>因为外键列中引用的是另外一张表中的主键列的数据，所以外键列中的数据是不能随便写的，必须是在另外一张表中的主键列中已经存在的数据。</strong></p>
+<h2 id="SQL-Server版本"><a href="#SQL-Server版本" class="headerlink" title="SQL Server版本"></a>SQL Server版本</h2><h3 id="以SQL-Server-2008版本为例"><a href="#以SQL-Server-2008版本为例" class="headerlink" title="以SQL Server 2008版本为例"></a>以SQL Server 2008版本为例</h3><p><strong>SQL Server 2008 Datacenter</strong>（x86，x64，ia64）：数据中心版，功能最全。</p>
+<p><strong>SQL Server 2008 Enterprise</strong>（x86，x64，ia64）：企业版，功能和数据中心一样，但是对服务器内存有限制。</p>
+<p><strong>SQL Server 2008 Standard</strong>（x86，x64，ia64）：标准版，功能比数据中心版少。</p>
+<p><strong>SQL Server 2008 Web</strong>（x86，x64，ia64）：有功能限制。</p>
+<p><strong>SQL Server 2008 Workgroup</strong>（x86，x64，ia64）：有功能限制。</p>
+<p><strong>SQL Server 2008 Developer</strong>（x86，x64，ia64）：开发者版，功能与数据中心版一样，只用于学习和测试，不能商用。</p>
+<p><strong>SQL Server 2008 Datacenter</strong>（x86，x64，ia64）：快速版，功能极其有限。</p>
+<h3 id="查看SQL-Server版本信息"><a href="#查看SQL-Server版本信息" class="headerlink" title="查看SQL Server版本信息"></a>查看SQL Server版本信息</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">print @@version</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
@@ -244,7 +252,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外键"><span class="toc-text">外键</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外键"><span class="toc-text">外键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server版本"><span class="toc-text">SQL Server版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以SQL-Server-2008版本为例"><span class="toc-text">以SQL Server 2008版本为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看SQL-Server版本信息"><span class="toc-text">查看SQL Server版本信息</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
