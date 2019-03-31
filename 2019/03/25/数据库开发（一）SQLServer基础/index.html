@@ -253,6 +253,23 @@
 <li>可以在同一台计算机（服务器）上安装多个数据库实例。</li>
 <li>多个实例之间互相完全不知道，没有关系，安全。</li>
 </ul>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><p>数据库→右键→新建数据库→数据库名称、存储路径、初始大小和自动增长。</p>
+<p>创建好一个数据库后，每个数据库<strong>必须</strong>包含：</p>
+<ol>
+<li><strong>主数据文件</strong>（*.mdf）</li>
+<li><strong>日志文件</strong>（*.ldf）</li>
+</ol>
+<p>还可以包含：</p>
+<ul>
+<li>任意多个次要数据文件（*.ndf）</li>
+<li>多个其他日志文件（*.ldf）</li>
+</ul>
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><p>数据库→具体数据库→表→右键→新建表→添加列名、数据类型、设置主键→保存。</p>
+<p><strong>注意</strong>：bit数据类型在写程序的时候只能用1或0来表示，但是在设计器中只能用true或false来表示。</p>
+<h3 id="分离、附加"><a href="#分离、附加" class="headerlink" title="分离、附加"></a>分离、附加</h3><p>当要拷贝数据库给别人的时候，直接复制粘贴会报错。这时需要用到<strong>分离</strong>和<strong>附加</strong>：</p>
+<p>数据库→具体数据库→右键→任务→分离（勾上删除连接）→确定→复制粘贴→附加。</p>
+<p><strong>另外还可以使用脱机、联机的方法：</strong></p>
+<p>数据库→具体数据库→右键→任务→脱机→复制粘贴→联机。</p>
 
                 <hr>
                 
@@ -281,7 +298,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外键"><span class="toc-text">外键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server版本"><span class="toc-text">SQL Server版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以SQL-Server-2008版本为例"><span class="toc-text">以SQL Server 2008版本为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看SQL-Server版本信息"><span class="toc-text">查看SQL Server版本信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库身份验证方式"><span class="toc-text">数据库身份验证方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两种验证方式"><span class="toc-text">两种验证方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启用sa账号"><span class="toc-text">启用sa账号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载数据库"><span class="toc-text">卸载数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过设计器创建数据库和表"><span class="toc-text">通过设计器创建数据库和表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-Server实例介绍"><span class="toc-text">SQL Server实例介绍</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外键"><span class="toc-text">外键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server版本"><span class="toc-text">SQL Server版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以SQL-Server-2008版本为例"><span class="toc-text">以SQL Server 2008版本为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看SQL-Server版本信息"><span class="toc-text">查看SQL Server版本信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库身份验证方式"><span class="toc-text">数据库身份验证方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两种验证方式"><span class="toc-text">两种验证方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启用sa账号"><span class="toc-text">启用sa账号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载数据库"><span class="toc-text">卸载数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过设计器创建数据库和表"><span class="toc-text">通过设计器创建数据库和表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-Server实例介绍"><span class="toc-text">SQL Server实例介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建数据库"><span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建表"><span class="toc-text">创建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分离、附加"><span class="toc-text">分离、附加</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
