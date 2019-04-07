@@ -270,6 +270,32 @@
 <p>数据库→具体数据库→右键→任务→分离（勾上删除连接）→确定→复制粘贴→附加。</p>
 <p><strong>另外还可以使用脱机、联机的方法：</strong></p>
 <p>数据库→具体数据库→右键→任务→脱机→复制粘贴→联机。</p>
+<h2 id="SQL-Server常用数据类型"><a href="#SQL-Server常用数据类型" class="headerlink" title="SQL Server常用数据类型"></a>SQL Server常用数据类型</h2><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>备注和说明</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>二进制数据类型</td>
+<td>存储非字符和文本的数据。</td>
+<td>image</td>
+<td>可用来存储图像</td>
+</tr>
+</tbody>
+</table>
+<h3 id="image类型"><a href="#image类型" class="headerlink" title="image类型"></a>image类型</h3><p>image类型，用来存储byte[]。可以用来存储任何类型的数据。相当于varbinary(MAX)。</p>
+<h3 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h3><p>char、nchar、varchar、nvarchar、text、ntext、varchar(max)、nvarchar(max)，都表示字符串类型。</p>
+<h4 id="带n和不带n的区别"><a href="#带n和不带n的区别" class="headerlink" title="带n和不带n的区别"></a>带n和不带n的区别</h4><p>char(2)，<strong>表示可以存储2个字节</strong>。如“ab”、“12”、“啊”。<strong>存储中文等双字节字符，占用2个字节，存储英文，数字等每个字符占用1个字节</strong>。</p>
+<p>nchar(2)，<strong>表示可以存储2个字符，每个字符占用2个字节</strong>。无论存储中文还是英文或数字等，每个字符都是占用两个字节。</p>
+<p><strong>注意</strong>：不带n的这些数据类型，长度最长可以设置为8000。而带n的这些数据类型，长度最长可以设置为4000。如char(8000)，varchar(8000)、nchar(4000)、nvarchar(4000)。</p>
+<h4 id="带var和不带var的区别"><a href="#带var和不带var的区别" class="headerlink" title="带var和不带var的区别"></a>带var和不带var的区别</h4><p><strong>带var</strong>：表示可变长度。char(10)，存储1个字节也是要占用10个字节，会自动补9个空格。</p>
+<p><strong>不带var</strong>：表示固定长度。varchar(10)，会根据实际存储的数据的大小动态重新分配存储空间，相对来说节省存储空间。</p>
+<h4 id="text和ntext"><a href="#text和ntext" class="headerlink" title="text和ntext"></a>text和ntext</h4><p>text相当于varchar(max)、ntext相当于nvarchar(max)。max表示有4个G大小，一般情况下足够存储任何字符串。</p>
 
                 <hr>
                 
@@ -298,7 +324,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外键"><span class="toc-text">外键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server版本"><span class="toc-text">SQL Server版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以SQL-Server-2008版本为例"><span class="toc-text">以SQL Server 2008版本为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看SQL-Server版本信息"><span class="toc-text">查看SQL Server版本信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库身份验证方式"><span class="toc-text">数据库身份验证方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两种验证方式"><span class="toc-text">两种验证方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启用sa账号"><span class="toc-text">启用sa账号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载数据库"><span class="toc-text">卸载数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过设计器创建数据库和表"><span class="toc-text">通过设计器创建数据库和表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-Server实例介绍"><span class="toc-text">SQL Server实例介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建数据库"><span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建表"><span class="toc-text">创建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分离、附加"><span class="toc-text">分离、附加</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库介绍"><span class="toc-text">数据库介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库特点"><span class="toc-text">数据库特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种DBMS的特点"><span class="toc-text">各种DBMS的特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主键"><span class="toc-text">主键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主键概述"><span class="toc-text">主键概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键的选择"><span class="toc-text">主键的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外键"><span class="toc-text">外键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server版本"><span class="toc-text">SQL Server版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以SQL-Server-2008版本为例"><span class="toc-text">以SQL Server 2008版本为例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看SQL-Server版本信息"><span class="toc-text">查看SQL Server版本信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库身份验证方式"><span class="toc-text">数据库身份验证方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两种验证方式"><span class="toc-text">两种验证方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启用sa账号"><span class="toc-text">启用sa账号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载数据库"><span class="toc-text">卸载数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过设计器创建数据库和表"><span class="toc-text">通过设计器创建数据库和表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-Server实例介绍"><span class="toc-text">SQL Server实例介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建数据库"><span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建表"><span class="toc-text">创建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分离、附加"><span class="toc-text">分离、附加</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Server常用数据类型"><span class="toc-text">SQL Server常用数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#image类型"><span class="toc-text">image类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串类型"><span class="toc-text">字符串类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#带n和不带n的区别"><span class="toc-text">带n和不带n的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带var和不带var的区别"><span class="toc-text">带var和不带var的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#text和ntext"><span class="toc-text">text和ntext</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
