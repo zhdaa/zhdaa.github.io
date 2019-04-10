@@ -284,6 +284,7 @@
 <p><strong>msdb</strong>：用于SQL Server代理计划警报和作业。<strong>数据库定时执行某些操作、数据库邮件等（定时任务）。</strong></p>
 <p><strong>model</strong>：<strong>用于SQL Server实例上创建的所有数据库的模板。</strong>对model数据库进行修改（如数据库大小、排序规则、恢复模式和其他数据库选项）将应用于以后创建的所有数据库。<strong>在model数据库中创建一张表，则以后每次创建数据库的时候都会有默认的一张同样的表</strong>。</p>
 <p><strong>tempdb</strong>：<strong>临时数据库，一个工作区间，用于保存临时对象或中间结果集。</strong>一个全局资源，可供连接到SQL Server实例的所有用户使用。<strong>每次启动SQL Server时都会重新创建tempdb（清空tempdb的数据）</strong>。</p>
+<p><strong>Resource</strong>：<strong>一个只读数据库，包含SQL Server包括的系统对象</strong>。系统对象在物理上保留在Resource数据库中，但在逻辑上显示在每个数据库的sys架构中。Resource数据库的物理文件名为 mssqlsystemresource.mdf和mssqlsystemresource.ldf。每个SQL Server实例都具有一个（也是唯一的一个）关联的mssqlsystemresource.mdf文件，并且实例间不共享此文件。</p>
 
                 <hr>
                 
