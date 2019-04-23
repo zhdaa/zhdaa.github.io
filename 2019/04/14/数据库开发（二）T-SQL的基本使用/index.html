@@ -195,6 +195,18 @@
 <h3 id="打开和关闭查询结果窗口"><a href="#打开和关闭查询结果窗口" class="headerlink" title="打开和关闭查询结果窗口"></a>打开和关闭查询结果窗口</h3><p>打开和关闭查询结果窗口：ctrl + R。</p>
 <h3 id="更新语句"><a href="#更新语句" class="headerlink" title="更新语句"></a>更新语句</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> TblStudent <span class="keyword">set</span> tsAge = tsAge - <span class="number">1</span>, tsname = tsname + <span class="string">'（男）'</span> <span class="keyword">where</span> tsgender = <span class="string">'男'</span></span><br></pre></td></tr></table></figure>
 <p><strong>注意</strong>：update语句，如果不加where条件，那么表示对表中所有的数据都进行修改，所以一定要加where条件。</p>
+<h2 id="删除数据语句"><a href="#删除数据语句" class="headerlink" title="删除数据语句"></a>删除数据语句</h2><h3 id="Delete语句"><a href="#Delete语句" class="headerlink" title="Delete语句"></a>Delete语句</h3><p>基本语法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> 表名 <span class="keyword">where</span> ...</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：delete语句，如果不加where条件，表示将表中所有数据删除。加where条件后，会按照where条件进行删除。另外，使用delete语句删除后，自动编号并没有恢复到默认值，仍然继续编号。</p>
+<h3 id="Truncate语句"><a href="#Truncate语句" class="headerlink" title="Truncate语句"></a>Truncate语句</h3><p>如果确实要删除表中全部数据，那么建议用truncate。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">truncate</span> <span class="keyword">table</span> 表名</span><br></pre></td></tr></table></figure>
+<p><strong>truncate特点</strong>：</p>
+<ol>
+<li>truncate语句不能跟where条件（无法根据条件来删除，只能删除全部数据）。</li>
+<li>自动编号恢复到初始值。</li>
+<li>使用truncate删除表中所有数据要比delete效率高得多。</li>
+<li>truncate删除数据，不触发delete触发器。</li>
+</ol>
 
                 <hr>
                 
@@ -223,7 +235,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL语句"><span class="toc-text">SQL语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Insert语句"><span class="toc-text">Insert语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入非自动编号列"><span class="toc-text">插入非自动编号列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#省略列名插入"><span class="toc-text">省略列名插入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入部分列"><span class="toc-text">插入部分列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#向自动编号列插入值"><span class="toc-text">向自动编号列插入值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串前面带N"><span class="toc-text">字符串前面带N</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Update语句"><span class="toc-text">Update语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开和关闭查询结果窗口"><span class="toc-text">打开和关闭查询结果窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新语句"><span class="toc-text">更新语句</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL语句"><span class="toc-text">SQL语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Insert语句"><span class="toc-text">Insert语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入非自动编号列"><span class="toc-text">插入非自动编号列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#省略列名插入"><span class="toc-text">省略列名插入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入部分列"><span class="toc-text">插入部分列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#向自动编号列插入值"><span class="toc-text">向自动编号列插入值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串前面带N"><span class="toc-text">字符串前面带N</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Update语句"><span class="toc-text">Update语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开和关闭查询结果窗口"><span class="toc-text">打开和关闭查询结果窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新语句"><span class="toc-text">更新语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除数据语句"><span class="toc-text">删除数据语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Delete语句"><span class="toc-text">Delete语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Truncate语句"><span class="toc-text">Truncate语句</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
