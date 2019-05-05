@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        （转）理解javascript中的立即执行函数(function(){})()｜Zhendong&#39;s blog
+        T-SQL语句分组、函数｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/2019/04/25/（转）理解javascript中的立即执行函数-function/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/05/05/T-SQL语句分组、函数/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -145,18 +145,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>（转）理解javascript中的立即执行函数(function(){})()</h1>
+                    <h1>T-SQL语句分组、函数</h1>
                     
                     <span class="meta">
                          作者 Zhendong Ho
                         <span>
-                          日期 2019-04-25
+                          日期 2019-05-05
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#JavaScript"
-                           title="JavaScript">JavaScript</a>
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
                         
                     </div>
                 </div>
@@ -165,7 +165,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            （转）理解javascript中的立即执行函数(function(){})()
+            T-SQL语句分组、函数
         </span>
     </div>
 </header>
@@ -176,40 +176,45 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>之前看了好多代码，都有用到这种函数的写法，但是都没认真的去想为什么会这样写，今天开始想学习下jquery的源码，发现jquery也是使用这种方式，用(function(window, undefined){})(window)包裹内部代码，于是进一步的去学习了下。</p>
-<p>要理解<strong>立即执行函数(function(){})()</strong>，先了解些函数的基本概念<strong>（函数声明、函数表达式、匿名函数）</strong>。</p>
-<h2 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h2><p>使用function声明函数，并指定函数名。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// coding</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h2><p>使用function声明函数，但未指定函数名，将匿名函数赋予一个变量。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> setFn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// coding</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h2><p>使用function关键字声明函数，但未指定函数名。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// coding</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>匿名函数属于函数表达式，匿名函数有很多作用，赋予一个变量则创建函数，赋予一个事件则成为事件处理程序或创建闭包等等。</p>
-<h2 id="函数声明和函数表达式区别"><a href="#函数声明和函数表达式区别" class="headerlink" title="函数声明和函数表达式区别"></a>函数声明和函数表达式区别</h2><p>函数声明可在<strong>当前作用域下提前调用执行</strong>，函数表达式需等执行到该函数后，方可执行，<strong>不可提前调用</strong>。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">setFn();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// coding</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//正常，函数声明可以提前调用</span></span><br><span class="line"></span><br><span class="line">setFn();</span><br><span class="line"><span class="keyword">var</span> setFn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// coding</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//报错，setFn未保存对函数的引用，函数调用需放在函数表达式后面</span></span><br></pre></td></tr></table></figure>
-<p>函数表达式可<strong>直接在函数后加括号调用</strong>。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> setFn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// coding</span></span><br><span class="line">&#125; ()</span><br><span class="line"><span class="comment">//加括号直接调用</span></span><br></pre></td></tr></table></figure>
-<h2 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h2><p>立即执行函数里面的函数<strong>必须是函数表达式</strong>，所以由var setFn = function() { } () 可以理解为<strong>在匿名函数前加了 = 运算符后</strong>，<strong>将函数声明转发为函数表达式</strong>，所以拿 ! ，+，-，( ) 等运算符来测试下是否如此。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">!<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125; ();</span><br><span class="line"><span class="comment">//1</span></span><br><span class="line"></span><br><span class="line">+<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125; ();</span><br><span class="line"><span class="comment">//2</span></span><br><span class="line"></span><br><span class="line">-<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>);</span><br><span class="line">&#125; ();</span><br><span class="line"><span class="comment">//3</span></span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>);</span><br><span class="line">&#125;) ();</span><br><span class="line"><span class="comment">//4</span></span><br></pre></td></tr></table></figure>
-<p><strong>由此可见，加运算符确实可将函数声明转化为函数表达式，而之所以使用括号，是因为括号相对其他运算符会更安全，可以减少不必要的麻烦。</strong></p>
-<p>立即执行函数与正常函数传参形式是一致的。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a + b);</span><br><span class="line">&#125;) (<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">//3</span></span><br></pre></td></tr></table></figure>
-<p><strong>(function(){})() 这样写的好处是，在内部定义的变量不会跟外部的变量有冲突，达到保护内部变量的作用。</strong></p>
+                <h2 id="Order-by"><a href="#Order-by" class="headerlink" title="Order by"></a>Order by</h2><p>Order by语句一般要放到所有语句的后面，就是先让其他语句进行筛选，全部筛选完成后，最后排序一下。</p>
+<p>表中的数据是集合，集合是没有顺序的。而Order by返回的数据是有顺序的，所以<strong>Order by以后返回的数据集合叫做“游标”。</strong>另外，order by后的数据不能作为另外一个查询的结果来使用。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">	总和=(select ... from ... order by ...) --有序列表，不是集合，不能作为另外一个查询的结果使用</span><br></pre></td></tr></table></figure>
+<h2 id="Group-by"><a href="#Group-by" class="headerlink" title="Group by"></a>Group by</h2><p>从学生表中查询出每个班的班级ID和班级人数。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">	tsClassId as 班级Id,</span><br><span class="line">	班级人数=count(*)</span><br><span class="line">from TblStudent</span><br><span class="line">group by tsClassId</span><br></pre></td></tr></table></figure>
+<p>统计出所有学生中，男同学与女同学的人数分别是多少。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">	性别=tsgender,</span><br><span class="line">	人数=count(*)</span><br><span class="line">from tblStudent</span><br><span class="line">group by tsgender</span><br></pre></td></tr></table></figure>
+<p>从学生表中查询出每个班的班级Id和班级中男同学的人数。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">	班级Id=tsClassId,</span><br><span class="line">	男同学人数=count(*)</span><br><span class="line">from tblStudent</span><br><span class="line">where tsgender=&apos;男&apos;</span><br><span class="line">group by tsClassId</span><br><span class="line">--执行顺序，from，where，group by，select，先筛选，再分组</span><br></pre></td></tr></table></figure>
+<p><strong>当使用了分组语句（group by）或者是聚合函数的时候，在select的查询列表中不能再包含其他的列名，除非该列同时也出现在了group by字句中，或者该列也包含在了某个聚合函数中。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">	sum(tsage), --包含在sum聚合函数中</span><br><span class="line">	性别=tsgender, --group by的列</span><br><span class="line">	人数=count(*) --包含在count聚合函数中</span><br><span class="line">from TblStudent</span><br><span class="line">group by tsgender</span><br></pre></td></tr></table></figure>
+<h2 id="Having"><a href="#Having" class="headerlink" title="Having"></a>Having</h2><p>对分组以后的数据进行筛选，使用having。</p>
+<h3 id="where和having的区别"><a href="#where和having的区别" class="headerlink" title="where和having的区别"></a>where和having的区别</h3><p><strong>having与where都是对数据进行筛选。where是对分组前的每一行数据进行筛选，而having是对分组后的每一组数据进行筛选。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">	tsClassId as 班级Id，</span><br><span class="line">	班级人数=count(*)</span><br><span class="line">from TblStudent</span><br><span class="line">group by tsClassId</span><br><span class="line">having count(*)&gt;10 --不能使用“班级人数”列名，因为having在select之前执行</span><br><span class="line">order by 班级人数 asc --order by在select之后执行，所以可以使用“班级人数”列名</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：where后面不能使用聚合函数，但可以跟任何列。having后面只能跟分组的列，或者使用聚合函数。</p>
+<h3 id="SQL语句的执行顺序"><a href="#SQL语句的执行顺序" class="headerlink" title="SQL语句的执行顺序"></a>SQL语句的执行顺序</h3><p>以下步骤显示SELECT语句的处理顺序。</p>
+<ol>
+<li><strong>FROM</strong></li>
+<li>ON</li>
+<li>JOIN</li>
+<li><strong>WHERE</strong></li>
+<li><strong>GROUP BY</strong></li>
+<li>WITH CUBE或WITH ROLLUP</li>
+<li><strong>HAVING</strong></li>
+<li><strong>SELECT</strong></li>
+<li><strong>DISTINCT</strong></li>
+<li><strong>ORDER BY</strong></li>
+<li><strong>TOP</strong></li>
+</ol>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2019/05/05/T-SQL语句分组、函数/" data-toggle="tooltip" data-placement="top"
-                           title="T-SQL语句分组、函数">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2019/04/14/数据库开发（二）T-SQL的基本使用/" data-toggle="tooltip" data-placement="top"
-                           title="数据库开发（二）T-SQL的基本使用">Next Post &rarr;</a>
+                        <a href="/2019/04/25/（转）理解javascript中的立即执行函数-function/" data-toggle="tooltip" data-placement="top"
+                           title="（转）理解javascript中的立即执行函数(function(){})()">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -228,7 +233,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数声明"><span class="toc-text">函数声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数表达式"><span class="toc-text">函数表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匿名函数"><span class="toc-text">匿名函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数声明和函数表达式区别"><span class="toc-text">函数声明和函数表达式区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#立即执行函数"><span class="toc-text">立即执行函数</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Order-by"><span class="toc-text">Order by</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Group-by"><span class="toc-text">Group by</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Having"><span class="toc-text">Having</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#where和having的区别"><span class="toc-text">where和having的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL语句的执行顺序"><span class="toc-text">SQL语句的执行顺序</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -250,8 +255,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#JavaScript"
-                           title="JavaScript">JavaScript</a>
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
                         
                     </div>
                 </section>
