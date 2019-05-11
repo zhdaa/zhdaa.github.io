@@ -229,7 +229,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * into TblStudent20190506Backup from TblStudent</span><br></pre></td></tr></table></figure>
 <p><strong>注意：</strong>select into语句不能重复执行，因为每次执行都会创建一个新的表。</p>
 <h3 id="备份表结构"><a href="#备份表结构" class="headerlink" title="备份表结构"></a>备份表结构</h3><p>只拷贝表结构，不拷贝数据。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select top 0 * from TblStudent20190506Backup from TblStudent</span><br><span class="line">select * from TblStudent20190506Backup from TblStudent where 1&lt;&gt;1 --不建议使用</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select top 0 * into TblStudent20190506Backup from TblStudent</span><br><span class="line">select * into TblStudent20190506Backup from TblStudent where 1&lt;&gt;1 --不建议使用</span><br></pre></td></tr></table></figure>
 <h3 id="向表中数据插入另一个表"><a href="#向表中数据插入另一个表" class="headerlink" title="向表中数据插入另一个表"></a>向表中数据插入另一个表</h3><p>基本语法：insert into 表A select … from 表B</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insert into TblStudent20190506Backup</span><br><span class="line">select tsname,tsgender,tsaddress,tsphone,tsage,tsbirthday,tscardid,tsclassid --自动编号列不需要插入</span><br><span class="line">from TblStudent</span><br><span class="line">where tsgender=&apos;女&apos;</span><br></pre></td></tr></table></figure>
 <h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><h3 id="常用的字符串函数"><a href="#常用的字符串函数" class="headerlink" title="常用的字符串函数"></a>常用的字符串函数</h3><p><strong>len：计算字符的个数</strong></p>
@@ -244,7 +244,10 @@
 <p>left()，从左边开始截取，截取5个字符。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">print left(&apos;中华人民共和国&apos;,5) --中华人民共</span><br></pre></td></tr></table></figure>
 <p>right()，从右边开始截取，截取5个字符。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">print left(&apos;中华人民共和国&apos;,5) --人民共和国</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">print right(&apos;中华人民共和国&apos;,5) --人民共和国</span><br></pre></td></tr></table></figure>
+<p><strong>substring：字符串截取</strong></p>
+<p>第一个参数是从第几位开始截取（从1开始），第二个参数是截取多少个字符。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">print substring(&apos;中华人民共和国&apos;,1,5) --中华人民共</span><br><span class="line">print substring(&apos;中华人民共和国&apos;,0,3) --中华</span><br><span class="line">print substring(&apos;中华人民共和国&apos;,-2,4) --中</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
