@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Zhendong&#39;s blog
+        数据库开发（五）ADO.NET连接池、封装SQLHelper｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/tags/SQLServer/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/05/31/数据库开发（五）ADO-NET连接池、封装SQLHelper/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,193 +124,141 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/zhdaa-headimg.jpg"/>
-                        <h5><a href="/about/">Zhendong Ho</a></h5>
-                        <p>知其然知其所以然</p>
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据库开发（五）ADO.NET连接池、封装SQLHelper</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-05-31
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            数据库开发（五）ADO.NET连接池、封装SQLHelper
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="ADO-NET连接池"><a href="#ADO-NET连接池" class="headerlink" title="ADO.NET连接池"></a>ADO.NET连接池</h2><h3 id="启用ADO-NET连接池的效果"><a href="#启用ADO-NET连接池的效果" class="headerlink" title="启用ADO.NET连接池的效果"></a>启用ADO.NET连接池的效果</h3><p>默认情况下ADO.NET连接池是被启用的。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">string</span> constr = <span class="string">"Data Source=.;Initial Catalog=MyDatabaseOne;Integrated Security=True"</span>;</span><br><span class="line"><span class="comment">//默认情况下.net启用了连接池</span></span><br><span class="line">Stopwatch watch = <span class="keyword">new</span> Stopwatch();</span><br><span class="line">watch.Start();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> (SqlConnection con = <span class="keyword">new</span> SqlConnection(constr))</span><br><span class="line">    &#123;</span><br><span class="line">        con.Open();</span><br><span class="line">        con.Close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">watch.Stop();</span><br><span class="line">Console.WriteLine(watch.Elapsed); <span class="comment">// 00:00:00.2973565</span></span><br></pre></td></tr></table></figure>
+<h3 id="禁用ADO-NET连接池的效果"><a href="#禁用ADO-NET连接池的效果" class="headerlink" title="禁用ADO.NET连接池的效果"></a>禁用ADO.NET连接池的效果</h3><p>在连接字符串中添加：Pooling=false。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">string</span> constr = <span class="string">"Data Source=.;Initial Catalog=MyDatabaseOne;Integrated Security=True;Pooling=False"</span>;</span><br><span class="line">Stopwatch watch = <span class="keyword">new</span> Stopwatch();</span><br><span class="line">watch.Start();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> (SqlConnection con = <span class="keyword">new</span> SqlConnection(constr))</span><br><span class="line">    &#123;</span><br><span class="line">        con.Open();</span><br><span class="line">        con.Close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">watch.Stop();</span><br><span class="line">Console.WriteLine(watch.Elapsed); <span class="comment">// 00:00:08.0076677</span></span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/05/13/数据库开发（四）ADO-NET操作数据库/" data-toggle="tooltip" data-placement="top"
+                           title="数据库开发（四）ADO.NET操作数据库">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
 
 
+                <!--加入新的评论系统-->
+                
 
-<div class="post-preview "
-     style="background-image: url('/images/post-ocean.jpg')">
-    <a href="/2018/10/24/SQLServer列名无效/">
-        <h2 class="post-title">
-            SQLServer列名无效
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-10-24
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                很多时候对数据库表修改字段后会出现“列名无效”，或者在查询分析器里面是红色的下划线，造成这个现象的原因是：SQL Server的intellisense（智能感知功能），没有感知到更改，需要重新整理一下
-方法：用快捷键Ctrl+Shift+R即可
+                
 
-            </p>
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ADO-NET连接池"><span class="toc-text">ADO.NET连接池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启用ADO-NET连接池的效果"><span class="toc-text">启用ADO.NET连接池的效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用ADO-NET连接池的效果"><span class="toc-text">禁用ADO.NET连接池的效果</span></a></li></ol></li></ol>
+                </div>
+            </div>
         </div>
-    </a>
 
-</div>
+        <div class="row">
+            <!-- Sidebar Container -->
 
-<hr>
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
-</ul>
-
-
-        </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
-
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/zhdaa-headimg.jpg"/>
-                    
-                    <h5><a href="/about/">Zhendong Ho</a></h5>
-                    
-                    <p>知其然知其所以然</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
                         
-                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-
-                        
-
-                        
-                        <li>
-                            <a target="_blank" href="https://github.com/zhdaa">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="http://laibh.top">赖同学</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Music 网易云音乐 -->
-            
-            <!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=461525011&auto=1&height=66"></iframe>-->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=1&height=66"></iframe>
-            
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    
-                    
-                    <a href="/tags/#ASP.NET Core" title="ASP.NET Core"
-                       rel="2">ASP.NET Core</a>
-                    
-                    
-                    
-                    <a href="/tags/#Java" title="Java"
-                       rel="8">Java</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#C#" title="C#"
-                       rel="9">C#</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#SQL Server" title="SQL Server"
-                       rel="4">SQL Server</a>
-                    
-                    
-                    
-                    <a href="/tags/#JavaScript" title="JavaScript"
-                       rel="3">JavaScript</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#jQuery" title="jQuery"
-                       rel="2">jQuery</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://laibh.top" target="_blank">赖同学</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
-        
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
