@@ -155,8 +155,8 @@
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#SQL Server"
-                           title="SQL Server">SQL Server</a>
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
                         
                     </div>
                 </div>
@@ -196,6 +196,13 @@
 <li>对象使用比较频繁。</li>
 </ol>
 <p>池的作用：提高了创建对象的效率。</p>
+<h3 id="ADO-NET连接池使用总结"><a href="#ADO-NET连接池使用总结" class="headerlink" title="ADO.NET连接池使用总结"></a>ADO.NET连接池使用总结</h3><ol>
+<li>第一次打开连接会创建一个连接对象。</li>
+<li>当这个连接关闭时（调用Close()方法时）会将当前那个连接对象放入池中。</li>
+<li>下一个连接对象，如果连接字符串与池中现有连接对象的连接字符串完全一致，则会使用池中的现有连接，而不会重新创建一个。</li>
+<li>只有对象调用Close()的时候才会放入池中，如果一个连接对象一直在使用，则下次再创建一个连接对象发现池中没有，也会再创建一个新连接对象。</li>
+<li>在池中的连接对象，如果过一段时间没有被访问则自动销毁。</li>
+</ol>
 
                 <hr>
                 
@@ -224,7 +231,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ADO-NET连接池"><span class="toc-text">ADO.NET连接池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启用ADO-NET连接池的效果"><span class="toc-text">启用ADO.NET连接池的效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用ADO-NET连接池的效果"><span class="toc-text">禁用ADO.NET连接池的效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADO-NET连接池使用注意事项"><span class="toc-text">ADO.NET连接池使用注意事项</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ADO-NET连接池"><span class="toc-text">ADO.NET连接池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启用ADO-NET连接池的效果"><span class="toc-text">启用ADO.NET连接池的效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用ADO-NET连接池的效果"><span class="toc-text">禁用ADO.NET连接池的效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADO-NET连接池使用注意事项"><span class="toc-text">ADO.NET连接池使用注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADO-NET连接池使用总结"><span class="toc-text">ADO.NET连接池使用总结</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -246,8 +253,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#SQL Server"
-                           title="SQL Server">SQL Server</a>
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
                         
                     </div>
                 </section>
