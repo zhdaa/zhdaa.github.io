@@ -155,6 +155,9 @@
                     </span>
                     <div class="tags text-center">
                         
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
+                        
                     </div>
                 </div>
             </div>
@@ -179,6 +182,27 @@
 <h3 id="查看连接字符串"><a href="#查看连接字符串" class="headerlink" title="查看连接字符串"></a>查看连接字符串</h3><p>有时候当我们写连接字符串记不住的时，可以通过Visual Studio查看连接字符串。</p>
 <p>步骤：<strong>视图，服务资源管理器，数据连接，输入服务器名，Windows身份验证，选择或输入数据库名称，测试连接。</strong></p>
 <p>测试连接成功后，<strong>可通过属性窗口查看连接字符串</strong>。</p>
+<h2 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h2><p>查询数据时，当需要将多个表中的列共同显示到一个结果集中的时候，可以使用<strong>连接查询</strong>。</p>
+<h3 id="笛卡儿积"><a href="#笛卡儿积" class="headerlink" title="笛卡儿积"></a>笛卡儿积</h3><p>把两张表的结果集连在一起，得出来一大很大的结果集，A表中的每条记录与B表中的每条记录相连，叫做笛卡儿积。</p>
+<p>笛卡儿积记录条数，等于A表记录条数乘以B表记录条数。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from PhoneType,PhoneNum --28条记录</span><br></pre></td></tr></table></figure>
+<h3 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h3><p>内连接查询的原理是，先把两张表的笛卡儿积查出来，然后<strong>根据条件对笛卡儿积结果集进行筛选</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">    *</span><br><span class="line">from PhoneNum inner join PhoneType on PhoneNum.pTypeId = PhoneType.ptId --7条记录</span><br></pre></td></tr></table></figure>
+<p>筛选两表中，ptId不相等的记录。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">    *</span><br><span class="line">from PhoneNum inner join PhoneType on PhoneNum.pTypeId &lt;&gt; PhoneType.ptId --21条记录</span><br></pre></td></tr></table></figure>
+<p>查询的时候，如果表中有重名的列，应该通过表名.列名的方式来限定指定的列是属于哪张表的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">    PhoneNum.pid,</span><br><span class="line">    PhoneNum.pname,</span><br><span class="line">    PhoneNum.pcellphone,</span><br><span class="line">    PhoneType.ptname</span><br><span class="line">from PhoneNum inner join PhoneType on PhoneNum.ptypeId = PhoneType.ptId</span><br></pre></td></tr></table></figure>
+<p>查询的时候为表起列名。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">    pn.pid,</span><br><span class="line">    pn.pname,</span><br><span class="line">    pn.pcellphone,</span><br><span class="line">    pt.ptname</span><br><span class="line">from PhoneNum as pn inner join PhoneType as pt on pn.ptypeId = pt.ptId</span><br></pre></td></tr></table></figure>
+<h2 id="使用带参数的SQL语句向数据库插入空值"><a href="#使用带参数的SQL语句向数据库插入空值" class="headerlink" title="使用带参数的SQL语句向数据库插入空值"></a>使用带参数的SQL语句向数据库插入空值</h2><p>向数据库中插入null值，不能直接使用C#中的null，必须使用DBNull.Value。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">string</span> name = <span class="string">"hezhendong"</span>;</span><br><span class="line"><span class="keyword">int</span> age = <span class="number">24</span>;</span><br><span class="line"><span class="keyword">int</span>? height = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">bool</span>? gender = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">string</span> sql = <span class="string">"insert into TblPerson values(@name,@age,@height,@gender)"</span>;</span><br><span class="line">SqlParameter[] pms = <span class="keyword">new</span> SqlParameter[] &#123;</span><br><span class="line">    <span class="keyword">new</span> SqlParameter(@name, SqlDbType.NVarChar, <span class="number">50</span>) &#123; Value = name &#125;,</span><br><span class="line">    <span class="keyword">new</span> SqlParameter(@age, SqlDbType.Int) &#123; Value = age &#125;,</span><br><span class="line">    <span class="comment">//向数据库中插入null值，不能直接使用C#中的null，必须使用DBNull.Value</span></span><br><span class="line">    <span class="keyword">new</span> SqlParameter(@height, SqlDbType.Int) &#123; Value = height == <span class="literal">null</span> ? DBNull.Value : (<span class="keyword">object</span>)height &#125;,</span><br><span class="line">    <span class="keyword">new</span> SqlParameter(@gender, SqlDbType.Bit) &#123; Value = gender == <span class="literal">null</span> ? DBNull.Value : (<span class="keyword">object</span>)gender &#125;</span><br><span class="line">&#125;;</span><br><span class="line">SqlHelper.ExecuteNonQuery(sql, pms);</span><br></pre></td></tr></table></figure>
+<h2 id="可空值类型"><a href="#可空值类型" class="headerlink" title="可空值类型"></a>可空值类型</h2><p>可空值类型写法：<strong>值类型?</strong>，等价于Nullable&lt;值类型>，Nullable&lt;T>类型是一个结构体类型。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>? n = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//Nullable&lt;int&gt; n = 10;</span></span><br></pre></td></tr></table></figure>
+<p>当可空值类型不为空时。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//int? n = 10;</span></span><br><span class="line">Nullable&lt;<span class="keyword">int</span>&gt; n = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//n.HasValue = true;</span></span><br><span class="line"><span class="comment">//n.Value = 10;</span></span><br></pre></td></tr></table></figure>
+<p>当可空值类型为null时。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//int? n = null;</span></span><br><span class="line">Nullable&lt;<span class="keyword">int</span>&gt; n = <span class="literal">null</span>;</span><br><span class="line"><span class="comment">//n.HasValue = false;</span></span><br><span class="line"><span class="keyword">if</span> (n == <span class="literal">null</span>)</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：Nullable&lt;T>类型还是值类型，值类型不可以赋值为null。但是Nullable&lt;T>可以通过HasValue属性判断值是否为空。</p>
 
                 <hr>
                 
@@ -207,7 +231,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DataSet和DataTable"><span class="toc-text">DataSet和DataTable</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过DataAdapter绑定数据"><span class="toc-text">通过DataAdapter绑定数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个DataSet"><span class="toc-text">创建一个DataSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看连接字符串"><span class="toc-text">查看连接字符串</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DataSet和DataTable"><span class="toc-text">DataSet和DataTable</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过DataAdapter绑定数据"><span class="toc-text">通过DataAdapter绑定数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个DataSet"><span class="toc-text">创建一个DataSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看连接字符串"><span class="toc-text">查看连接字符串</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内连接"><span class="toc-text">内连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#笛卡儿积"><span class="toc-text">笛卡儿积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内连接查询"><span class="toc-text">内连接查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用带参数的SQL语句向数据库插入空值"><span class="toc-text">使用带参数的SQL语句向数据库插入空值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可空值类型"><span class="toc-text">可空值类型</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -228,6 +252,9 @@
                         <a href="/tags/">FEATURED TAGS</a>
                     </h5>
                     <div class="tags">
+                        
+                        <a class="tag" href="/tags/#SQL Server"
+                           title="SQL Server">SQL Server</a>
                         
                     </div>
                 </section>
