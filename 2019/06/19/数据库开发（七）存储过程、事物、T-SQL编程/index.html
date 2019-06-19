@@ -176,7 +176,9 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h2><h3 id="左外连接"><a href="#左外连接" class="headerlink" title="左外连接"></a>左外连接</h3><p>当需要把一张表的数据都显示出来的时候，需要用到左外连接：<strong>left join 或 left outer join</strong>。</p>
+                <h2 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h2><h3 id="左外连接和右外连接"><a href="#左外连接和右外连接" class="headerlink" title="左外连接和右外连接"></a>左外连接和右外连接</h3><p>当需要把一张表的数据都显示出来的时候，需要用到外连接（左外连接或右外连接）。</p>
+<p>左外连接：<strong>left join 或 left outer join</strong>。</p>
+<p>右外连接：<strong>right join 或 right outer join。</strong></p>
 <p>左表：出现在left join左边的表就叫做左表。</p>
 <p>右表：出现在left join右边的表就叫做右表。</p>
 <p>查询出<strong>所有参加了考试的同学</strong>的姓名，年龄，英语成绩，数学成绩<strong>（使用内连接）</strong>。</p>
@@ -188,6 +190,13 @@
 <li>内连接，只显示那些两张表中可以匹配的数据。</li>
 <li>左外连接，会将所有左表中的数据全部显示。同时，对于左表中的数据，如果在右表中能找到匹配的数据，那么显示对应右表中的数据；如果在右表中找不到对应的匹配，则显示null。</li>
 </ul>
+<p>查询出那些<strong>所有没有参加考试的同学</strong>的学生ID，姓名和年龄。</p>
+<p>第一种，通过<strong>子查询</strong>实现。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from TblStudent where tsid not in (select tsid from TblStudent)</span><br></pre></td></tr></table></figure>
+<p>第二种，通过<strong>左外连接</strong>查询实现。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">    t1.*,</span><br><span class="line">    t2.*</span><br><span class="line">from TblStudent as t1</span><br><span class="line">left join TblScore as t2 on t1.tsid=t2.tsid</span><br><span class="line">where t2.tscoreId is null</span><br></pre></td></tr></table></figure>
+<p>第三种，通过<strong>右外连接</strong>查询实现。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">--右外连接，显示右表的所有记录（方法和左外连接一样，只是调换左表和右表的位置）</span><br><span class="line">select</span><br><span class="line">    t1.*,</span><br><span class="line">    t2.*</span><br><span class="line">from TblScore as t2</span><br><span class="line">right join TblStudent as t1 on t1.tsid=t2.tsid</span><br><span class="line">where t2.tscoreId is null</span><br><span class="line"></span><br><span class="line">--右外连接，显示右表的所有记录（不调换左表和右表的位置）</span><br><span class="line">select</span><br><span class="line">    t1.*,</span><br><span class="line">    t2.*</span><br><span class="line">from TblStudent as t1</span><br><span class="line">right join TblScore as t2 on t1.tsid=t2.tsid</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
@@ -216,7 +225,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#外连接"><span class="toc-text">外连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#左外连接"><span class="toc-text">左外连接</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#外连接"><span class="toc-text">外连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#左外连接和右外连接"><span class="toc-text">左外连接和右外连接</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
