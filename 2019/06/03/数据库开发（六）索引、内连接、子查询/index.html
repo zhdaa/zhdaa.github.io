@@ -277,7 +277,7 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">    *,</span><br><span class="line">    Rn=ROW_NUMBER() over(order by CustomerID asc)</span><br><span class="line">from Customers</span><br></pre></td></tr></table></figure>
 <p>每页显示7条，要查看第八页。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from</span><br><span class="line">(select *, Rn=ROW_NUMBER() over(order by CustomerID asc) from Customers) as T</span><br><span class="line">where T.Rn between (8-1)*7+1 and</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from</span><br><span class="line">(select *, Rn=ROW_NUMBER() over(order by CustomerID asc) from Customers) as T</span><br><span class="line">where T.Rn between (8-1)*7+1 and 8*7</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
