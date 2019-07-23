@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Zhendong&#39;s blog
+        C#图解教程之事件｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/archives/2019/04/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/07/23/C-图解教程之事件/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,216 +124,170 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/zhdaa-headimg.jpg"/>
-                        <h5><a href="/about/">Zhendong Ho</a></h5>
-                        <p>知其然知其所以然</p>
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>C#图解教程之事件</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-07-23
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            C#图解教程之事件
+        </span>
+    </div>
+</header>
 
-
-
-<div class="post-preview "
-     style="background-image: url('/images/post-ocean.jpg')">
-    <a href="/2019/04/25/（转）理解javascript中的立即执行函数-function/">
-        <h2 class="post-title">
-            （转）理解javascript中的立即执行函数(function(){})()
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-04-25
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                之前看了好多代码，都有用到这种函数的写法，但是都没认真的去想为什么会这样写，今天开始想学习下jquery的源码，发现jquery也是使用这种方式，用(function(window, undefined){})(window)包裹内部代码，于是进一步的去学习了下。
-要理解立即执行函数(funct..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('/images/post-ocean.jpg')">
-    <a href="/2019/04/14/数据库开发（二）T-SQL的基本使用/">
-        <h2 class="post-title">
-            数据库开发（二）T-SQL的基本使用
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-04-14
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                SQL语句SQL全名是结构化查询语言（Structured Query Language），是关系数据库管理系统的标准语言。Sybase与Microsoft对标准SQL做了扩展，称为：T-SQL（Transact-SQL）。
-SQL主要分为DDL（数据定义语言）、DML（数据操作语言）和DCL（..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="发布者和订阅者"><a href="#发布者和订阅者" class="headerlink" title="发布者和订阅者"></a>发布者和订阅者</h2><p>很多程序都有一个共同的需求，既当一个特定的程序事件发生时，程序的其他部分可以得到该事件已经发生的通知。</p>
+<p><strong>发布者/订阅者模式（publisher/subscriber pattern）</strong>可以满足这种需求：</p>
+<ol>
+<li>发布者类定义了事件成员。</li>
+<li>订阅者注册在事件成员被触发时要调用的回调方法（事件处理程序）。</li>
+<li>当发布者触发事件时，执行订阅者提供的回调方法。</li>
+</ol>
+<p><img src="14-1.jpg" alt="14-1"></p>
+<p><strong>发布者（publisher）</strong>：发布某个事件的类或结构，其他类可以在该事件发生时得到通知。</p>
+<p><strong>订阅者（subscriber）</strong>：注册并在事件发生时得到通知的类或结构。</p>
+<p><strong>事件处理程序（event handler）</strong>：由订阅者注册到事件的方法，在发布者触发事件时执行。事件处理程序方法可以定义在事件所在的类或结构中，也可以定义在不同的类或结构中。</p>
+<p><strong>触发（raise）事件</strong>：调用或触发事件的术语。当事件触发时，所有注册到它的方法都会被依次调用。</p>
+<h2 id="源代码组件概览"><a href="#源代码组件概览" class="headerlink" title="源代码组件概览"></a>源代码组件概览</h2><p>需要在事件中使用的代码有5部分。</p>
+<ul>
+<li><strong>委托类型声明</strong>。事件和事件处理程序必须有共同的签名和返回类型，它们通过委托类型进行描述。</li>
+<li><strong>事件处理程序声明</strong>。订阅者类会在事件触发时执行的方法声明。它们不一定是有显式命名的方法，还可以是匿名方法或Lambda表达式。</li>
+<li><strong>事件声明</strong>。发布者类必须声明一个订阅者类可以注册的事件成员。当声明的事件为public时，称为发布了事件。</li>
+<li><strong>事件注册</strong>。订阅者必须订阅事件才能在它被触发时得到通知。</li>
+<li><strong>触发事件的代码</strong>。发布者类中“触发”事件并导致调用注册的所有事件处理程序的代码。</li>
 </ul>
+<p><img src="14-4.jpg" alt="14-4"></p>
+<h2 id="声明事件"><a href="#声明事件" class="headerlink" title="声明事件"></a>声明事件</h2><p>发布者类必须提供事件对象。创建事件比较简单，只需要委托类型和名字。</p>
+<ul>
+<li>事件声明在一个类中。</li>
+<li>它需要委托类型的名称，任何附加到事件（如注册）的处理程序都必须与委托类型的签名和返回类型匹配。</li>
+<li>它声明为public，这样其他类和结构可以在它上面注册事件处理程序。</li>
+<li>不能使用对象创建表达式（new表达式）来创建它的对象。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Incrementer</span></span><br><span class="line">&#123;</span><br><span class="line">           关键字   委托类型       事件名</span><br><span class="line">             ↓        ↓             ↓ </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> EventHandler CountedADozen;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以通过使用逗号分隔同时声明多个事件。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">event</span> EventHandler MyEvent1, MyEvent2, OtherEvent;</span><br></pre></td></tr></table></figure>
+<p>还可以使用static关键字让事件变成静态的。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">event</span> EventHandler CountedADozen;</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/07/07/C-图解教程之委托/" data-toggle="tooltip" data-placement="top"
+                           title="C#图解教程之委托">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
 
 
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#发布者和订阅者"><span class="toc-text">发布者和订阅者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源代码组件概览"><span class="toc-text">源代码组件概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明事件"><span class="toc-text">声明事件</span></a></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/zhdaa-headimg.jpg"/>
-                    
-                    <h5><a href="/about/">Zhendong Ho</a></h5>
-                    
-                    <p>知其然知其所以然</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/zhdaa">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="http://laibh.top">赖同学</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Music 网易云音乐 -->
-            
-            <!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=461525011&auto=1&height=66"></iframe>-->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=1&height=66"></iframe>
-            
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#ASP.NET Core" title="ASP.NET Core"
-                       rel="2">ASP.NET Core</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#C#" title="C#"
-                       rel="12">C#</a>
-                    
-                    
-                    
-                    <a href="/tags/#Java" title="Java"
-                       rel="8">Java</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#JavaScript" title="JavaScript"
-                       rel="3">JavaScript</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#jQuery" title="jQuery"
-                       rel="2">jQuery</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#SQL Server" title="SQL Server"
-                       rel="5">SQL Server</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://laibh.top" target="_blank">赖同学</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
-        
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
