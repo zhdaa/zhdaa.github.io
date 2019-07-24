@@ -209,6 +209,38 @@
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">event</span> EventHandler MyEvent1, MyEvent2, OtherEvent;</span><br></pre></td></tr></table></figure>
 <p>还可以使用static关键字让事件变成静态的。</p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">event</span> EventHandler CountedADozen;</span><br></pre></td></tr></table></figure>
+<h3 id="事件是成员"><a href="#事件是成员" class="headerlink" title="事件是成员"></a>事件是成员</h3><p><strong>事件不是类型，事件是类或结构的成员。</strong></p>
+<ul>
+<li>不能在一段可执行代码中声明事件。</li>
+<li>必须声明在类或结构中。</li>
+<li>事件成员被隐式初始化为null。</li>
+<li>事件声明需要委托类型的名字。</li>
+<li>BCL声明了一个叫做EventHandler的委托，专门用于系统事件。</li>
+</ul>
+<h2 id="订阅事件"><a href="#订阅事件" class="headerlink" title="订阅事件"></a>订阅事件</h2><p>订阅者向事件添加事件处理程序。</p>
+<p><strong>使用+=运算符来为事件增加事件处理程序。事件处理程序位于该运算符的右边。</strong></p>
+<p><strong>事件处理程序的规范可以是以下任意一种：</strong></p>
+<ul>
+<li>实例方法的名称</li>
+<li>静态方法的名称</li>
+<li>匿名方法</li>
+<li>Lambda表达式</li>
+</ul>
+<p>为CountedADozen事件增加3个方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">incrementer.CountedADozen += IncrementDozensCount;    <span class="comment">// 实例方法</span></span><br><span class="line">incrementer.CountedADozen += ClassB.CounterHandlerB;  <span class="comment">// 静态方法</span></span><br><span class="line">mc.CountedADozen += <span class="keyword">new</span> EventHandler(cc.CounterHandlerC); <span class="comment">// 委托形式</span></span><br></pre></td></tr></table></figure>
+<p>Lambda表达式和匿名方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">incrementer.CountedADozen += () =&gt; DozensCount++; <span class="comment">// Lambda表达式</span></span><br><span class="line">incrementer.CountedADozen += <span class="keyword">delegate</span> &#123; DozensCount++; &#125;; <span class="comment">// 匿名方法</span></span><br></pre></td></tr></table></figure>
+<h2 id="触发事件"><a href="#触发事件" class="headerlink" title="触发事件"></a>触发事件</h2><p><strong>在触发事件之前和null进行比较，从而查看是否包含事件处理程序，如果事件是null，则不能执行。</strong></p>
+<ul>
+<li>使用事件名称，后面跟的参数列表包含在圆括号中。</li>
+<li>参数列表必须与事件的委托类型相匹配。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (CountedADozen != <span class="literal">null</span>)		<span class="comment">// 确认有方法可以执行</span></span><br><span class="line">&#123;</span><br><span class="line">    CountedADozen (source, args);	<span class="comment">// 触发事件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a>完整示例</h3><ul>
+<li>在构造函数中，Dozens类订阅事件，将IncrementDozensCount作为事件处理程序。</li>
+<li>在Incrementer类的DoCount方法中，每增长12个数就触发CountedADozen事件。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">delegate</span> <span class="keyword">void</span> <span class="title">Handler</span>(<span class="params"></span>)</span>;	<span class="comment">// 声明委托</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 发布者类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Incrementer</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> Handler CountedADozen;	<span class="comment">// 创建事件并发布</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 触发事件的代码</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DoCount</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">100</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i % <span class="number">12</span> == <span class="number">0</span> &amp;&amp; CountedADozen != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                CountedADozen();	<span class="comment">// 触发事件，每增加12个计数触发一次</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 订阅者类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Dozens</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> DozensCount &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dozens</span>(<span class="params">Incrementer incrementer</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        DoZensCount = <span class="number">0</span>;</span><br><span class="line">        incrementer.CountedADozen += IncrementDozensCount;	<span class="comment">// 订阅事件</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 事件处理程序声明</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">IncremtentDozensCount</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        DozensCount++;	<span class="comment">// 声明事件处理程序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Incrementer incrementer = <span class="keyword">new</span> Incrementer();</span><br><span class="line">        Dozens dozensCounter = <span class="keyword">new</span> Dozens(incrementer);</span><br><span class="line">        </span><br><span class="line">        incrementer.DoCount();</span><br><span class="line">        Console.WriteLine(<span class="string">"Number of dozens = &#123;0&#125;"</span>, dozensCounter.DozensCount);	<span class="comment">// 8</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
@@ -237,7 +269,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#发布者和订阅者"><span class="toc-text">发布者和订阅者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源代码组件概览"><span class="toc-text">源代码组件概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明事件"><span class="toc-text">声明事件</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#发布者和订阅者"><span class="toc-text">发布者和订阅者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源代码组件概览"><span class="toc-text">源代码组件概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明事件"><span class="toc-text">声明事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件是成员"><span class="toc-text">事件是成员</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#订阅事件"><span class="toc-text">订阅事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#触发事件"><span class="toc-text">触发事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#完整示例"><span class="toc-text">完整示例</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
