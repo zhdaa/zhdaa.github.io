@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Zhendong&#39;s blog
+        C#图解教程之转换｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/tags/Oracle/">
+    <link rel="canonical" href="https://zhdaa.github.io/2019/08/01/C-图解教程之转换/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,196 +124,163 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/zhdaa-headimg.jpg"/>
-                        <h5><a href="/about/">Zhendong Ho</a></h5>
-                        <p>知其然知其所以然</p>
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>C#图解教程之转换</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-08-01
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            C#图解教程之转换
+        </span>
+    </div>
+</header>
 
-
-
-<div class="post-preview "
-     style="background-image: url('/images/post-ocean.jpg')">
-    <a href="/2018/10/29/Oracle工具介绍及安装配置/">
-        <h2 class="post-title">
-            Oracle工具介绍及安装配置
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-10-29
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                Oracle数据库技术Oracle是甲骨文公司的软件产品，是全球最优秀的数据库产品。
-Oracle版本介绍Oracle 9i
-Oracle 9i（其中“i”代表Internet），包括3部分。
-
-Oracle 9i数据库。又分为企业版、标准版和个人版。
-Oracle 9i应用服务器。有两种版本：..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="什么是转换"><a href="#什么是转换" class="headerlink" title="什么是转换"></a>什么是转换</h2><p>把一个变量（源）的值赋值给另一个变量（目标）。在赋值之前，<strong>源的值必须转换成目标类型的值</strong>。</p>
+<p><img src="16-1.jpg" alt="16-1"></p>
+<p>例：两个不同类型的变量的赋值。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">short</span> var1 = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">sbyte</span> var2 = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">var2 = (<span class="keyword">sbyte</span>)var1;	<span class="comment">// 强制转换表达式，把var1值转换为sbyte类型</span></span><br></pre></td></tr></table></figure>
+<p><img src="16-2.jpg" alt="16-2"></p>
+<h2 id="隐式转换"><a href="#隐式转换" class="headerlink" title="隐式转换"></a>隐式转换</h2><p>有些类型的转换不会丢失数据或精度。如<strong>短类型转化为长类型</strong>。</p>
+<ul>
+<li>语言会自动做这些转换，这叫做<strong>隐式转换</strong>。</li>
+<li>从位数更少的源转换为位数更多的目标类型时，目标中多出来的位需要用0或1填充。</li>
+<li>当从<strong>更小的无符号类型转换为更大的无符号类型</strong>时，目标类型多出来的最高位都以0进行填充，这叫做<strong>零扩展</strong>。</li>
 </ul>
+<p>例：使用零扩展把8位的10转化为16位的10。</p>
+<p><img src="16-3.jpg" alt="16-3"></p>
+<p>对于<strong>有符号类型</strong>的转换而言，额外的高位用<strong>源表达式的符号位</strong>进行填充。这样维持了<strong>被转换的值的正确符号和大小</strong>。这叫做<strong>符号扩展</strong>。</p>
+<p>例：10和-10的转换。</p>
+<p><img src="16-4.jpg" alt="16-4"></p>
+<h2 id="显式转换和强制转换"><a href="#显式转换和强制转换" class="headerlink" title="显式转换和强制转换"></a>显式转换和强制转换</h2><p>把<strong>长类型转化为短类型</strong>的时候，有可能会损失精度。</p>
+<p>例：把1365的ushort类型转换为byte类型会导致数据丢失。</p>
+<p><img src="16-5.jpg" alt="16-5"></p>
+<p>因为，<strong>ushort的范围是0~65535，而byte的范围是0~255。源值是1365，而目标的最大值只能是255，所以源值的最高位的数据会丢失。</strong>最终结果值为85。</p>
+<h3 id="强制转换"><a href="#强制转换" class="headerlink" title="强制转换"></a>强制转换</h3><p>对于预定义的类型，C#会自动完成类型转换。但是<strong>只针对那些从源类型到目标类型不会发生数据丢失的情况</strong>。</p>
+<p>对于会发生数据丢失的情况，必须使用<strong>强制转换表达式</strong>，这就是<strong>显式转换</strong>。</p>
+<p>例：强制转换表达式将两个ushort类型的值转换为byte类型。第一种没有数据丢失，第二种最高位丢失了。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ushort</span> sh = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">byte</span> sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 10 = 0xA</span></span><br><span class="line"></span><br><span class="line">sh = <span class="number">1365</span>;</span><br><span class="line">sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 1365 = 0x55</span></span><br></pre></td></tr></table></figure>
+<p><img src="16-6.jpg" alt="16-6"></p>
+<p><strong>注意：</strong>sb = (byte)sh，即<strong>将长类型转换为短类型，必须使用强制转换</strong>，否则会编译错误。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/07/29/C-图解教程之接口/" data-toggle="tooltip" data-placement="top"
+                           title="C#图解教程之接口">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
 
 
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是转换"><span class="toc-text">什么是转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式转换和强制转换"><span class="toc-text">显式转换和强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强制转换"><span class="toc-text">强制转换</span></a></li></ol></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/zhdaa-headimg.jpg"/>
-                    
-                    <h5><a href="/about/">Zhendong Ho</a></h5>
-                    
-                    <p>知其然知其所以然</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/zhdaa">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="http://laibh.top">赖同学</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Music 网易云音乐 -->
-            
-            <!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=461525011&auto=1&height=66"></iframe>-->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=1&height=66"></iframe>
-            
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    
-                    
-                    <a href="/tags/#ASP.NET Core" title="ASP.NET Core"
-                       rel="2">ASP.NET Core</a>
-                    
-                    
-                    
-                    <a href="/tags/#C#" title="C#"
-                       rel="14">C#</a>
-                    
-                    
-                    
-                    <a href="/tags/#Java" title="Java"
-                       rel="8">Java</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#JavaScript" title="JavaScript"
-                       rel="3">JavaScript</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#jQuery" title="jQuery"
-                       rel="2">jQuery</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#SQL Server" title="SQL Server"
-                       rel="5">SQL Server</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://laibh.top" target="_blank">赖同学</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
-        
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
