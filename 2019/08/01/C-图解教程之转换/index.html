@@ -202,6 +202,18 @@
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ushort</span> sh = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">byte</span> sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 10 = 0xA</span></span><br><span class="line"></span><br><span class="line">sh = <span class="number">1365</span>;</span><br><span class="line">sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 1365 = 0x55</span></span><br></pre></td></tr></table></figure>
 <p><img src="16-6.jpg" alt="16-6"></p>
 <p><strong>注意：</strong>sb = (byte)sh，即<strong>将长类型转换为短类型，必须使用强制转换</strong>，否则会编译错误。</p>
+<h2 id="转换的类型"><a href="#转换的类型" class="headerlink" title="转换的类型"></a>转换的类型</h2><p>有很多标准的、预定义的用于数字和引用类型的转换。</p>
+<p><img src="16-7.jpg" alt="16-7"></p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>除了标准转换，还可以<strong>为自定义类型定义隐式转换和显式转换</strong>。</li>
+<li>还有一个预定义的转换类型，叫做<strong>装箱</strong>，可以将任何值类型转换为：<strong>object类型、System.ValueType类型</strong>。</li>
+<li>拆箱可以将一个装箱的值转换为原始的值。</li>
+</ul>
+<h2 id="数字的转换"><a href="#数字的转换" class="headerlink" title="数字的转换"></a>数字的转换</h2><p><strong>任何数字都可以转换为其他数字类型。</strong>一些转换是隐式的，而另一些转换则必须是显式的。</p>
+<p><img src="16-8.jpg" alt="16-8"></p>
+<h3 id="隐式数字转换"><a href="#隐式数字转换" class="headerlink" title="隐式数字转换"></a>隐式数字转换</h3><p>源类型到目标类型<strong>按照箭头进行隐式转换</strong>。如果上方没有箭头，则需要<strong>显式转换</strong>。<strong>占据较少位的数字类型可以隐式转换为占据较多位的数字类型</strong>。</p>
+<p><img src="16-9.jpg" alt="16-9"></p>
 
                 <hr>
                 
@@ -230,7 +242,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是转换"><span class="toc-text">什么是转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式转换和强制转换"><span class="toc-text">显式转换和强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强制转换"><span class="toc-text">强制转换</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是转换"><span class="toc-text">什么是转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式转换和强制转换"><span class="toc-text">显式转换和强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强制转换"><span class="toc-text">强制转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#转换的类型"><span class="toc-text">转换的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字的转换"><span class="toc-text">数字的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式数字转换"><span class="toc-text">隐式数字转换</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
