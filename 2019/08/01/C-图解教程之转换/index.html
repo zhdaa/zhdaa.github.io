@@ -214,6 +214,52 @@
 <p><img src="16-8.jpg" alt="16-8"></p>
 <h3 id="隐式数字转换"><a href="#隐式数字转换" class="headerlink" title="隐式数字转换"></a>隐式数字转换</h3><p>源类型到目标类型<strong>按照箭头进行隐式转换</strong>。如果上方没有箭头，则需要<strong>显式转换</strong>。<strong>占据较少位的数字类型可以隐式转换为占据较多位的数字类型</strong>。</p>
 <p><img src="16-9.jpg" alt="16-9"></p>
+<h3 id="溢出检测上下文"><a href="#溢出检测上下文" class="headerlink" title="溢出检测上下文"></a>溢出检测上下文</h3><p>对于整数类型，C#给我们提供了选择运行时是否应该<strong>在进行类型转换时检测结果溢出</strong>的能力。通过<strong>checked运算符和checked语句</strong>来实现。</p>
+<ul>
+<li><p>代码片段是否被检查称作<strong>溢出检测上下文</strong>。</p>
+<ul>
+<li><p>如果我们指定一个表达式或一段代码为checked，CLR会在转换产生溢出时抛出一个OverflowException异常。</p>
+</li>
+<li><p>如果代码不是checked，转换会继续而不管是否产生溢出。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>默认的溢出检测上下文是不检查</strong>。</p>
+</li>
+</ul>
+<h4 id="checked和unchecked运算符"><a href="#checked和unchecked运算符" class="headerlink" title="checked和unchecked运算符"></a>checked和unchecked运算符</h4><p>checked和unchecked运算符控制<strong>表达式的溢出检测上下文</strong>。表达式放置在一对圆括号内并且<strong>不能是一个方法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">checked</span>(表达式);</span><br><span class="line"><span class="keyword">unchecked</span>(表达式);</span><br></pre></td></tr></table></figure>
+<p>例：在unchecked上下文中，会忽略溢出，结果值是208。在checked上下文中，抛出OverflowException异常。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ushort</span> sh = <span class="number">2000</span>;</span><br><span class="line"><span class="keyword">byte</span> sb;</span><br><span class="line"></span><br><span class="line">sb = <span class="keyword">unchecked</span>((<span class="keyword">byte</span>)sh);	<span class="comment">// 高位的数丢失了</span></span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125;"</span>, sb);	<span class="comment">// 208</span></span><br><span class="line"></span><br><span class="line">sb = <span class="keyword">checked</span>((<span class="keyword">byte</span>)sh);		<span class="comment">// 抛出OverflowException异常 Unhandled Exception: System.OverflowException: ...</span></span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125;"</span>, sb);</span><br></pre></td></tr></table></figure>
+<h4 id="checked语句和unchecked语句"><a href="#checked语句和unchecked语句" class="headerlink" title="checked语句和unchecked语句"></a>checked语句和unchecked语句</h4><p><strong>checked和unchecked运算符</strong>用于圆括号内的<strong>单个表达式</strong>。而<strong>checked和unchecked语句</strong>执行相同的功能，但控制的是一块代码中的所有转换。</p>
+<p>例：checked语句和unchecked语句可以被嵌套在任意层次。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">byte</span> sb;</span><br><span class="line"><span class="keyword">ushort</span> sh = <span class="number">2000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">unchecked</span>	<span class="comment">// 设置unchecked</span></span><br><span class="line">&#123;</span><br><span class="line">    sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">    Console.WriteLine(<span class="string">"sb: &#123;0&#125;"</span>, sb);	<span class="comment">// 显式溢出结果</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">checked</span>	<span class="comment">// 设置checked</span></span><br><span class="line">    &#123;</span><br><span class="line">        sb = (<span class="keyword">byte</span>)sh;	<span class="comment">// 抛出OverflowException异常</span></span><br><span class="line">        Console.WriteLine(<span class="string">"sb: &#123;0&#125;"</span>, sb);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="显式数字转换"><a href="#显式数字转换" class="headerlink" title="显式数字转换"></a>显式数字转换</h3><p>显式转换则可能会丢失数据。因此，作为一个程序员，知道发生数据丢失时转换会如何处理很重要。 </p>
+<p><img src="16-10.jpg" alt="16-10"></p>
+<h4 id="整数类型到整数类型"><a href="#整数类型到整数类型" class="headerlink" title="整数类型到整数类型"></a>整数类型到整数类型</h4><p>在checked的情况下，如果转换会丢失数据，操作会抛出一个OverflowException异常。在unchecked情况下，丢失的位不会发出警告。</p>
+<p><img src="16-11.jpg" alt="16-11"></p>
+<h4 id="float或double转到整数类型"><a href="#float或double转到整数类型" class="headerlink" title="float或double转到整数类型"></a>float或double转到整数类型</h4><p>把浮点类型转换为整数类型时，<strong>值会舍掉小数截断为最接近的整数</strong>。</p>
+<p>如果截断后的值不在目标类型的范围内：</p>
+<ul>
+<li>如果溢出检测上下文是checked，则CLR会抛出OverflowException异常。</li>
+<li>如果上下文是unchecked，则C#将不定义它的值应该是什么。</li>
+</ul>
+<p><img src="16-12.jpg" alt="16-12"></p>
+<h4 id="decimal到整数类型"><a href="#decimal到整数类型" class="headerlink" title="decimal到整数类型"></a>decimal到整数类型</h4><p>当从decimal转换到整数类型时，<strong>如果结果值不在目标类型的范围内，则CLR会抛出OverflowException</strong>。</p>
+<p><img src="16-13.jpg" alt="16-13"></p>
+<h4 id="double到float"><a href="#double到float" class="headerlink" title="double到float"></a>double到float</h4><p>float类型的值占32位，而double类型的值占64位。<strong>double类型的值被舍入到最接近的float类型的值</strong>。</p>
+<ul>
+<li>如果值太小而不能用float表示，那么值会被设置为<strong>正或负0</strong>。</li>
+<li>如果值太大而不能用float表示，那么值会被设置为<strong>正无穷大或负无穷大</strong>。</li>
+</ul>
+<p><img src="16-14.jpg" alt="16-14"></p>
+<h4 id="float或double到decimal"><a href="#float或double到decimal" class="headerlink" title="float或double到decimal"></a>float或double到decimal</h4><ul>
+<li>如果值太小而不能用decimal类型表示，那么值<strong>会被设置为0</strong>。</li>
+<li>如果值太大，那么CLR会<strong>抛出OverflowException异常</strong>。</li>
+</ul>
+<p><img src="16-15.jpg" alt="16-15"></p>
+<h4 id="decimal到float或double"><a href="#decimal到float或double" class="headerlink" title="decimal到float或double"></a>decimal到float或double</h4><p>从decimal类型转换到float类型总是会成功的。然而，<strong>可能会损失精度</strong>。</p>
+<p><img src="16-16.jpg" alt="16-16"></p>
 
                 <hr>
                 
@@ -242,7 +288,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是转换"><span class="toc-text">什么是转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式转换和强制转换"><span class="toc-text">显式转换和强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强制转换"><span class="toc-text">强制转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#转换的类型"><span class="toc-text">转换的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字的转换"><span class="toc-text">数字的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式数字转换"><span class="toc-text">隐式数字转换</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是转换"><span class="toc-text">什么是转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式转换和强制转换"><span class="toc-text">显式转换和强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强制转换"><span class="toc-text">强制转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#转换的类型"><span class="toc-text">转换的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字的转换"><span class="toc-text">数字的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式数字转换"><span class="toc-text">隐式数字转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#溢出检测上下文"><span class="toc-text">溢出检测上下文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#checked和unchecked运算符"><span class="toc-text">checked和unchecked运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#checked语句和unchecked语句"><span class="toc-text">checked语句和unchecked语句</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式数字转换"><span class="toc-text">显式数字转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#整数类型到整数类型"><span class="toc-text">整数类型到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#float或double转到整数类型"><span class="toc-text">float或double转到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decimal到整数类型"><span class="toc-text">decimal到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#double到float"><span class="toc-text">double到float</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#float或double到decimal"><span class="toc-text">float或double到decimal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decimal到float或double"><span class="toc-text">decimal到float或double</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
