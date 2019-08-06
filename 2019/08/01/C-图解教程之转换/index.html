@@ -260,6 +260,48 @@
 <p><img src="16-15.jpg" alt="16-15"></p>
 <h4 id="decimal到float或double"><a href="#decimal到float或double" class="headerlink" title="decimal到float或double"></a>decimal到float或double</h4><p>从decimal类型转换到float类型总是会成功的。然而，<strong>可能会损失精度</strong>。</p>
 <p><img src="16-16.jpg" alt="16-16"></p>
+<h2 id="引用转换"><a href="#引用转换" class="headerlink" title="引用转换"></a>引用转换</h2><p>引用类型对象由内存中的两部分组成：<strong>引用和数据</strong>。由引用保存的那部分信息是它指向的<strong>数据类型</strong>。引用转换接受源引用并返回一个<strong>指向堆中同一位置的引用</strong>，但是把引用“标记”为<strong>其他类型</strong>。</p>
+<p>例：引用转换示例。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">A</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Field1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">B</span> : <span class="title">A</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Field2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        B myVar1 = <span class="keyword">new</span> B();</span><br><span class="line">        A myVar2 = (A)myVar1;	<span class="comment">// 作为A类的引用返回myVar1的引用</span></span><br><span class="line">        Console.WriteLine(<span class="string">"&#123;0&#125;"</span>, myVar2.Field1);	<span class="comment">// 正确</span></span><br><span class="line">        Console.WriteLine(<span class="string">"&#123;0&#125;"</span>, myVar2.Field2);	<span class="comment">// 编译错误，Field2对myVar2不可见</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="16-17.jpg" alt=""></p>
+<h3 id="隐式引用转换"><a href="#隐式引用转换" class="headerlink" title="隐式引用转换"></a>隐式引用转换</h3><p><strong>隐式引用转换</strong>，与语言为我们自动实现的隐式数字转换类似。</p>
+<ul>
+<li>所有引用类型可以<strong>隐式转换为object类型</strong>。</li>
+<li>任何类型可以<strong>隐式转换到它继承的接口</strong>。</li>
+<li>类可以隐式转换到：<ol>
+<li>它继承链中的任何类。</li>
+<li>它实现的任何接口。</li>
+</ol>
+</li>
+</ul>
+<p><img src="16-18.jpg" alt=""></p>
+<p><strong>委托</strong>可以隐式转换成.NET BCL类和接口。如：<strong>System.Delegate、System.MulticastDelegate</strong>等。</p>
+<p><strong>ArrayS数组</strong>，其中的元素是Ts类型，可以隐式转换成：</p>
+<ul>
+<li>.NET BCL类和接口，如：<strong>System.ICloneable、System.IList、System.IEnumerable</strong>等。</li>
+<li>另一个数组ArrayT，其中的元素是Tt类型（如果满足下面的所有条件）。<ol>
+<li>两个数组有一样的维度。</li>
+<li>元素类型Ts和Tt都是引用类型。</li>
+<li>在类型Ts和Tt中存在隐式转换。</li>
+</ol>
+</li>
+</ul>
+<p><img src="16-19.jpg" alt=""></p>
+<h3 id="显式引用转换"><a href="#显式引用转换" class="headerlink" title="显式引用转换"></a>显式引用转换</h3><p><strong>显式引用转换</strong>：从一个普通类型，到一个<strong>更加精确类型</strong>的引用转换。</p>
+<p>显式转换包括：</p>
+<ul>
+<li>从object到任何引用类型的转换。</li>
+<li>从基类到从它继承的类的转换。</li>
+</ul>
+<p><strong>倒转图16-18、16-19的箭头方向，即为显式引用转换</strong>。</p>
+<p><strong>注意</strong>：如果转换的类型不受限制，很可能会导致我们很容易地尝试引用在内存中实际并不存在的类成员。然而，<strong>编译器允许这样的转换。然而，系统在运行时遇到它们，则会抛出一个异常</strong>。</p>
+<p>例：错误的显式引用转换。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">A</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Field1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">B</span> : <span class="title">A</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Field2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        A myVar1 = <span class="keyword">new</span> A();</span><br><span class="line">        B myVar2 = (B)myVar1;	<span class="comment">// 不安全，在运行时抛出异常</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果myVar2尝试访问Field2，它会尝试访问对象中的“B部分”的字段（它不再内存中），这回导致内存错误。</li>
+<li>运行时会捕获到这种不正确的强制转换并且抛出<strong>InvalidCastException异常</strong>。但是不会导致编译错误。</li>
+</ul>
+<p><img src="16-20.jpg" alt=""></p>
 
                 <hr>
                 
@@ -288,7 +330,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是转换"><span class="toc-text">什么是转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式转换和强制转换"><span class="toc-text">显式转换和强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强制转换"><span class="toc-text">强制转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#转换的类型"><span class="toc-text">转换的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字的转换"><span class="toc-text">数字的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式数字转换"><span class="toc-text">隐式数字转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#溢出检测上下文"><span class="toc-text">溢出检测上下文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#checked和unchecked运算符"><span class="toc-text">checked和unchecked运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#checked语句和unchecked语句"><span class="toc-text">checked语句和unchecked语句</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式数字转换"><span class="toc-text">显式数字转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#整数类型到整数类型"><span class="toc-text">整数类型到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#float或double转到整数类型"><span class="toc-text">float或double转到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decimal到整数类型"><span class="toc-text">decimal到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#double到float"><span class="toc-text">double到float</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#float或double到decimal"><span class="toc-text">float或double到decimal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decimal到float或double"><span class="toc-text">decimal到float或double</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是转换"><span class="toc-text">什么是转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式转换和强制转换"><span class="toc-text">显式转换和强制转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强制转换"><span class="toc-text">强制转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#转换的类型"><span class="toc-text">转换的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字的转换"><span class="toc-text">数字的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式数字转换"><span class="toc-text">隐式数字转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#溢出检测上下文"><span class="toc-text">溢出检测上下文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#checked和unchecked运算符"><span class="toc-text">checked和unchecked运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#checked语句和unchecked语句"><span class="toc-text">checked语句和unchecked语句</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式数字转换"><span class="toc-text">显式数字转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#整数类型到整数类型"><span class="toc-text">整数类型到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#float或double转到整数类型"><span class="toc-text">float或double转到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decimal到整数类型"><span class="toc-text">decimal到整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#double到float"><span class="toc-text">double到float</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#float或double到decimal"><span class="toc-text">float或double到decimal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decimal到float或double"><span class="toc-text">decimal到float或double</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用转换"><span class="toc-text">引用转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式引用转换"><span class="toc-text">隐式引用转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式引用转换"><span class="toc-text">显式引用转换</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
