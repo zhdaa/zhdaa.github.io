@@ -199,7 +199,7 @@
 <h3 id="强制转换"><a href="#强制转换" class="headerlink" title="强制转换"></a>强制转换</h3><p>对于预定义的类型，C#会自动完成类型转换。但是<strong>只针对那些从源类型到目标类型不会发生数据丢失的情况</strong>。</p>
 <p>对于会发生数据丢失的情况，必须使用<strong>强制转换表达式</strong>，这就是<strong>显式转换</strong>。</p>
 <p>例：强制转换表达式将两个ushort类型的值转换为byte类型。第一种没有数据丢失，第二种最高位丢失了。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ushort</span> sh = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">byte</span> sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 10 = 0xA</span></span><br><span class="line"></span><br><span class="line">sh = <span class="number">1365</span>;</span><br><span class="line">sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 55 = 0x55</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ushort</span> sh = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">byte</span> sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 10 = 0xA</span></span><br><span class="line"></span><br><span class="line">sh = <span class="number">1365</span>;</span><br><span class="line">sb = (<span class="keyword">byte</span>)sh;</span><br><span class="line">Console.WriteLine(<span class="string">"sb: &#123;0&#125; = 0x&#123;0:X&#125;"</span>, sb);	<span class="comment">// sb: 85 = 0x55</span></span><br></pre></td></tr></table></figure>
 <p><img src="16-6.jpg" alt="16-6"></p>
 <p><strong>注意：</strong>sb = (byte)sh，即<strong>将长类型转换为短类型，必须使用强制转换</strong>，否则会编译错误。</p>
 <h2 id="转换的类型"><a href="#转换的类型" class="headerlink" title="转换的类型"></a>转换的类型</h2><p>有很多标准的、预定义的用于数字和引用类型的转换。</p>
@@ -390,6 +390,11 @@
                 
 
                 <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/08/10/C-图解教程之泛型/" data-toggle="tooltip" data-placement="top"
+                           title="C#图解教程之泛型">&larr; Previous Post</a>
+                    </li>
                     
                     
                     <li class="next">
