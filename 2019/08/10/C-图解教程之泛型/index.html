@@ -263,6 +263,61 @@
 </tr>
 </tbody>
 </table>
+<h2 id="类型参数的约束"><a href="#类型参数的约束" class="headerlink" title="类型参数的约束"></a>类型参数的约束</h2><p>符合约束的类型参数叫做<strong>未绑定的类型参数（unbounded type parameter ）</strong>。如果代码尝试使用其他成员，编译器会产生一个错误信息。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">class Simple&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">LessThan</span>(<span class="params">T i1, T i2</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> i1 &lt; i2;	<span class="comment">// 错误，不是所有的类都实现了小于运算符</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要让泛型变得更有用，需要提供额外的信息<strong>让编译器知道参数可以接受哪些类型</strong>。这些额外的信息就叫做<strong>约束（constraint）</strong>。只有符合约束的类型才能替代给定的类型参数，来产生构造类型。</p>
+<h3 id="Where子句"><a href="#Where子句" class="headerlink" title="Where子句"></a>Where子句</h3><p>约束使用<strong>where子句</strong>列出。每一个有约束的类型参数有自己的where子句。如果形参有多个约束，它们在where子句中<strong>使用逗号分隔</strong>。</p>
+<p><strong>where子句的语法如下：</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">关键字  类型参数            约束列表</span><br><span class="line">  ↓       ↓                   ↓</span><br><span class="line"><span class="keyword">where</span> TypeParam : constraint, constraint, ...</span><br></pre></td></tr></table></figure>
+<p><strong>要点</strong>：</p>
+<ul>
+<li>它们在<strong>类型参数列表的关闭尖括号</strong>之后列出。</li>
+<li>它们之间不适用逗号或其他符号分隔。</li>
+<li>它们可以以任意次序列出。</li>
+<li>where是<strong>上下文关键字</strong>，所以可以在其他上下文中使用。</li>
+</ul>
+<p>例：where子句示例。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">class MyClass&lt;T1, T2, T3&gt;	// T2、T3具有约束，T1未绑定约束</span><br><span class="line">                <span class="keyword">where</span> T2 : Customer	<span class="comment">// 此处没有分隔符</span></span><br><span class="line">                <span class="keyword">where</span> T3 : IComparable</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="约束类型和次序"><a href="#约束类型和次序" class="headerlink" title="约束类型和次序"></a>约束类型和次序</h3><p>共有<strong>5种类型</strong>的约束：</p>
+<table>
+<thead>
+<tr>
+<th>约束类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类名</td>
+<td>只有<strong>这个类型的类，或从它继承的类</strong>才能用作类型实数</td>
+</tr>
+<tr>
+<td>class</td>
+<td><strong>任何引用类型</strong>，包括类、数组、委托和接口都可以用作类型实参</td>
+</tr>
+<tr>
+<td>struct</td>
+<td><strong>任何值类型</strong>都可以用作类型实参</td>
+</tr>
+<tr>
+<td>接口名</td>
+<td>只有<strong>这个接口</strong>或<strong>实现这个接口的类型</strong>才能用作类型实参</td>
+</tr>
+<tr>
+<td>new()</td>
+<td>任何<strong>带有无参公共构造函数的类型</strong>都可以用作类型实参，叫做<strong>构造函数约束</strong></td>
+</tr>
+</tbody>
+</table>
+<p>where子句可以以任何次序列出，但是，<strong>where子句中的约束必须有特定的顺序</strong>：</p>
+<ul>
+<li>最多只能有一个主约束，如果有则必须放在第一位。<strong>（类名、class、struct最多只能有一个）</strong></li>
+<li>可以有<strong>任意多的接口名约束</strong>。</li>
+<li><strong>如果存在构造函数约束，则必须放在最后</strong>。</li>
+</ul>
+<p><img src="17-9.jpg" alt=""></p>
+<p>例：约束示例。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">class SortedList&lt;S&gt;</span><br><span class="line">            <span class="keyword">where</span> S : IComparable&lt;S&gt; &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">class LinkedList&lt;M, N&gt;</span><br><span class="line">            <span class="keyword">where</span> M : IComparable&lt;M&gt;</span><br><span class="line">            <span class="keyword">where</span> N : ICloneable &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">class MyDictionary&lt;KeyType, ValueType&gt;</span><br><span class="line">            <span class="keyword">where</span> KeyType : IEnumerable, <span class="keyword">new</span>() &#123; ... &#125;</span><br></pre></td></tr></table></figure>
 
                 <hr>
                 
@@ -291,7 +346,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是泛型"><span class="toc-text">什么是泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一个栈的示例"><span class="toc-text">一个栈的示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-中的泛型"><span class="toc-text">C#中的泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#继续栈的示例"><span class="toc-text">继续栈的示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型类"><span class="toc-text">泛型类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明泛型类"><span class="toc-text">声明泛型类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建构造类型"><span class="toc-text">创建构造类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类型参数和类型实参的区别"><span class="toc-text">类型参数和类型实参的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建变量和实例"><span class="toc-text">创建变量和实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用泛型的栈的示例"><span class="toc-text">使用泛型的栈的示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较泛型和非泛型栈"><span class="toc-text">比较泛型和非泛型栈</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是泛型"><span class="toc-text">什么是泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一个栈的示例"><span class="toc-text">一个栈的示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-中的泛型"><span class="toc-text">C#中的泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#继续栈的示例"><span class="toc-text">继续栈的示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型类"><span class="toc-text">泛型类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明泛型类"><span class="toc-text">声明泛型类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建构造类型"><span class="toc-text">创建构造类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类型参数和类型实参的区别"><span class="toc-text">类型参数和类型实参的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建变量和实例"><span class="toc-text">创建变量和实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用泛型的栈的示例"><span class="toc-text">使用泛型的栈的示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较泛型和非泛型栈"><span class="toc-text">比较泛型和非泛型栈</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型参数的约束"><span class="toc-text">类型参数的约束</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Where子句"><span class="toc-text">Where子句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#约束类型和次序"><span class="toc-text">约束类型和次序</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
