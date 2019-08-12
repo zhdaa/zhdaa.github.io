@@ -196,6 +196,73 @@
 <p><img src="17-2.jpg" alt=""></p>
 <h3 id="继续栈的示例"><a href="#继续栈的示例" class="headerlink" title="继续栈的示例"></a>继续栈的示例</h3><p>将MyIntStack和MyFloatStack两个类改为MyStack<strong>泛型类</strong>。</p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">class MyStack&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> StackPointer = <span class="number">0</span>;</span><br><span class="line">    T[] StackArray;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Push</span>(<span class="params">T x</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">Pop</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h2><p>创建和使用常规的、非泛型类有两个步骤：<strong>声明类和创建类的实例</strong>。但是泛型类不是实际的类，而是类的模板，所以我们必须<strong>先从它们构建实际的类类型，然后创建这个构建后的类类型的实例</strong>：</p>
+<ol>
+<li>在某些类型上使用<strong>占位符</strong>来声明一个类。</li>
+<li>为占位符提供真实类型。这样就有了真实类的定义，填补了所有的“空缺”。该类型称为<strong>构造类型（constructed type）</strong>。</li>
+<li>创建构造类型的实例。</li>
+</ol>
+<p><img src="17-3.jpg" alt=""></p>
+<h2 id="声明泛型类"><a href="#声明泛型类" class="headerlink" title="声明泛型类"></a>声明泛型类</h2><p>如何声明泛型类：</p>
+<ul>
+<li>在类名后放置一组<strong>尖括号</strong>。</li>
+<li>在尖括号中用逗号分隔的的占位符字符串来表示希望提供的类型。这叫做<strong>类型参数（type parameter）</strong>。</li>
+<li>在泛型类声明的主体中<strong>使用类型参数来表示应该替代的类型</strong>。</li>
+</ul>
+<p>例：声明泛型类示例。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">class SomeClass&lt;T1, T2&gt;	// 类型参数：T1 T2</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> T1 SomeVar;</span><br><span class="line">    <span class="keyword">public</span> T2 OtherVar;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：在泛型类型声明中<strong>没有特殊的关键字</strong>。取而代之的是<strong>尖括号中的类型参数列表</strong>，它可以区分泛型类与普通类的声明。</p>
+<h2 id="创建构造类型"><a href="#创建构造类型" class="headerlink" title="创建构造类型"></a>创建构造类型</h2><p>一旦创建了泛型类型，我们就需要告诉编译器能使用哪些真实类型来替代占位符（类型参数）。</p>
+<p>创建构造类型的语法如下，要替代类型参数的真实类型叫做<strong>类型实参（type argument）</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">SomeClass&lt;<span class="keyword">short</span>, <span class="keyword">int</span>&gt;	<span class="comment">// 类型实参：short、int</span></span><br></pre></td></tr></table></figure>
+<p>下图为声明泛型类型和创建构造类。</p>
+<p><img src="17-4.jpg" alt=""></p>
+<h3 id="类型参数和类型实参的区别"><a href="#类型参数和类型实参的区别" class="headerlink" title="类型参数和类型实参的区别"></a>类型参数和类型实参的区别</h3><ul>
+<li>泛型类声明上的类型参数用作<strong>类型的占位符</strong>。</li>
+<li>在创建构造类型时，提供的真实类型是<strong>类型实参</strong>。</li>
+</ul>
+<p><img src="17-5.jpg" alt=""></p>
+<h2 id="创建变量和实例"><a href="#创建变量和实例" class="headerlink" title="创建变量和实例"></a>创建变量和实例</h2><p>在创建引用和实例方面，构造类类型的使用和常规类型相似。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">MyNonGenClass myNGC = <span class="keyword">new</span> MyNonGenClass();</span><br><span class="line">SomeClass&lt;<span class="keyword">short</span>, <span class="keyword">int</span>&gt; mySc1 = <span class="keyword">new</span> SomeClass&lt;<span class="keyword">short</span>, <span class="keyword">int</span>&gt;();	<span class="comment">// 创建构造类实例</span></span><br><span class="line"><span class="keyword">var</span> mySc2 = <span class="keyword">new</span> SomeClass&lt;<span class="keyword">short</span>, <span class="keyword">int</span>&gt;();</span><br></pre></td></tr></table></figure>
+<p>和非泛型一样，用用和实例可以分开创建。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">SomeClass&lt;<span class="keyword">short</span> ,<span class="keyword">int</span>&gt; myInst;</span><br><span class="line">myInst = <span class="keyword">new</span> SomeClass&lt;<span class="keyword">short</span>, <span class="keyword">int</span>&gt;();</span><br></pre></td></tr></table></figure>
+<p>可以从同一个泛型类型<strong>构建出很多不同的类类型</strong>。每一个都有独立的类类型，就好像它们都有独立的非泛型类声明一样。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">class SomeClass&lt;T1, T2&gt;</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> first = <span class="keyword">new</span> SomeClass&lt;<span class="keyword">short</span>, <span class="keyword">int</span>&gt;();	<span class="comment">// 构造的类型</span></span><br><span class="line">    <span class="keyword">var</span> second = <span class="keyword">new</span> SomeClass&lt;<span class="keyword">int</span>, <span class="keyword">long</span>&gt;();	<span class="comment">// 构造的类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="17-7.jpg" alt=""></p>
+<h3 id="使用泛型的栈的示例"><a href="#使用泛型的栈的示例" class="headerlink" title="使用泛型的栈的示例"></a>使用泛型的栈的示例</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">class MyStack&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    T[] StackArray;</span><br><span class="line">    <span class="keyword">int</span> StackPointer = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> MaxStack = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">bool</span> IsStackFull</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> StackPointer &gt;= MaxStack;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">bool</span> IsStackEmpty</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> StackPointer &lt;= <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyStack</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        StackArray = <span class="keyword">new</span> T[MaxStack];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Push</span>(<span class="params">T x</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsStackFull)</span><br><span class="line">        &#123;</span><br><span class="line">            StackArray[StackPointer++] = x;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">Pop</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (!IsStackEmpty) ? StackArray[--StackPointer] : StackArray[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = StackPointer - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">         &#123;</span><br><span class="line">             Console.WriteLine(<span class="string">"   Value: &#123;0&#125;"</span>, StackArray[i]);</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        MyStack&lt;<span class="keyword">int</span>&gt; stackInt = <span class="keyword">new</span> MyStack&lt;<span class="keyword">int</span>&gt;();</span><br><span class="line">        MyStack&lt;<span class="keyword">string</span>&gt; stackString = <span class="keyword">new</span> MyStack&lt;<span class="keyword">string</span>&gt;();</span><br><span class="line">        </span><br><span class="line">        stackInt.Push(<span class="number">3</span>);</span><br><span class="line">        stackInt.Push(<span class="number">5</span>);</span><br><span class="line">        stackInt.Push(<span class="number">7</span>);</span><br><span class="line">        stackInt.Push(<span class="number">9</span>);</span><br><span class="line">        StackInt.Print();</span><br><span class="line">        </span><br><span class="line">        StackString.Push(<span class="string">"This is fun"</span>);</span><br><span class="line">        stackString.Push(<span class="string">"Hi there!  "</span>);</span><br><span class="line">        stackString.Print();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<p><img src="17-6-1.jpg" alt=""></p>
+<h3 id="比较泛型和非泛型栈"><a href="#比较泛型和非泛型栈" class="headerlink" title="比较泛型和非泛型栈"></a>比较泛型和非泛型栈</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>非泛型</th>
+<th>泛型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>源代码大小</td>
+<td>更大：我们需要为每一种类型编写一个<br>新的实现</td>
+<td>更小：不管构造类型的数量有多少，<br>我们只需要一个实现</td>
+</tr>
+<tr>
+<td>可执行大小</td>
+<td>无论每一个版本的栈是否会被使用，<br>都会在编译的版本中出现</td>
+<td>可执行文件中只会出现有构造类型的类型</td>
+</tr>
+<tr>
+<td>写的难易度</td>
+<td>易于书写，因为它更具体</td>
+<td>比较难写，因为它更抽象</td>
+</tr>
+<tr>
+<td>维护的难易度</td>
+<td>更容易出问题，因为所有修改需要应用到<br>每一个可用的类型上</td>
+<td>易于维护，因为只需要修改一个地方</td>
+</tr>
+</tbody>
+</table>
 
                 <hr>
                 
@@ -224,7 +291,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是泛型"><span class="toc-text">什么是泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一个栈的示例"><span class="toc-text">一个栈的示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-中的泛型"><span class="toc-text">C#中的泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#继续栈的示例"><span class="toc-text">继续栈的示例</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是泛型"><span class="toc-text">什么是泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一个栈的示例"><span class="toc-text">一个栈的示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-中的泛型"><span class="toc-text">C#中的泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#继续栈的示例"><span class="toc-text">继续栈的示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型类"><span class="toc-text">泛型类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明泛型类"><span class="toc-text">声明泛型类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建构造类型"><span class="toc-text">创建构造类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类型参数和类型实参的区别"><span class="toc-text">类型参数和类型实参的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建变量和实例"><span class="toc-text">创建变量和实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用泛型的栈的示例"><span class="toc-text">使用泛型的栈的示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较泛型和非泛型栈"><span class="toc-text">比较泛型和非泛型栈</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
