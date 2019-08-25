@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        C#图解教程之枚举器和迭代器｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2019/08/25/C-图解教程之枚举器和迭代器/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>C#图解教程之枚举器和迭代器</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-08-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            C#图解教程之枚举器和迭代器
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="枚举器和可枚举类型"><a href="#枚举器和可枚举类型" class="headerlink" title="枚举器和可枚举类型"></a>枚举器和可枚举类型</h2><p>我们都知道，可以用<strong>foreach语句</strong>遍历数组中的元素。但是，为什么数组可以被foreach语句处理呢？</p>
+<h3 id="使用foreach语句"><a href="#使用foreach语句" class="headerlink" title="使用foreach语句"></a>使用foreach语句</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>[] arr1 = &#123; <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span> &#125;;	<span class="comment">// 定义数组</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">int</span> item <span class="keyword">in</span> arr1)	<span class="comment">// 枚举元素</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"Item value: &#123;0&#125;"</span>, item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<p><img src="18-r1.jpg" alt=""></p>
+<p><strong>思考</strong>：为什么数组可以这么做？原因是数组可以按需提供一个叫做<strong>枚举器（enumerator）</strong>的对象。枚举器可以<strong>依次返回请求的数组中的元素</strong>。枚举器“知道”项的次序并且跟踪它在序列中的位置，然后返回请求的当前项。</p>
+<p>对于有枚举器的类型而言，必须有一个方法来获取它。获取一个对象枚举器的方法是<strong>调用对象的GetEnumerator方法</strong>。实现GetEnumerator方法的类型叫做<strong>可枚举类型（enumerable type或enumerable）</strong>。数组是可枚举类型。</p>
+<p><strong>可枚举类型和枚举器之间的关系</strong>：</p>
+<p><img src="18-1.jpg" alt=""></p>
+<p>foreach结构设计用来和可枚举类型一起使用。只要给它的遍历对象是可枚举类型，比如数组，它就会执行如下行为：</p>
+<ul>
+<li>通过调用GetEnumerator方法获取对象的枚举器。</li>
+<li>从枚举器中请求每一项并且把它作为<strong>迭代变量（iteration variable）</strong>，代码可以读取该变量但<strong>不可以改变</strong>。</li>
+</ul>
+<h2 id="IEnumerator接口"><a href="#IEnumerator接口" class="headerlink" title="IEnumerator接口"></a>IEnumerator接口</h2><p>实现了IEnumerator接口的枚举器<strong>包含3个函数成员</strong>：<strong>Current、MoveNext以及Reset</strong>。</p>
+<p><strong>Current</strong>：返回序列中<strong>当前位置项</strong>的<strong>属性</strong>。</p>
+<ul>
+<li>它是只读属性。</li>
+<li>它返回object类型的引用，所以<strong>可以返回任何类型</strong>。</li>
+</ul>
+<p><strong>MoveNext</strong>：把枚举器位置<strong>向前到集合中的下一项</strong>的<strong>方法</strong>。</p>
+<ul>
+<li>它也<strong>返回布尔值</strong>，指示新的位置是有效位置还是已经超过了序列的尾部。</li>
+<li>如果新的位置是有效的，方法返回true。</li>
+<li>如果新的位置是无效的（比如当前位置到达了尾部），方法返回false。</li>
+<li>枚举器的原始位置在序列中的第一项之前，因此MoveNext<strong>必须在第一次使用Current之前调用</strong>。</li>
+</ul>
+<p><strong>Reset</strong>：把位置<strong>重置为原始状态</strong>的<strong>方法</strong>。</p>
+<p><img src="18-2.jpg" alt=""></p>
+<p><strong>注意</strong>：枚举器与序列中的当前项保持联系的方式<strong>完全取决于实现</strong>。可以通过对象引用、索引值或其他方式实现。<strong>对于内置的一维数组来说，就使用项的索引</strong>。</p>
+<p>有了集合的枚举器，我们就可以使用MoveNext和Current成员来模仿foreach循环遍历集合中的项。</p>
+<p>例：手动做foreach语句自动做的事情。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] myArray = &#123; <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span> &#125;;		<span class="comment">// 创建数组</span></span><br><span class="line">        IEnumerator ie = myArray.GetEnumerator();	<span class="comment">// 获取枚举器</span></span><br><span class="line">        <span class="keyword">while</span> (ie.MoveNext)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> i = (<span class="keyword">int</span>)ie.Current;	<span class="comment">// 获取当前项</span></span><br><span class="line">            Console.WriteLine(<span class="string">"&#123;0&#125;"</span>, i);	<span class="comment">// 输出</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="18-4.jpg" alt=""></p>
+<h3 id="IEnumerable接口"><a href="#IEnumerable接口" class="headerlink" title="IEnumerable接口"></a>IEnumerable接口</h3><p>可枚举类是指实现了IEnumerable接口的类。IEnumerable接口只有一个成员，就是<strong>GetEnumerator方法</strong>，它<strong>返回对象的枚举器</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">MyClass</span> : <span class="title">IEnumerable</span>	<span class="comment">// 实现IEnumerable接口</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> IEnumerator <span class="title">GetEnumerator</span>(<span class="params"></span>)	<span class="comment">// 返回IEnumerator类型的对象</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用IEnumerable和IEnumerator的实例"><a href="#使用IEnumerable和IEnumerator的实例" class="headerlink" title="使用IEnumerable和IEnumerator的实例"></a>使用IEnumerable和IEnumerator的实例</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">ColorEnumerator</span> : <span class="title">IEnumerator</span>	<span class="comment">// 枚举器的具体实现</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">string</span>[] _colors;</span><br><span class="line">    <span class="keyword">int</span> _position = <span class="number">-1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ColorEnumerator</span>(<span class="params"><span class="keyword">string</span>[] theColors</span>)	<span class="comment">// 构造函数</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _color = <span class="keyword">new</span> <span class="keyword">string</span>[theColors.Lengeh];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; theColors.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            _colors[i] = theColors[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">object</span> Current	<span class="comment">// 实现Current</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_position == <span class="number">-1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidOperationException();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (_position &gt;= _colors.Length)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidOperationException();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> _colors[_position];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">MoveNext</span>(<span class="params"></span>)	<span class="comment">// 实现MoveNext</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (_position &lt; _colors.Length - <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            _position++;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Reset</span>(<span class="params"></span>)	<span class="comment">// 实现Reset</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _postion = <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Spectrum</span> : <span class="title">IEnumerable</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">string</span>[] Colors = &#123; <span class="string">"violet"</span>, <span class="string">"blue"</span>, <span class="string">"cyan"</span>, <span class="string">"green"</span>, <span class="string">"yellow"</span>, <span class="string">"orange"</span>, <span class="string">"red"</span> &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IEnumerator <span class="title">GetEnumerator</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ColorEnumerator(Colors);	<span class="comment">// 返回一个枚举器的实现</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Spectrum spectrum = <span class="keyword">new</span> Spectrum();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">string</span> color <span class="keyword">in</span> spectrum)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(color);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<p><img src="18-r2.jpg" alt=""></p>
+<h2 id="泛型枚举接口"><a href="#泛型枚举接口" class="headerlink" title="泛型枚举接口"></a>泛型枚举接口</h2><p>目前我们描述的枚举接口都是非泛型版本的。实际上，在大多数情况下应该使用<strong>泛型版本IEnumerable&lt;T&gt;和IEnumerator&lt;T&gt;</strong>。区别如下。</p>
+<p><strong>对于非泛型接口形式</strong>：</p>
+<ul>
+<li>IEnumerable接口的GetEnumerator方法<strong>返回实现IEnumerator枚举器类的实例</strong>。</li>
+<li>实现IEnumerator的类实现了<strong>Current属性</strong>，它<strong>返回object类型的引用</strong>，然后我们必须把它<strong>转化为实际类型的对象</strong>。</li>
+</ul>
+<p><strong>对于泛型接口形式</strong>：</p>
+<ul>
+<li>IEnumerable&lt;T&gt;接口的GetEnumerator方法<strong>返回实现IEnumerator&lt;T&gt;的枚举器类的实例</strong>。</li>
+<li>实现IEnumerator&lt;T&gt;的类实现了<strong>Current属性</strong>，它<strong>返回实际类型的对象</strong>，<strong>而不是object基类的引用</strong>。</li>
+</ul>
+<p><strong>注意</strong>：我们目前所看到的<strong>非泛型接口的实现不是类型安全的</strong>。它们<strong>返回object类型的引用</strong>，然后必须转化为实际类型。而<strong>泛型接口的枚举器是类型安全的</strong>，<strong>它返回实际类型的引用</strong>。</p>
+<p><img src="18-7.jpg" alt=""></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/08/10/C-图解教程之泛型/" data-toggle="tooltip" data-placement="top"
+                           title="C#图解教程之泛型">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举器和可枚举类型"><span class="toc-text">枚举器和可枚举类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用foreach语句"><span class="toc-text">使用foreach语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IEnumerator接口"><span class="toc-text">IEnumerator接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IEnumerable接口"><span class="toc-text">IEnumerable接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用IEnumerable和IEnumerator的实例"><span class="toc-text">使用IEnumerable和IEnumerator的实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型枚举接口"><span class="toc-text">泛型枚举接口</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhdaa">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2019
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
