@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        C#图解教程之LINQ｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2019/08/26/C-图解教程之LINQ/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>C#图解教程之LINQ</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-08-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            C#图解教程之LINQ
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="什么是LINQ"><a href="#什么是LINQ" class="headerlink" title="什么是LINQ"></a>什么是LINQ</h2><p>在关系型数据库系统中，数据被组织放入规范化很好的表中，并且通过简单且强大的SQL语言来进行访问。因为数据在表中遵从某些严格的规则，所以SQL可以和它们很好的配合使用。<br>然而，在程序中却与数据库相反，保存在类对象或结构中的数据差异很大。因此，没有通用的查询语言来从数据结构中获取数据。从对象获取数据的方法一直都是作为程序的一部分而设计的。然而<strong>使用LINQ可以很轻松地查询对象集合</strong>。</p>
+<p>LINQ的重要高级特性：</p>
+<ul>
+<li><strong>LINQ</strong>代表<strong>语言集成查询（Language Integrated Query）</strong>。</li>
+<li>LINQ是.NET框架的扩展，它允许我们<strong>以使用SQL查询数据库的方式来查询数据集合</strong>。</li>
+<li>使用LINQ，可以从<strong>数据库</strong>、<strong>程序对象的集合</strong>以及<strong>XML文档</strong>中查询数据。</li>
+</ul>
+<p>例：LINQ示例。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] numbers = &#123; <span class="number">2</span>, <span class="number">12</span>, <span class="number">5</span>, <span class="number">15</span> &#125;;</span><br><span class="line">        IEnumerable&lt;<span class="keyword">int</span>&gt; lowNums = <span class="keyword">from</span> n <span class="keyword">in</span> numbers	<span class="comment">// 定义并存储查询</span></span><br><span class="line">                                    <span class="keyword">where</span> n &lt; <span class="number">10</span></span><br><span class="line">                                    <span class="keyword">select</span> n;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> x <span class="keyword">in</span> lowNums)	<span class="comment">// 执行查询</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">"&#123;0&#125; "</span>, x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：2，5。</p>
+<h2 id="LINQ提供程序"><a href="#LINQ提供程序" class="headerlink" title="LINQ提供程序"></a>LINQ提供程序</h2><p>LINQ还可以和<strong>各种类型的数据源</strong>一起工作，如SQL数据库、XML文档等。然而，对于每一种数据源类型，在其背后一定有根据该数据源类型实现LINQ查询的代码模块。这些代码模块叫做<strong>LINQ提供程序（provider）</strong>。</p>
+<ul>
+<li>微软为一些常见的数据源类型提供了LINQ提供程序。</li>
+<li>可以使用任何支持LINQ的语言来查询有LINQ提供程序的数据源类型。</li>
+<li>第三方在不断提供针对各种数据源类型的LINQ提供程序。</li>
+</ul>
+<p><img src="19-1.jpg" alt=""></p>
+<h3 id="匿名类型"><a href="#匿名类型" class="headerlink" title="匿名类型"></a>匿名类型</h3><p><strong>匿名类型（anonymous type）</strong>经常用于LINQ查询的结果中。</p>
+<p>例：创建和使用匿名类型的示例。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 必须使用var</span></span><br><span class="line">        <span class="keyword">var</span> student = <span class="keyword">new</span> &#123; Name = <span class="string">"Mary Jones"</span>, Age = <span class="number">19</span>, Major = <span class="string">"History"</span> &#125;;	<span class="comment">// 匿名对象初始化语句</span></span><br><span class="line">        Console.WriteLine(<span class="string">"&#123;0&#125;, Age &#123;1&#125;, Major: &#123;2&#125;"</span>, student.Name, student.Age, student.Major);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<p><img src="19-r1.jpg" alt=""></p>
+<p><strong>匿名类型的重要事项</strong>：</p>
+<ul>
+<li>匿名类型只能<strong>和局部变量配合使用</strong>，<strong>不能用于类成员</strong>。</li>
+<li>由于匿名类型没有名字，我们必须<strong>使用var关键字</strong>作为变量类型。</li>
+<li>不能设置匿名类型对象的属性。编译器为匿名类型创建的<strong>属性是只读的</strong>。</li>
+</ul>
+<p>当编译器遇到匿名类型的对象初始化语句时，它创建了一个<strong>有名字的新类类型</strong>。对于每一个成员初始化语句，它<strong>推断其类型</strong>并<strong>创建一个只读属性</strong>来访问它的值。<strong>属性和成员初始化语句具有相同的名字</strong>。匿名类型被构造后，编译器<strong>创建了这个类型的对象</strong>。</p>
+<p>除了对象初始化语句的赋值形式，匿名类型的对象初始化语句还有两种形式：<strong>简单标识符</strong>和<strong>成员访问表达式</strong>。这两种形式叫做<strong>投影初始化语句（projection initializer）</strong>。</p>
+<p>例：第一个成员初始化语句是赋值形式，第二个是成员访问表达式，第三个是标识符形式。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student = <span class="keyword">new</span> &#123; Age = <span class="number">19</span>, Other.Name, Major &#125;;</span><br></pre></td></tr></table></figure>
+<p>例：使用三种初始化语句。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Other</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">string</span> Name = <span class="string">"Mary Jones"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">string</span> Major = <span class="string">"History"</span>;</span><br><span class="line">        <span class="keyword">var</span> student = &#123; Age = <span class="number">19</span>, Other.Name, Major &#125;;	<span class="comment">// 赋值形式、成员访问、标识符</span></span><br><span class="line">        Console.WriteLine(<span class="string">"&#123;0&#125;, Age &#123;1&#125;, Major: &#123;2&#125;"</span>, student.Name, student.Age, student.Major);</span><br><span class="line">        <span class="comment">// Mary Jones, Age 19, Major: History</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：如果编译器遇到了另一个<strong>具有相同的参数名</strong>、<strong>相同的推断类型</strong>和<strong>相同顺序的匿名类型</strong>，它会重用这个类型并直接创建新的实例，<strong>不会创建新的匿名类型</strong>。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/08/25/C-图解教程之枚举器和迭代器/" data-toggle="tooltip" data-placement="top"
+                           title="C#图解教程之枚举器和迭代器">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是LINQ"><span class="toc-text">什么是LINQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINQ提供程序"><span class="toc-text">LINQ提供程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#匿名类型"><span class="toc-text">匿名类型</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhdaa">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2019
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
