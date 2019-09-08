@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        C#各个版本的新特性｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2019/09/09/C-各个版本的新特性/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>C#各个版本的新特性</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-09-09
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            C#各个版本的新特性
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="C-7-0-新特性"><a href="#C-7-0-新特性" class="headerlink" title="C# 7.0 新特性"></a>C# 7.0 新特性</h2><p>C# 7.0 随 Visual Studio 2017 发布。</p>
+<h3 id="数字字面量的改进"><a href="#数字字面量的改进" class="headerlink" title="数字字面量的改进"></a>数字字面量的改进</h3><p>C# 7 中，<strong>数字字面量</strong>可以<strong>使用下划线来改善可读性</strong>、它们称为数字分隔符而<strong>被编译器忽略</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> million = <span class="number">1</span>_000_000;</span><br></pre></td></tr></table></figure>
+<p><strong>二进制字面量</strong>可以使用<strong>0b前缀</strong>进行标识。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b = <span class="number">0</span>b1010_1011_1100_1101_1110_1111;</span><br></pre></td></tr></table></figure>
+<h3 id="输出变量及参数忽略"><a href="#输出变量及参数忽略" class="headerlink" title="输出变量及参数忽略"></a>输出变量及参数忽略</h3><p>C# 7 中，调用含有<strong>out参数的方法</strong>将更加容易。</p>
+<p>首先，可以<strong>直接声明输出变量</strong>（在这之前不允许，将无法通过编译）。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> successful = <span class="keyword">int</span>.TryParse(<span class="string">"123"</span>, <span class="keyword">out</span> <span class="keyword">int</span> result);	<span class="comment">// 直接声明输出变量</span></span><br><span class="line">Console.WriteLine(result);</span><br></pre></td></tr></table></figure>
+<p>当调用含有<strong>多个out参数的方法</strong>时，可以使用<strong>下划线字符忽略不关心的参数</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">SomeBigMethod(<span class="keyword">out</span> _, <span class="keyword">out</span> _, <span class="keyword">out</span> _, <span class="keyword">out</span> <span class="keyword">int</span> x, <span class="keyword">out</span> _, <span class="keyword">out</span> _, <span class="keyword">out</span> _,);	<span class="comment">// 只需要用到x参数</span></span><br><span class="line">Console.WriteLine(x);</span><br></pre></td></tr></table></figure>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>is运算符可以引入变量，称为<strong>模式变量</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Foo</span> (<span class="params"><span class="keyword">object</span> x</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x <span class="keyword">is</span> <span class="keyword">string</span> s)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(s.Length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>switch语句也支持模式</strong>，因此可以选择<strong>常量</strong>还有<strong>类型</strong>。另外可以使用<strong>when子句</strong>来指定一个<strong>判断条件</strong>，或者直接选择<strong>null</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> (x)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="keyword">int</span> i:</span><br><span class="line">        Console.WriteLine(<span class="string">"It's an int!"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="keyword">string</span> s:</span><br><span class="line">        Console.WriteLine(s.Length);	<span class="comment">// we can use the s variable</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="keyword">bool</span> b when b == <span class="literal">true</span>:		<span class="comment">// Matches only when b is true</span></span><br><span class="line">        Console.WriteLine(<span class="string">"True"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="literal">null</span>:					<span class="comment">// 直接选择null</span></span><br><span class="line">        Console.WriteLine(<span class="string">"Nothing"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="is运算符和模式变量"><a href="#is运算符和模式变量" class="headerlink" title="is运算符和模式变量"></a>is运算符和模式变量</h4><p>从 C# 7 开始，可以在<strong>使用is运算符</strong>的同时<strong>引入一个变量</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (a <span class="keyword">is</span> Stock s)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(s.SharesOwned);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码等价于下面的代码：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Stock s;</span><br><span class="line"><span class="keyword">if</span> (a <span class="keyword">is</span> Stock)</span><br><span class="line">&#123;</span><br><span class="line">    s = (Stock)a;</span><br><span class="line">    Console.WriteLine(s.SharesOwned);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引入的变量<strong>仅</strong>可以“立即”使用。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (a <span class="keyword">is</span> Stock s &amp;&amp; s.SharesOwned &gt; <span class="number">100000</span>)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"Wealthy"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引入的变量在<strong>is表达式之外</strong>仍然在<strong>作用域内</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (a <span class="keyword">is</span> Stock s &amp;&amp; s.SharesOwned &gt; <span class="number">100000</span>)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"Wealthy"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    s = <span class="keyword">new</span> Stock();	<span class="comment">// s is in scope</span></span><br><span class="line">&#125;</span><br><span class="line">Console.WriteLine(s.SharesOwned);	<span class="comment">// still in scope</span></span><br></pre></td></tr></table></figure>
+<h3 id="局部方法"><a href="#局部方法" class="headerlink" title="局部方法"></a>局部方法</h3><p><strong>局部方法</strong>是声明在<strong>其他函数内部</strong>的方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WriteCubes</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Console.WriteLine(Cube(<span class="number">3</span>));</span><br><span class="line">    Console.WriteLine(Cube(<span class="number">4</span>));</span><br><span class="line">    Console.WriteLine(Cube(<span class="number">5</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">Cube</span>(<span class="params"><span class="keyword">int</span> <span class="keyword">value</span></span>) </span>=&gt; <span class="keyword">value</span> * <span class="keyword">value</span> * <span class="keyword">value</span>;	<span class="comment">// 局部方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>局部方法仅仅在<strong>其包含函数内可见</strong>，它们可以像<strong>Lambda表达式</strong>那样<strong>捕获局部变量</strong>。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/09/01/C-图解教程之异步编程/" data-toggle="tooltip" data-placement="top"
+                           title="C#图解教程之异步编程">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-7-0-新特性"><span class="toc-text">C# 7.0 新特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数字字面量的改进"><span class="toc-text">数字字面量的改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输出变量及参数忽略"><span class="toc-text">输出变量及参数忽略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模式"><span class="toc-text">模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#is运算符和模式变量"><span class="toc-text">is运算符和模式变量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#局部方法"><span class="toc-text">局部方法</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#C#"
+                           title="C#">C#</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhdaa">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2019
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
