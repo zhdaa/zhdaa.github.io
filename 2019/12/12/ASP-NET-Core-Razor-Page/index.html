@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ASP.NET Core Razor Page｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2019/12/12/ASP-NET-Core-Razor-Page/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET Core Razor Page</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2019-12-12
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ASP.NET Core"
+                           title="ASP.NET Core">ASP.NET Core</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET Core Razor Page
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="Razor-Page"><a href="#Razor-Page" class="headerlink" title="Razor Page"></a>Razor Page</h2><p>ASP.NET Core支持<strong>多种框架</strong>，除了MVC，还有<strong>Razor Page</strong>。</p>
+<h3 id="Razor-Page和MVC区别"><a href="#Razor-Page和MVC区别" class="headerlink" title="Razor Page和MVC区别"></a>Razor Page和MVC区别</h3><p><strong>MVC</strong></p>
+<ul>
+<li>Model：数据</li>
+<li>View：Html、Razor、TagHelpers</li>
+<li>Controller：逻辑</li>
+</ul>
+<p><strong>Razor Page</strong></p>
+<ul>
+<li>数据</li>
+<li>Html、Razor、TagHelpers</li>
+<li>逻辑</li>
+</ul>
+<p>MVC的实现是把<strong>Model、View、Controller</strong>分开，有一定的好处，但是增加了<strong>复杂性</strong>。而对于一些相对<strong>简单的项目</strong>，<strong>Razor Page</strong>是把MVC的部分合并到一起。</p>
+<h3 id="Razor-Page路由"><a href="#Razor-Page路由" class="headerlink" title="Razor Page路由"></a>Razor Page路由</h3><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>请求路径1</th>
+<th>请求路径2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/Pages/Index.cshtml</td>
+<td>/</td>
+<td>/Index</td>
+</tr>
+<tr>
+<td>/Pages/Department.cshtml</td>
+<td>/Department</td>
+<td></td>
+</tr>
+<tr>
+<td>/Pages/Department/EmployeeList.cshtml</td>
+<td>/Department/EmployeeList</td>
+<td></td>
+</tr>
+<tr>
+<td>/Pages/Department/Index.cshtml</td>
+<td>/Department</td>
+<td>/Department/Index</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>Razor Page的<strong>页面</strong>默认放在<strong>Pages目录</strong>下面。</li>
+<li>如果文件名为<strong>Index.cshtml</strong>，可以省略<strong>Index</strong>，用斜杠代替。</li>
+</ul>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>打开VS2019，创建新项目，选择<strong>ASP.NET Core Web 应用程序</strong>。项目名称为<strong>ThreePage</strong>，选择<strong>ASP.NET Core 3.0</strong>版本，然后选择<strong>空模板</strong>，点击创建。</p>
+<p>把<strong>Three项目</strong>中的<strong>Models文件夹</strong>和<strong>Services文件夹</strong>复制到本项目的根目录下。</p>
+<p>打开<strong>Startup.cs</strong>，在构造函数注入<strong>IConfiguration</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Startup</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IConfiguration _configuration;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Startup</span>(<span class="params">IConfiguration configuration</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _configuration = configuration;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后把<strong>Three项目</strong>中的<strong>ThreeOptions.cs</strong>复制到本项目的根目录下。</p>
+<p>在<strong>Startup.cs</strong>的<strong>ConfigureServices方法</strong>中，进行依赖注入。注意有一点不同的是，MVC是<strong>AddControllersWithViews</strong>，而这里是<strong>AddRazorPages</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Startup</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        services.AddRazorPages();	<span class="comment">// Razor Page注入</span></span><br><span class="line"></span><br><span class="line">        services.AddSingleton&lt;IDepartmentService, DepartmentService&gt;();</span><br><span class="line">        services.AddSingleton&lt;IEmployeeService, EmployeeService&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改<strong>Startup.cs</strong>中的<strong>Configure方法</strong>，注意RazorPage的<strong>UseEndpoints</strong>需要修改<strong>MapRazorPages</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder app, IWebHostEnvironment env</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (env.IsDevelopment())</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.UseStaticFiles();</span><br><span class="line"></span><br><span class="line">    app.UseHttpsRedirection();</span><br><span class="line"></span><br><span class="line">    app.UseRouting();</span><br><span class="line"></span><br><span class="line">    app.UseAuthentication();</span><br><span class="line"></span><br><span class="line">    app.UseEndpoints(endpoints =&gt; &#123; endpoints.MapRazorPages(); &#125;);	<span class="comment">// Razor Page配置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="建立Razor-Page"><a href="#建立Razor-Page" class="headerlink" title="建立Razor Page"></a>建立Razor Page</h2><h3 id="添加页面"><a href="#添加页面" class="headerlink" title="添加页面"></a>添加页面</h3><p>项目右键，新建<strong>Pages文件夹</strong>，用于存放页面。在Pages下新建<strong>Razor视图</strong>，命名为<strong>Index.cshtml</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@page</span><br><span class="line">@using Three.Models</span><br><span class="line">@using Three.Services</span><br><span class="line"></span><br><span class="line">@inject IDepartmentService departmentService</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-10 offset-md-2"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>Location<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>EmployeeCount<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>操作<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>@Html.DisplayFor(expression: x =&gt; x.Departments)<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">@functions</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public IEnumerable<span class="tag">&lt;<span class="name">Department</span>&gt;</span> Departments &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public async Task OnGetAsync()</span><br><span class="line">    &#123;</span><br><span class="line">        Departments = await departmentService.GetAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>Razor Page页面最前面写上<strong>@page</strong>。</li>
+<li>在<strong>@functions代码块</strong>中，可以写<strong>处理请求的C#代码</strong>。</li>
+<li><strong>处理GET请求</strong>的方法命名为<strong>OnGet</strong>，或者是<strong>OnGetAsync</strong>。可以是<strong>异步方法</strong>或<strong>同步方法</strong>。同理，<strong>处理POST请求</strong>的方法名称是<strong>OnPost</strong>或<strong>OnPostAsync</strong>。</li>
+<li>通过<a href="mailto:**@Html.DisplayFor" target="_blank" rel="noopener">**@Html.DisplayFor</a>**使用Departments属性。</li>
+</ol>
+<p>运行项目，可以看到正常显示。</p>
+<p><img src="image-20191212222229409.png" alt="image-20191212222229409"></p>
+<h3 id="添加布局和样式"><a href="#添加布局和样式" class="headerlink" title="添加布局和样式"></a>添加布局和样式</h3><p><strong>和Three项目类似</strong>，依次进行以下操作：</p>
+<ol>
+<li>在Pages下新建Shared文件夹，添加布局页<strong>_Layout.cshtml</strong>。</li>
+<li>使用<strong>Libman</strong>，<strong>安装Bootstrap</strong>。</li>
+<li>添加<strong>bundleconfig.json</strong>，使用bundle合并。</li>
+<li>通过Nuget安装<strong>BuildBundlerMinifier包</strong>。</li>
+<li>复制Three项目的<strong>images文件夹</strong>。</li>
+<li>添加<strong>_ViewStart.cshtml</strong>，指定母页面。</li>
+<li>添加<strong>_ViewImports.cshtml</strong>，引入<strong>Tag Helper</strong>。</li>
+<li>Pages下添加<strong>展示模板</strong>，Pages/DisplayTemplates/Department.cshtml。</li>
+</ol>
+<p><strong>_ViewImports.cshtml</strong>文件的内容如下。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">@<span class="keyword">using</span> ThreePage</span><br><span class="line">@<span class="keyword">namespace</span> <span class="title">ThreePage.Pages</span></span><br><span class="line">@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers</span><br></pre></td></tr></table></figure>
+<p><strong>Department.cshtml</strong>代码如下。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model Three.Models.Department</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Location<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.EmployeeCount<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行项目，可以看到和Three项目的效果差不多了。</p>
+<p><img src="image-20191212231327134.png" alt="image-20191212231327134"></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/11/29/ASP-NET-Core-MVC相关技术/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET Core MVC相关技术">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Razor-Page"><span class="toc-text">Razor Page</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Razor-Page和MVC区别"><span class="toc-text">Razor Page和MVC区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Razor-Page路由"><span class="toc-text">Razor Page路由</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项目"><span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立Razor-Page"><span class="toc-text">建立Razor Page</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加页面"><span class="toc-text">添加页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加布局和样式"><span class="toc-text">添加布局和样式</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ASP.NET Core"
+                           title="ASP.NET Core">ASP.NET Core</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhdaa">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2019
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
