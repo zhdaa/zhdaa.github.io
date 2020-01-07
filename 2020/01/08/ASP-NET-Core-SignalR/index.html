@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ASP.NET Core SignalR｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2020/01/08/ASP-NET-Core-SignalR/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET Core SignalR</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2020-01-08
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ASP.NET Core"
+                           title="ASP.NET Core">ASP.NET Core</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET Core SignalR
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="SignalR原理"><a href="#SignalR原理" class="headerlink" title="SignalR原理"></a>SignalR原理</h2><p>SignalR用来实现<strong>实时的Web应用</strong>。</p>
+<h3 id="实时Web应用"><a href="#实时Web应用" class="headerlink" title="实时Web应用"></a>实时Web应用</h3><p><strong>传统的Web应用</strong>：<strong>浏览器发起</strong>一个<strong>HTTP请求</strong>到ASP.NET Core的Web服务器。<strong>服务器处理请求</strong>，并<strong>返回响应</strong>，并且在<strong>payload</strong>中会<strong>包含请求的数据</strong>。</p>
+<p><img src="image-20200107231358491.png" alt="image-20200107231358491"></p>
+<p><strong>实时的Web应用</strong>：不用从浏览器发起，<strong>服务器主动通知</strong>客户端<strong>数据发生变化</strong>。如网页版的即时通信工具，网页直播，网页游戏等。</p>
+<p><img src="image-20200107231737677.png" alt="image-20200107231737677"></p>
+<h2 id="SignalR的底层技术"><a href="#SignalR的底层技术" class="headerlink" title="SignalR的底层技术"></a>SignalR的底层技术</h2><p>SignalR使用了<strong>三种“底层”技术</strong>来实现<strong>实时Web</strong>。它们分别是：</p>
+<ul>
+<li>Long Polling</li>
+<li>Server Sent Events</li>
+<li>WebSocket</li>
+</ul>
+<h3 id="Polling"><a href="#Polling" class="headerlink" title="Polling"></a>Polling</h3><p><strong>Polling</strong>是一种实现实时Web的一种笨方法，它就是通过<strong>定期向服务器发送请求</strong>，来查看服务器的<strong>数据是否发生变化</strong>。如果服务器数据没有变化，那么就返回<strong>204 No Content</strong>。如果有变化就把<strong>最新的数据发送给客户端</strong>。Polling很简单，但是比较<strong>浪费资源</strong>。<strong>SignalR没有采用Polling技术</strong>。</p>
+<p><img src="image-20200107232626336.png" alt="image-20200107232626336"></p>
+<h3 id="Long-Polling"><a href="#Long-Polling" class="headerlink" title="Long Polling"></a>Long Polling</h3><p><strong>Long Polling</strong>和<strong>Polling</strong>有类似的地方，<strong>客户端都是发送请求到服务器</strong>。但不同之处是：如果服务器<strong>没有新数据</strong>要发给客户端的话，那么服务器会<strong>继续保持连接</strong>，<strong>直到有新的数据产生</strong>，服务器才把新的数据返回给客户端。</p>
+<p><img src="image-20200107233841656.png" alt="image-20200107233841656"></p>
+<p>如果<strong>请求发出后</strong>一段时间内<strong>没有响应</strong>，那么请求就会<strong>超时</strong>。这时，客户端会<strong>再次发出请求</strong>。</p>
+<p><img src="image-20200107234040688.png" alt="image-20200107234040688"></p>
+<h3 id="Server-Sent-Events-SSE"><a href="#Server-Sent-Events-SSE" class="headerlink" title="Server Sent Events (SSE)"></a>Server Sent Events (SSE)</h3><p>使用<strong>SSE</strong>的话，Web服务器可以在<strong>任何时间把数据发送到浏览器</strong>，可以称之为<strong>推送</strong>。而浏览器则会<strong>监听</strong>进来的信息，这些信息就像流数据一样，这个<strong>连接</strong>也会一直<strong>保持开放</strong>，直到服务器<strong>主动关闭</strong>它。</p>
+<p>浏览器会使用一个叫做<strong>EventSource</strong>的对象来处理传过来的信息。</p>
+<p><strong>优点</strong>：使用简单，使用<strong>HTTP协议</strong>，<strong>自动重连</strong>，不支持老的浏览器，比Polling和Long Polling好用。</p>
+<p><strong>缺点</strong>：针对SSE，很多浏览器存在<strong>最大并发连接数</strong>的限制，只能发送<strong>文本信息</strong>，只能<strong>单向通信</strong>。</p>
+<p><img src="image-20200107234554799.png" alt="image-20200107234554799"></p>
+<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><p><strong>WebSocket</strong>是不同于HTTP的另一个<strong>TCP协议</strong>，它使得浏览器和服务器之间的交互式通信变得可能。使用WebSocket，消息可以<strong>从服务器发往客户端</strong>，也可以<strong>从客户端发往服务器</strong>，并且<strong>没有HTTP那样的延迟</strong>。信息流没有完成的时候，TCP Socket通常是保持打开的状态。</p>
+<p>使用现代浏览器时，<strong>SignalR大部分情况下都会使用WebSocket</strong>，这也是最有效的传输方式。</p>
+<ul>
+<li><strong>全双工通信</strong>：客户端和服务器可以<strong>同时</strong>往对方发送消息。</li>
+<li>并且不受SSE那个浏览器连接数限制（6个），大部分浏览器对<strong>WebSocket连接数</strong>的限制是<strong>50</strong>个。</li>
+<li><strong>消息类型</strong>：可以是<strong>文本</strong>和<strong>二进制</strong>，WebSocket也支持<strong>流媒体（音频和视频）</strong>。</li>
+</ul>
+<p>其实正常的HTTP请求也使用了TCP Socket。WebSocket标准使用了握手机制把用于HTTP的Socket升级为使用WS协议的WebSocket socket。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/01/04/2020/" data-toggle="tooltip" data-placement="top"
+                           title="2020">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR原理"><span class="toc-text">SignalR原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实时Web应用"><span class="toc-text">实时Web应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR的底层技术"><span class="toc-text">SignalR的底层技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Polling"><span class="toc-text">Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Long-Polling"><span class="toc-text">Long Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-Sent-Events-SSE"><span class="toc-text">Server Sent Events (SSE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebSocket"><span class="toc-text">WebSocket</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ASP.NET Core"
+                           title="ASP.NET Core">ASP.NET Core</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhdaa">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2020
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
