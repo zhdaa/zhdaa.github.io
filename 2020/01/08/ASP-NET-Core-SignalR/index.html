@@ -176,10 +176,9 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="SignalR原理"><a href="#SignalR原理" class="headerlink" title="SignalR原理"></a>SignalR原理</h2><p>SignalR用来实现<strong>实时的Web应用</strong>。</p>
-<h3 id="实时Web应用"><a href="#实时Web应用" class="headerlink" title="实时Web应用"></a>实时Web应用</h3><p><strong>传统的Web应用</strong>：<strong>浏览器发起</strong>一个<strong>HTTP请求</strong>到ASP.NET Core的Web服务器。<strong>服务器处理请求</strong>，并<strong>返回响应</strong>，并且在<strong>payload</strong>中会<strong>包含请求的数据</strong>。</p>
+                <h2 id="实时Web应用"><a href="#实时Web应用" class="headerlink" title="实时Web应用"></a>实时Web应用</h2><p><strong>传统的Web应用</strong>：<strong>浏览器发起</strong>一个<strong>HTTP请求</strong>到ASP.NET Core的Web服务器。<strong>服务器处理请求</strong>，并<strong>返回响应</strong>，并且在<strong>payload</strong>中会<strong>包含请求的数据</strong>。</p>
 <p><img src="image-20200107231358491.png" alt="image-20200107231358491"></p>
-<p><strong>实时的Web应用</strong>：不用从浏览器发起，<strong>服务器主动通知</strong>客户端<strong>数据发生变化</strong>。如网页版的即时通信工具，网页直播，网页游戏等。</p>
+<p><strong>实时的Web应用</strong>：不用从浏览器发起，<strong>服务器主动通知</strong>客户端<strong>数据发生变化</strong>。如网页版的即时通信工具，网页直播，网页游戏等。<strong>SignalR</strong>用来实现<strong>实时的Web应用</strong>。</p>
 <p><img src="image-20200107231737677.png" alt="image-20200107231737677"></p>
 <h2 id="SignalR的底层技术"><a href="#SignalR的底层技术" class="headerlink" title="SignalR的底层技术"></a>SignalR的底层技术</h2><p>SignalR使用了<strong>三种“底层”技术</strong>来实现<strong>实时Web</strong>。它们分别是：</p>
 <ul>
@@ -206,6 +205,32 @@
 <li><strong>消息类型</strong>：可以是<strong>文本</strong>和<strong>二进制</strong>，WebSocket也支持<strong>流媒体（音频和视频）</strong>。</li>
 </ul>
 <p>其实正常的HTTP请求也使用了TCP Socket。WebSocket标准使用了握手机制把用于HTTP的Socket升级为使用WS协议的WebSocket socket。</p>
+<h4 id="WebSocket的生命周期"><a href="#WebSocket的生命周期" class="headerlink" title="WebSocket的生命周期"></a>WebSocket的生命周期</h4><p>在<strong>TCP Socket</strong>中，一个正常的HTTP请求，要求服务器更新Socket并协商，这个过程称为<strong>HTTP握手</strong>。之后，消息就可以在Socket中来回传送，直到Socket被<strong>主动关闭</strong>，关闭的原因也会被通信。</p>
+<p><img src="image-20200108235002125.png" alt="image-20200108235002125"></p>
+<h4 id="HTTP握手"><a href="#HTTP握手" class="headerlink" title="HTTP握手"></a>HTTP握手</h4><ul>
+<li>每一个WebSocket开始的时候都是一个简单的<strong>HTTP Socket</strong>。</li>
+<li>客户端首先发送一个<strong>GET请求</strong>到服务器，来请求<strong>升级Socket</strong>。</li>
+<li>如果服务器<strong>同意</strong>的话，这个Socket从这时开始，就变成了<strong>WebSocket</strong>。</li>
+</ul>
+<p><img src="image-20200108234738304.png" alt="image-20200108234738304"></p>
+<h4 id="消息类型"><a href="#消息类型" class="headerlink" title="消息类型"></a>消息类型</h4><p>WebSocket的消息类型，可以是<strong>文本</strong>，<strong>二进制</strong>。也包括控制类的消息：<strong>Ping/Pong</strong>，和<strong>关闭</strong>。</p>
+<p>每个消息由一个或多个Frame组成。</p>
+<p><img src="image-20200109000338530.png" alt="image-20200109000338530"></p>
+<h2 id="SignalR原理"><a href="#SignalR原理" class="headerlink" title="SignalR原理"></a>SignalR原理</h2><h3 id="SignalR"><a href="#SignalR" class="headerlink" title="SignalR"></a>SignalR</h3><p><strong>SignalR</strong>是一个.NET Core/.NET Framework的<strong>开源实时框架</strong>。SignalR可使用<strong>WebSocket</strong>，<strong>Server Sent Events</strong>和<strong>Long Polling</strong>作为底层传输方式。</p>
+<p>SignalR基于这三种技术构建，抽象于它们之上，它让你更好的关注<strong>业务问题</strong>而不是<strong>底层传输技术问题</strong>。</p>
+<p>SignalR这个框架分<strong>服务器端</strong>和<strong>客户端</strong>，服务器端支持<strong>ASP.NET Core</strong>和<strong>ASP.NET</strong>；而客户端除了支持<strong>浏览器</strong>里的<strong>javascript</strong>以外，也支持其他类型的客户端，例如桌面应用（需通过Nuget安装某些库）。</p>
+<h3 id="SignalR回落机制"><a href="#SignalR回落机制" class="headerlink" title="SignalR回落机制"></a>SignalR回落机制</h3><p>SignalR使用的三种底层传输技术分别是<strong>WebSocket</strong>，<strong>Server Sent Events</strong>和<strong>Long Polling</strong>。</p>
+<ul>
+<li>WebSocket仅支持比较现代的浏览器，Web服务器也不能太老。</li>
+<li>Server Sent Events情况可能好一点，但是也存在同样的问题。</li>
+<li>Long Polling一般情况都是支持的。</li>
+</ul>
+<p>所以，SignalR采用了<strong>回落机制</strong>，SignalR有能力去<strong>协商支持的传输类型</strong>。</p>
+<p><img src="image-20200109002414628.png" alt="image-20200109002414628"></p>
+<p><strong>注意</strong>：SignalR<strong>默认</strong>采用<strong>回落机制</strong>，但是也可以<strong>禁用回落机制</strong>，只采用其中一种传输方式。</p>
+<h3 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h3><p><strong>RPC(Remote Procedure Call)</strong>。它的优点就是可以像<strong>调用本地方法</strong>一样调用远程服务。</p>
+<p>SignalR采用<strong>RPC范式</strong>来进行客户端与服务器端之间的通信。</p>
+<p>SignalR利用底层传输来让服务器可以调用客户端的方法，反之亦然，<strong>这些方法可以带参数</strong>，参数也可以是复杂对象，<strong>SignalR负责序列化和反序列化</strong>。</p>
 
                 <hr>
                 
@@ -234,7 +259,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR原理"><span class="toc-text">SignalR原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实时Web应用"><span class="toc-text">实时Web应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR的底层技术"><span class="toc-text">SignalR的底层技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Polling"><span class="toc-text">Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Long-Polling"><span class="toc-text">Long Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-Sent-Events-SSE"><span class="toc-text">Server Sent Events (SSE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebSocket"><span class="toc-text">WebSocket</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实时Web应用"><span class="toc-text">实时Web应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR的底层技术"><span class="toc-text">SignalR的底层技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Polling"><span class="toc-text">Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Long-Polling"><span class="toc-text">Long Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-Sent-Events-SSE"><span class="toc-text">Server Sent Events (SSE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebSocket"><span class="toc-text">WebSocket</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WebSocket的生命周期"><span class="toc-text">WebSocket的生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP握手"><span class="toc-text">HTTP握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#消息类型"><span class="toc-text">消息类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR原理"><span class="toc-text">SignalR原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SignalR"><span class="toc-text">SignalR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SignalR回落机制"><span class="toc-text">SignalR回落机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC"><span class="toc-text">RPC</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
