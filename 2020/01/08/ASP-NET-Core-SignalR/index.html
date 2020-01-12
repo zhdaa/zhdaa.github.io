@@ -231,6 +231,27 @@
 <h3 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h3><p><strong>RPC(Remote Procedure Call)</strong>。它的优点就是可以像<strong>调用本地方法</strong>一样调用远程服务。</p>
 <p>SignalR采用<strong>RPC范式</strong>来进行客户端与服务器端之间的通信。</p>
 <p>SignalR利用底层传输来让服务器可以调用客户端的方法，反之亦然，<strong>这些方法可以带参数</strong>，参数也可以是复杂对象，<strong>SignalR负责序列化和反序列化</strong>。</p>
+<h3 id="Hub"><a href="#Hub" class="headerlink" title="Hub"></a>Hub</h3><p><strong>Hub</strong>是SignalR的一个<strong>组件</strong>，运行在ASP.NET Core应用里，是<strong>服务器端</strong>的一个<strong>类</strong>。</p>
+<p>Hub使用<strong>RPC</strong>接受<strong>从客户端发送来的消息</strong>，也能<strong>把消息发送给客户端</strong>。所以它就是一个通信用的Hub。</p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>在ASP.NET Core里，<strong>自己创建的Hub类</strong>需要<strong>继承于基类的Hub</strong>。</li>
+<li>在Hub类里，我们就可以调用所有<strong>客户端上的方法</strong>了。同样客户端也可以调用<strong>Hub类里的方法</strong>（方法名不变）。</li>
+</ul>
+<p><img src="image-20200112223158367.png" alt="image-20200112223158367"></p>
+<h3 id="Hub协议"><a href="#Hub协议" class="headerlink" title="Hub协议"></a>Hub协议</h3><p><strong>Hub协议</strong>就是一种用来<strong>序列化和反序列化的格式</strong>。</p>
+<p>调用的方法时候可以传递<strong>复杂参数</strong>，SignalR可以<strong>将参数序列化和反序列化</strong>。这些参数被序列化的格式就叫做Hub协议。</p>
+<ul>
+<li>Hub协议的<strong>默认协议</strong>是<strong>JSON</strong>，还支持另外一个协议是<strong>MessagePack</strong>，它是<strong>二进制格式</strong>的，比JSON更加<strong>紧凑</strong>，处理起来更<strong>简单快速</strong>。</li>
+<li>此外，SignalR也可以扩展使用其他协议。</li>
+</ul>
+<h3 id="横向扩展"><a href="#横向扩展" class="headerlink" title="横向扩展"></a>横向扩展</h3><p><strong>情景</strong>：随着系统运行，需要将应用运行在<strong>多个服务器</strong>上。</p>
+<p><strong>问题</strong>：负载均衡器会保证每个进来的请求按照一定的逻辑分配到<strong>可能是不同的服务器上</strong>。</p>
+<h4 id="使用WebSocket"><a href="#使用WebSocket" class="headerlink" title="使用WebSocket"></a>使用WebSocket</h4><p>在使用WebSocket的时候，没什么问题。因为一旦WebSocket的连接建立，就像在浏览器个那个服务器之间打开了隧道一样，<strong>服务器是不会切换的</strong>。</p>
+<h4 id="使用Long-Polling"><a href="#使用Long-Polling" class="headerlink" title="使用Long Polling"></a>使用Long Polling</h4><p>如果使用Long Polling，可能会出现问题。因为使用Long Polling的情况下，每次发送消息都是<strong>不同的请求</strong>，而每次请求可能会<strong>到达不同的服务器</strong>。不同的服务器可能不知道前一个服务器通信的内容，因此会造成问题。</p>
+<p>针对这个问题，需要使用<strong>Sticky Session（粘性回话）</strong>。</p>
+<p><strong>Sticky Session</strong>有很多种实现方式，主要介绍以下这种：</p>
+<p>作为第一次请求的响应的一部分，负载均衡器会在浏览器里面设置一个Cookie，来表示使用过这个服务器。在后续的请求里，负载均衡器读取Cookie，然后把请求分配给同一个服务器。</p>
 
                 <hr>
                 
@@ -259,7 +280,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实时Web应用"><span class="toc-text">实时Web应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR的底层技术"><span class="toc-text">SignalR的底层技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Polling"><span class="toc-text">Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Long-Polling"><span class="toc-text">Long Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-Sent-Events-SSE"><span class="toc-text">Server Sent Events (SSE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebSocket"><span class="toc-text">WebSocket</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WebSocket的生命周期"><span class="toc-text">WebSocket的生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP握手"><span class="toc-text">HTTP握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#消息类型"><span class="toc-text">消息类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR原理"><span class="toc-text">SignalR原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SignalR"><span class="toc-text">SignalR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SignalR回落机制"><span class="toc-text">SignalR回落机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC"><span class="toc-text">RPC</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实时Web应用"><span class="toc-text">实时Web应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR的底层技术"><span class="toc-text">SignalR的底层技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Polling"><span class="toc-text">Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Long-Polling"><span class="toc-text">Long Polling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-Sent-Events-SSE"><span class="toc-text">Server Sent Events (SSE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebSocket"><span class="toc-text">WebSocket</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WebSocket的生命周期"><span class="toc-text">WebSocket的生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP握手"><span class="toc-text">HTTP握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#消息类型"><span class="toc-text">消息类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignalR原理"><span class="toc-text">SignalR原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SignalR"><span class="toc-text">SignalR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SignalR回落机制"><span class="toc-text">SignalR回落机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC"><span class="toc-text">RPC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hub"><span class="toc-text">Hub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hub协议"><span class="toc-text">Hub协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#横向扩展"><span class="toc-text">横向扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用WebSocket"><span class="toc-text">使用WebSocket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Long-Polling"><span class="toc-text">使用Long Polling</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
