@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Zhendong&#39;s blog
+        ASP.NET Core Blazor｜Zhendong&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://zhdaa.github.io/tags/Log4Net/">
+    <link rel="canonical" href="https://zhdaa.github.io/2020/02/08/ASP-NET-Core-Blazor/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,193 +124,172 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/zhdaa-headimg.jpg"/>
-                        <h5><a href="/about/">Zhendong Ho</a></h5>
-                        <p>知其然知其所以然</p>
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET Core Blazor</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2020-02-08
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
                     </div>
                 </div>
             </div>
-        </header>
-    </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
-
-
-
-<div class="post-preview "
-     style="background-image: url('post-default.jpg')">
-    <a href="/2018/09/18/NET开源日志框架Log4Net详解/">
-        <h2 class="post-title">
-            .NET开源日志框架Log4Net详解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-18
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                Log4Net介绍今天在公众号推送上看到了关于.NET开源日志框架Log4Net的一篇文章，恰巧现在做的项目中也有使用到Log4Net。由于本人对其的使用不是很熟练，于是想花点时间学习一下这个框架，了解其中的原理。
-在一个大型的项目中，日志文件扮演着十分重要的角色。当系统足够大，代码量很多的时候..
-            </p>
         </div>
-    </a>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET Core Blazor
+        </span>
+    </div>
+</header>
 
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="MVC与SPA的区别"><a href="#MVC与SPA的区别" class="headerlink" title="MVC与SPA的区别"></a>MVC与SPA的区别</h2><p><strong>MVC</strong>：由Model、View、Controller组成。其中View是由<strong>Razor（C#）</strong>写的，所以<strong>View</strong>部分是在<strong>服务器端</strong>进行渲染，然后再把渲染的结果发送给客户端浏览器。</p>
+<p><img src="image-20200208152952701.png" alt="image-20200208152952701"></p>
+<p><strong>SPA</strong>：即<strong>Single Page Application</strong>，和MVC对比，服务器端没有C#写的<strong>View</strong>，而是将静态的<strong>Html、JavaScript、Css</strong>发送给浏览器。然后浏览器端通过JavaScript和服务器端API进行互操作，如使用Ajax。（注意，图中静态文件不一定在服务器端中）</p>
+<p><img src="image-20200208153554515.png" alt="image-20200208153554515"></p>
+<h2 id="Blazor"><a href="#Blazor" class="headerlink" title="Blazor"></a>Blazor</h2><p>传统的SPA只支持在客户端使用<strong>JavaScript</strong>与服务器端进行互操作。而Blazor可以使用<strong>C#</strong>写客户端的代码，并且可以<strong>在浏览器执行</strong>，与服务端进行互操作。Blazor基于<strong>WebAssembly</strong>，所有有浏览器都支持WebAssembly。</p>
+<p><img src="image-20200208154659106.png" alt="image-20200208154659106"></p>
+<p>Blazor基于<strong>Component</strong>的编程模型，通常用于<strong>编写组件</strong>。Blazor<strong>宿主模型</strong>：<strong>客户端</strong>、<strong>服务器端</strong>。</p>
+<h3 id="客户端宿主模型"><a href="#客户端宿主模型" class="headerlink" title="客户端宿主模型"></a>客户端宿主模型</h3><p>在服务器端，使用C#编写的<strong>Components</strong>，以<strong>DLL/Assembly</strong>的形式发送给<strong>客户端浏览器</strong>，同时发送一个<strong>特制版本mono</strong>（该mono由<strong>WebAssembly语言</strong>编写，浏览器可以理解这种语言）。然后mono把<strong>DLL/Assembly</strong>里面的代码（包含Components）解析成WebAssembly，而浏览器则通过JavaScript进行互操作。</p>
+<p><img src="image-20200208155547568.png" alt="image-20200208155547568"></p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>没有.NET服务器端依赖项。应用在下载到客户端之后完全正常运行。</li>
+<li>完全利用客户端资源和功能。</li>
+<li>工作从服务器卸载到客户端。</li>
+<li>不需要ASP.NET Core web服务器来托管应用程序。无服务器部署方案可能。</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>应用程序限制为浏览器的功能。</li>
+<li>需要支持的客户端硬件和软件（例如，WebAssembly支持）。</li>
+<li>下载文件较大，应用需要较长时间才能加载。</li>
+<li>.NET运行时和工具支持不太成熟。例如.NET Standard支持和调试中存在限制。</li>
+</ul>
+<h3 id="服务器端宿主模型"><a href="#服务器端宿主模型" class="headerlink" title="服务器端宿主模型"></a>服务器端宿主模型</h3><p>使用C#在服务器端编写Components，并且<strong>在服务器端进行渲染</strong>，转化成Html、Css、JavaScript，然后通过<strong>SignalR</strong>发送到浏览器端。而浏览器端的一些事件，UI更新以及互操作，都是通过<strong>SignalR</strong>发送到<strong>服务器端</strong>进行处理的。</p>
+<p><img src="image-20200208163720151.png" alt="image-20200208163720151"></p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>下载大小明显小于客户端应用，且应用加载速度更快。</li>
+<li>应用充分利用服务器功能，包括使用任何与.NET Core兼容的Api。</li>
+<li>可以使用.NET工具调试。</li>
+<li>支持瘦客户端。即适用于不支持WebAssembly的浏览器和资源限制的设备。</li>
+<li>应用程序的.NET/C#代码库（包括应用程序的组件代码）不会提供给客户端。</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>通常存在较高的延迟。因为每个用户交互都涉及网络跃点。</li>
+<li>不支持脱机。如果客户端连接失败，应用将停止工作。</li>
+<li>对于包含多个用户的应用来说，可伸缩性困难。服务器必须管理多个客户端连接并处理客户端状态。</li>
+<li>需要ASP.NET Core服务器。不支持无服务器部署方案。</li>
 </ul>
 
+                <hr>
+                
 
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/01/08/ASP-NET-Core-SignalR/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET Core SignalR">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC与SPA的区别"><span class="toc-text">MVC与SPA的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blazor"><span class="toc-text">Blazor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端宿主模型"><span class="toc-text">客户端宿主模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器端宿主模型"><span class="toc-text">服务器端宿主模型</span></a></li></ol></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/zhdaa-headimg.jpg"/>
-                    
-                    <h5><a href="/about/">Zhendong Ho</a></h5>
-                    
-                    <p>知其然知其所以然</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/zhdaa">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
+                        <li><a href="http://laibh.top">赖同学</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Music 网易云音乐 -->
-            
-            <!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=461525011&auto=1&height=66"></iframe> -->
-            <!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=1&height=66"></iframe> -->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=250 height=86 src="//music.163.com/outchain/player?type=2&id=29005786&auto=0&height=66"></iframe>
-
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#个人日记" title="个人日记"
-                       rel="2">个人日记</a>
-                    
-                    
-                    
-                    <a href="/tags/#ASP.NET Core" title="ASP.NET Core"
-                       rel="6">ASP.NET Core</a>
-                    
-                    
-                    
-                    <a href="/tags/#Java" title="Java"
-                       rel="8">Java</a>
-                    
-                    
-                    
-                    <a href="/tags/#SQL Server" title="SQL Server"
-                       rel="6">SQL Server</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#C#" title="C#"
-                       rel="19">C#</a>
-                    
-                    
-                    
-                    <a href="/tags/#JavaScript" title="JavaScript"
-                       rel="3">JavaScript</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#jQuery" title="jQuery"
-                       rel="2">jQuery</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://laibh.top" target="_blank">赖同学</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
+
 <!-- Footer -->
 <!-- Footer -->
 <footer>
