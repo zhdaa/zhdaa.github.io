@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        数据结构复习笔记（线性表）｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2020/09/27/数据结构复习笔记（线性表）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据结构复习笔记（线性表）</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2020-09-27
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            数据结构复习笔记（线性表）
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="线性表的顺序表示"><a href="#线性表的顺序表示" class="headerlink" title="线性表的顺序表示"></a>线性表的顺序表示</h2><p>数组静态分配。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MaxSize 50        <span class="comment">// 定义线性表的最大长度</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> data[MaxSize];    <span class="comment">// 顺序表的元素</span></span><br><span class="line">    <span class="keyword">int</span> length;            <span class="comment">// 顺序表的当前长度 </span></span><br><span class="line">&#125;SqlList;                <span class="comment">// 顺序表的类型定义</span></span><br></pre></td></tr></table></figure>
+<h3 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h3><p>1、从顺序表中删除具有最小值的元素（假设唯一）并由函数返回被删元素的值。空出的位置由最后一个元素填补，若顺序表为空则显示出错信息并退出运行。</p>
+<p><strong>算法思路</strong>：搜索整个顺序表，<strong>查找最小值元素并记住其位置</strong>。搜索结束后，用最后一个元素填补空出的原最小值元素的位置。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Del_Min</span><span class="params">(SqList* L, <span class="keyword">int</span>* value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 删除顺序表L中最小元素节点，并通过引用型参数value返回其值</span></span><br><span class="line">    <span class="comment">// 若删除成功，则返回true；否则返回false</span></span><br><span class="line">    <span class="keyword">if</span> (L-&gt;length == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;    <span class="comment">// 表空，终止操作返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    value = L-&gt;data[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">int</span> pos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; L-&gt;length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (L-&gt;data[i] &lt; value)</span><br><span class="line">        &#123;</span><br><span class="line">            value = L-&gt;data[i];</span><br><span class="line">            pos = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    L-&gt;data[pos] = L-&gt;data[L-&gt;length - <span class="number">1</span>];    <span class="comment">// 空出的位置由最后一个元素填补</span></span><br><span class="line">    L-&gt;length--;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、设计一个高效算法，将顺序表L的所有元素逆置，要求算法的空间复杂度为O(1)。</p>
+<p><strong>算法思路</strong>：扫描顺序表L的<strong>前半部分元素</strong>，对于元素L.data[i]<strong>将其与后半部分的对应元素</strong>L.data[L.length - i - 1]进行交换。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Reverse</span><span class="params">(SqList* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; L-&gt;length / <span class="number">2</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 交换L.data[i]与L.data[L.length - 1 - i]</span></span><br><span class="line">        temp = L-&gt;data[i];</span><br><span class="line">        L-&gt;data[i] = L-&gt;data[L-&gt;length - <span class="number">1</span> - i];</span><br><span class="line">        L-&gt;data[L-&gt;length - <span class="number">1</span> - i] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、对于长度为n的顺序表L，编写一个时间复杂度为O(n)、空间复杂度为O(1)的算法，该算法删除线性表中所有值为x的数据元素。</p>
+<p><strong>算法思路</strong>：<strong>用k记录</strong>顺序表L中<strong>不等于x的元素个数</strong>（即需要保存的元素个数），<strong>边扫描L边统计k</strong>，并将不等于x的元素<strong>前移k个位置</strong>，<strong>最后修改L的长度</strong>。</p>
+<p><strong>理解</strong>：要想到用k下标来接收部位x的值，即重新复制L.data[k]，最后更新length。不要逐个前移。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">del_x</span><span class="params">(SqList* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 本算法实现删除顺序表L中所有值为x的数据元素</span></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;        <span class="comment">// 记录值不等于x的元素个数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; L-&gt;length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (L-&gt;data[i] != <span class="string">'x'</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            L-&gt;data[k] = L-&gt;data[i];</span><br><span class="line">            k++;    <span class="comment">// 不等于x的元素增1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    L-&gt;length = k;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、从有序顺序表中删除其值在给定值s与t之间（要求s &lt; t）的所有元素，如果s或t不合理或顺序表为空，则显示出错信息并退出运行。</p>
+<p><strong>算法思路</strong>：先寻找值<strong>大于等于s的第一个元素</strong>（第一个删除的元素），然后寻找值<strong>大于t的第一个元素</strong>（最后一个删除的元素的下一个元素），要将这段元素删除，只需直接将后面的元素前移。</p>
+<p><strong>注意</strong>：因为是<strong>有序表</strong>，所以删除的元素必然是<strong>相连的整体</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Del_s_t2</span><span class="params">(SqList* L, <span class="keyword">int</span> s, <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 删除有序顺序表L中的值在给定值s与t之间的所有元素</span></span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">if</span> (s &gt;= t || L-&gt;length == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; L-&gt;length &amp;&amp; L-&gt;data[i] &lt; s; i++);    <span class="comment">// 寻找值大于等于s的第一个元素，并记下i下标</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt;= L-&gt;length)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;    <span class="comment">// 所有元素值均小于s，返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (j = i; j &lt; L-&gt;length &amp;&amp; L-&gt;data[j] &lt;= t; j++);    <span class="comment">// 寻找值大于t的第一个元素，记下j下标</span></span><br><span class="line">    <span class="keyword">for</span> (; j &lt; L-&gt;length; i++, j++)</span><br><span class="line">    &#123;</span><br><span class="line">        L-&gt;data[i] = L-&gt;data[j];    <span class="comment">// 前移，填补被删元素位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    L-&gt;length = i;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5、从顺序表中删除其值在给定值s与t之间（包含s和t，要求s &lt; t）的所有元素，如果s或t不合理或顺序表为空，则显示出错信息并退出运行。</p>
+<p><strong>算法思路</strong>：从前向后扫描顺序表L，<strong>用k记录</strong>元素值在s到t之间元素的个数（初始k=0）。对于当前扫描的元素，若其值不在s到t之间，则前移k个位置；否则执行k++。</p>
+<p><strong>优点</strong>：每个不在s到t之间的元素<strong>仅移动一次</strong>，<strong>算法效率高</strong>。</p>
+<p><strong>理解</strong>：也是借助k记录位置，重新对L.data[i]赋值。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Del_s_t</span><span class="params">(SqList* L, <span class="keyword">int</span> s, <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 删除顺序表L中值在给定值s与t之间（要求s &lt; t）的所有元素</span></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (s &gt;= t || L-&gt;length == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;        <span class="comment">// 线性表为空或s、t不合法，返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; L-&gt;length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (L-&gt;data[i] &gt;= s &amp;&amp; L-&gt;data[i] &lt;= t)</span><br><span class="line">        &#123;</span><br><span class="line">            k++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            L-&gt;data[i - k] = L-&gt;data[i];    <span class="comment">// 当前元素前移k个位置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    L-&gt;length = L-&gt;length - k;    <span class="comment">// 长度减少</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6、从有序顺序表中删除所有其值重复的元素，使表中所有元素的值均不同。</p>
+<p><strong>算法思路</strong>：用类似于直接插入排序的思想，初始时<strong>将第一个元素</strong>视为<strong>非重复的有序表</strong>。之后<strong>依次判断后面的元素</strong>是否与前面非重复有有序表的最后一个元素相同，若相同则继续向后判断，若不同则插入到前面的非重复有序表的最后，直至判断到表尾为止。</p>
+<p><strong>注意</strong>：因为是<strong>有序顺序表</strong>，值相同的元素一定<strong>在连续的位置上</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Delete_Same</span><span class="params">(SqList* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (L-&gt;length == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> i, j;    <span class="comment">// i存储第一个不相同的元素，j为工作指针</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>, j = <span class="number">1</span>; j &lt; L-&gt;length; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (L-&gt;data[i] != L-&gt;data[j])    <span class="comment">// 查找下一个与上个元素值不同元素</span></span><br><span class="line">        &#123;</span><br><span class="line">            L-&gt;data[i++] = L-&gt;data[j];    <span class="comment">// 找到后，将元素前移</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    L-&gt;length = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>7、将两个有序顺序表合并为一个新的有序顺序表，并由函数返回结果顺序表。</p>
+<p><strong>算法思路</strong>：首先，按顺序不断取下<strong>两个顺序表表头较小的节点</strong>存入新的顺序表中。然后，<strong>看哪个表还有剩余</strong>，将<strong>剩下的部分</strong>加到<strong>新的顺序表后面</strong>。</p>
+<p><strong>理解</strong>：两个有序表逐个元素比较，把小的值插入到新的顺序表。搞完一个表后，另一个表剩下的部分就直接插入到新的顺序表的后面。</p>
+<p><strong>注意</strong>：本算法非常典型，需牢固掌握。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Merge</span><span class="params">(SqList A, SqList B, SqList* C)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 将有序顺序表A与B合并为一个新的有序顺序表C</span></span><br><span class="line">    <span class="keyword">if</span> (A.length + B.length &gt; C-&gt;MaxSize)    <span class="comment">// 大于顺序表的最大长度</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; A.length &amp;&amp; j &lt; B.length)        <span class="comment">// 循环，两两比较，小者存入结果表</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (A.data[i] &lt;= B.data[j])</span><br><span class="line">        &#123;</span><br><span class="line">            C-&gt;data[k++] = A.data[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            C-&gt;data[k++] = B.data[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; A.length)    <span class="comment">// 还剩一个没有比较完的顺序表</span></span><br><span class="line">    &#123;</span><br><span class="line">        C-&gt;data[k++] = A.data[i++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (j &lt; B.length)</span><br><span class="line">    &#123;</span><br><span class="line">        C-&gt;data[k++] = B.data[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    C-&gt;length = k;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>8、已知在一维数组A[m + n]中依次存放两个线性表(a1, a2, a3, …, am)和(b1, b2, b3, …, bn)。试编写一个函数，将数组中两个顺序表的位置互换，即将(b1, b2, b3,…, bn)放在(a1, a2, a3, …, am)的前面。</p>
+<p><strong>算法思路</strong>：先将数组A[m + n]中的<strong>全部元素</strong>(a1, a2, a3, …, am, b1, b2, b3, …, bn)<strong>原地逆置</strong>为(bn, bn-1, bn-2, …, b1, am, am-1, am-2, …, a1)，再对<strong>前n个元素</strong>和<strong>后m个元素</strong>分别使用<strong>逆置算法</strong>，即可得到(b1, b2, b3, …, a1, a2, a3, …, am)，从而实现顺序表的位置互换。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Reverse</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> arraySize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right || right &gt;= arraySize)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mid - left; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> temp = A[left + i];</span><br><span class="line">        A[left + i] = A[right - i];</span><br><span class="line">        A[right - i] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Exchange</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> m, <span class="keyword">int</span> n, <span class="keyword">int</span> arraySize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    数组A[m + n]中，从0到m-1存放顺序表(a1, a2, a3, ..., am)，</span></span><br><span class="line"><span class="comment">    从m到m+n-1存放顺序表(b1, b2, b3, ..., bn)，算法将这两个表的位置互换</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    Reverse(A, <span class="number">0</span>, m + n - <span class="number">1</span>, arraySize);</span><br><span class="line">    Reverse(A, <span class="number">0</span>, n - <span class="number">1</span>, arraySize);</span><br><span class="line">    Reverse(A, n, m + n - <span class="number">1</span>, arraySize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>9、线性表(a1, a2, a3, …, an)中的元素递增有序且按顺序存储于计算机内。要求设计一算法，完成用最少时间在表中查找数值为x的元素，若找到则将其与后继元素位置相交换，若找不到则将其插入表中并使表中元素仍递增有序。</p>
+<p><strong>算法思路</strong>：顺序存储的线性表<strong>递增有序</strong>，可以<strong>顺序查找</strong>，也可以<strong>折半查找</strong>。题目要求“用最少的时间”，这里应使用折半查找法。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function">oid <span class="title">SearchExchangeInsert</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> n, <span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> low = <span class="number">0</span>, high = n - <span class="number">1</span>, mid;        <span class="comment">// low和high指向顺序表下界和上界的下标</span></span><br><span class="line">    <span class="keyword">while</span> (low &lt;= high)</span><br><span class="line">    &#123;</span><br><span class="line">        mid = (low + high) / <span class="number">2</span>;        <span class="comment">// 找中间位置</span></span><br><span class="line">        <span class="keyword">if</span> (A[mid] == x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;        <span class="comment">// 找到x，推出while循环</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (A[mid] &lt; x)</span><br><span class="line">        &#123;</span><br><span class="line">            low = mid + <span class="number">1</span>;    <span class="comment">// 到中点mid的右半部去查</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            high = mid - <span class="number">1</span>;    <span class="comment">// 到中点mid的左半部去查</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 下面两个if语句只会执行一个，也可能两个都不执行</span></span><br><span class="line">    <span class="keyword">if</span> (A[mid] == x &amp;&amp; mid != n - <span class="number">1</span>)    <span class="comment">// 若最后一个元素与x相等，则不存在与其后继交换的操作</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> temp = A[mid];</span><br><span class="line">        A[mid] = A[mid + <span class="number">1</span>];</span><br><span class="line">        A[mid + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (low &gt; high)        <span class="comment">// 查找失败，插入数据元素x</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span> (i = n - <span class="number">1</span>;i &gt; high;i--)</span><br><span class="line">        &#123;</span><br><span class="line">            A[i + <span class="number">1</span>] = A[i];    <span class="comment">// 后移元素</span></span><br><span class="line">        &#125;</span><br><span class="line">        A[i + <span class="number">1</span>] = x;        <span class="comment">// 插入x</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="线性表的链式表示"><a href="#线性表的链式表示" class="headerlink" title="线性表的链式表示"></a>线性表的链式表示</h2><h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><p>线性表的<strong>链式存储</strong>又称为<strong>单链表</strong>。其中<strong>data为数据域</strong>，存放数据元素，<strong>next为指针域</strong>，存放其后继结点的地址。</p>
+<p>单链表是<strong>非随机存取</strong>的存储结构，即不能直接找到表中某个特定的结点。查找某个特定的结点时，需要<strong>从表头开始遍历</strong>，依次查找。</p>
+<p>单链表的定义如下。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">LNode</span> &#123;</span>        <span class="comment">// 定义单链表结点类型</span></span><br><span class="line">    <span class="keyword">int</span> data;                <span class="comment">// 数据域</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">LNode</span>* <span class="title">next</span>;</span>        <span class="comment">// 指针域</span></span><br><span class="line">&#125;LNode, * LinkList;</span><br><span class="line"><span class="comment">// LNode* L            声明一个指向单链表第一个节点的指针</span></span><br><span class="line"><span class="comment">// LinkList L        代码可读性更强</span></span><br><span class="line"><span class="comment">// 使用LNode*：        强调这是一个节点</span></span><br><span class="line"><span class="comment">// 使用LinkList L;        强调这是一个单链表</span></span><br></pre></td></tr></table></figure>
+<p>增加一个新的结点：在内存中申请一个结点所需空间，并用指针p指向这个结点。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LNode</span>* <span class="title">p</span> = (<span class="title">struct</span> <span class="title">LNode</span>*)<span class="title">malloc</span>(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">LNode</span>));</span>    <span class="comment">// 不使用typedef的声明</span></span><br><span class="line">LNode* p1 = (LNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(LNode));    <span class="comment">// 使用typedef后不需要写struct LNode</span></span><br></pre></td></tr></table></figure>
+<p>单链表又分为<strong>带头结点</strong>和<strong>不带头结点</strong>。带头结点写代码方便，不带头结点写代码麻烦。</p>
+<p>初始化一个空的单链表。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化一个空的单链表（不带头结点）</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">InitList</span><span class="params">(LinkList L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    L = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化一个单链表</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">InitList</span><span class="params">(LinkList L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    L = (LNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(LNode));    <span class="comment">// 分配一个头结点</span></span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;        <span class="comment">// 内存不足</span></span><br><span class="line">    L-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>判断单链表是否为空。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 判断单链表是否为空（不带头结点）</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Empty</span><span class="params">(LinkList L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (L == <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断单链表是否为空（带头结点）</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Empty</span><span class="params">(LinkList L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (L-&gt;next == <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>单链表的<strong>优点</strong>：不要求大片连续空间，改变内容方便。</p>
+<p>单链表的<strong>缺点</strong>：不可以随机存取，要耗费一定空间存放指针。</p>
+<h3 id="C语言的typedef关键字"><a href="#C语言的typedef关键字" class="headerlink" title="C语言的typedef关键字"></a>C语言的typedef关键字</h3><p>C语言的typedef关键字，用于<strong>数据类型重命名</strong>。</p>
+<p>语法：typdef &lt;数据类型&gt; &lt;别名&gt;</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> zhengshu;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span>* zhengshuzhizhen;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> x = <span class="number">1</span>;    <span class="comment">// 等价于zhengshu x = 1;</span></span><br><span class="line"><span class="keyword">int</span>* p;        <span class="comment">// 等价于zhengshuzhizhen p;</span></span><br></pre></td></tr></table></figure>
+<h3 id="单链表上基本操作的实现"><a href="#单链表上基本操作的实现" class="headerlink" title="单链表上基本操作的实现"></a>单链表上基本操作的实现</h3><h4 id="按位序插入（带头结点）"><a href="#按位序插入（带头结点）" class="headerlink" title="按位序插入（带头结点）"></a>按位序插入（带头结点）</h4><p>最好时间复杂度是<strong>O(1)</strong>，平均、最坏时间复杂度是<strong>O(n)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在第i个位置插入元素e</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ListInsert</span><span class="params">(LinkList L, <span class="keyword">int</span> i, <span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    LNode* p;    <span class="comment">// 指针p指向当前扫描到的结点</span></span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;    <span class="comment">// 当前p指向的是第几个结点</span></span><br><span class="line">    p = L;        <span class="comment">// L指向头结点，头结点是第0个结点</span></span><br><span class="line">    <span class="keyword">while</span> (p != <span class="literal">NULL</span> &amp;&amp; j &lt; i - <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        p = p-&gt;next;    <span class="comment">// 循环找到第i-1个结点</span></span><br><span class="line">        j++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;    <span class="comment">// i的值不合法</span></span><br><span class="line">    LNode* s = (LNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(LNode));</span><br><span class="line">    s-&gt;data = e;</span><br><span class="line">    s-&gt;next = p-&gt;next;</span><br><span class="line">    p-&gt;next = s;    <span class="comment">// 将结点s连到p之后</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="按位序插入（不带头结点）"><a href="#按位序插入（不带头结点）" class="headerlink" title="按位序插入（不带头结点）"></a>按位序插入（不带头结点）</h4><p>如果不带头结点，则插入、删除第1个元素时，<strong>需要更改头指针L</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在第i个位置插入元素e（不带头结点）</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ListInsert</span><span class="params">(LinkList L, <span class="keyword">int</span> i, <span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">1</span>)    <span class="comment">// 插入第一个节点的操作与其他结点不同</span></span><br><span class="line">    &#123;</span><br><span class="line">        LNode* s = (LNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(LNode));</span><br><span class="line">        s-&gt;data = e;</span><br><span class="line">        s-&gt;next = L;    <span class="comment">// 让s指向原来的第一个元素a1</span></span><br><span class="line">        L = s;            <span class="comment">// 让头指针指向新结点s</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">1</span>;    <span class="comment">// 当前p指向的结点从1开始</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，不带头结点的话，代码写起来更加麻烦，<strong>推荐写代码时带头结点</strong>。</p>
+<h4 id="指定结点的后插操作"><a href="#指定结点的后插操作" class="headerlink" title="指定结点的后插操作"></a>指定结点的后插操作</h4><p>时间复杂度是<strong>O(1)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 后插操作：在p节点之后插入元素e</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">InsertNextNode</span><span class="params">(LNode* p, <span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    LNode* s = (LNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(LNode));</span><br><span class="line">    <span class="keyword">if</span> (s == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;    <span class="comment">// 某些情况下有可能分配失败，如内存不足</span></span><br><span class="line">    s-&gt;data = e;            <span class="comment">// 用结点s保存数据元素e</span></span><br><span class="line">    s-&gt;next = p-&gt;next;        <span class="comment">// 让结点s指向p的后继</span></span><br><span class="line">    p-&gt;next = s;            <span class="comment">// 让结点p指向结点s</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="指定节点的前插操作（偷天换日法）"><a href="#指定节点的前插操作（偷天换日法）" class="headerlink" title="指定节点的前插操作（偷天换日法）"></a>指定节点的前插操作（偷天换日法）</h4><p>时间复杂度是<strong>O(1)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 前插操作：在p结点之前插入元素e</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">InsertPriorNode</span><span class="params">(LNode* p, <span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    LNode* s = (LNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(LNode));</span><br><span class="line">    <span class="keyword">if</span> (s == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;    <span class="comment">// 内存分配直白</span></span><br><span class="line">    s-&gt;next = p-&gt;next;        <span class="comment">// 让s指向p的后继</span></span><br><span class="line">    p-&gt;next = s;            <span class="comment">// 让p指向s</span></span><br><span class="line">    s-&gt;data = p-&gt;data;        <span class="comment">// 将p中元素复制到s中</span></span><br><span class="line">    p-&gt;data = e;            <span class="comment">// p中元素覆盖为e</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="按位序删除（带头结点）"><a href="#按位序删除（带头结点）" class="headerlink" title="按位序删除（带头结点）"></a>按位序删除（带头结点）</h4><p>最好时间复杂度是<strong>O(1)</strong>，平均、最坏时间复杂度是<strong>O(n)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 按位序删除（带头结点）</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ListDelete</span><span class="params">(LinkList L, <span class="keyword">int</span> i, <span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    LNode* p;    <span class="comment">// 指针p指向当前扫描到的结点</span></span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;    <span class="comment">// 当前p指向的是第几个结点</span></span><br><span class="line">    p = L;        <span class="comment">// L指向头结点，头结点是第0个结点（不存数据）</span></span><br><span class="line">    <span class="keyword">while</span> (p != <span class="literal">NULL</span> &amp;&amp; j &lt; i - <span class="number">1</span>)    <span class="comment">// 循环找到第i-1个结点</span></span><br><span class="line">    &#123;</span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        j++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;    <span class="comment">// i的值不合法</span></span><br><span class="line">    <span class="keyword">if</span> (p-&gt;next == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;    <span class="comment">// 第i-1个节点之后无其他结点</span></span><br><span class="line">    LNode* q = p-&gt;next;        <span class="comment">// 令q指向被删除结点</span></span><br><span class="line">    e = q-&gt;data;            <span class="comment">// 用e返回元素的值</span></span><br><span class="line">    p-&gt;next = q-&gt;next;        <span class="comment">// 将*q结点从链中“断开”</span></span><br><span class="line">    <span class="built_in">free</span>(q);                <span class="comment">// 释放结点的存储空间</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除指定结点p（偷天换日法）"><a href="#删除指定结点p（偷天换日法）" class="headerlink" title="删除指定结点p（偷天换日法）"></a>删除指定结点p（偷天换日法）</h4><p>删除结点p，需要修改其前驱结点的next。</p>
+<p>方法1：<strong>传入头指针</strong>，循环寻找p的前驱结点。</p>
+<p>方法2：偷天换日（类似于结点的前插的实现）。时间复杂度为<strong>O(1)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 按指定结点删除</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DeleNode</span><span class="params">(LNode* p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    LNode* q = p-&gt;next;            <span class="comment">// 令q指向*p的后继结点</span></span><br><span class="line">    p-&gt;data = p-&gt;next-&gt;data;    <span class="comment">// 和后继结点交换数据域</span></span><br><span class="line">    p-&gt;next = q-&gt;next;            <span class="comment">// 将*q结点从链中“断开”</span></span><br><span class="line">    <span class="built_in">free</span>(q);                    <span class="comment">// 释放后继结点的存储空间</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="按位查找（带头结点）"><a href="#按位查找（带头结点）" class="headerlink" title="按位查找（带头结点）"></a>按位查找（带头结点）</h4><p>平均时间复杂度是<strong>O(n)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 按位查找（带头结点）</span></span><br><span class="line"><span class="function">LNode* <span class="title">GetElem</span><span class="params">(LinkList L, <span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    LNode* p;        <span class="comment">// 指针p指向当前扫描到的结点</span></span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;        <span class="comment">// 当前p指向的是第几个结点</span></span><br><span class="line">    p = L;            <span class="comment">// L指向头结点，头结点是第0个结点（不存数据）</span></span><br><span class="line">    <span class="keyword">while</span> (p != <span class="literal">NULL</span> &amp;&amp; j &lt; i)</span><br><span class="line">    &#123;</span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        j++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="封装后的按位插入"><a href="#封装后的按位插入" class="headerlink" title="封装后的按位插入"></a>封装后的按位插入</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 封装后的按位插入</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ListInsert</span><span class="params">(LinkList L, <span class="keyword">int</span> i, <span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    LNode* p = GetElem(L, i - <span class="number">1</span>);    <span class="comment">// 找到第i-1个结点</span></span><br><span class="line">    <span class="keyword">return</span> InsertNextNode(p, e);    <span class="comment">// p后插入新元素e</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="按值查找"><a href="#按值查找" class="headerlink" title="按值查找"></a>按值查找</h4><p>时间复杂度为<strong>O(1)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 按值查找，找到数据域==e的结点</span></span><br><span class="line"><span class="function">LNode* <span class="title">LocateElem</span><span class="params">(LinkList L, <span class="keyword">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LNode* p = L-&gt;next;    <span class="comment">// 从第一个结点开始查找数据域为e的结点</span></span><br><span class="line">    <span class="keyword">while</span> (p != <span class="literal">NULL</span> &amp;&amp; p-&gt;data != e)</span><br><span class="line">    &#123;</span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;    <span class="comment">// 找到后返回该结点指针，否则返回NULL</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="求表的长度"><a href="#求表的长度" class="headerlink" title="求表的长度"></a>求表的长度</h4><p>时间复杂度为<strong>O(n)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 求表的长度</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Length</span><span class="params">(LinkList L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;    <span class="comment">// 统计表长</span></span><br><span class="line">    LNode* p = L;</span><br><span class="line">    <span class="keyword">while</span> (p-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        p = p-&gt;next;</span><br><span class="line">        len++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/06/16/C语言重定向和文件/" data-toggle="tooltip" data-placement="top"
+                           title="C语言重定向和文件">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#线性表的顺序表示"><span class="toc-text">线性表的顺序表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#课后练习"><span class="toc-text">课后练习</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线性表的链式表示"><span class="toc-text">线性表的链式表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单链表"><span class="toc-text">单链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C语言的typedef关键字"><span class="toc-text">C语言的typedef关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单链表上基本操作的实现"><span class="toc-text">单链表上基本操作的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#按位序插入（带头结点）"><span class="toc-text">按位序插入（带头结点）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位序插入（不带头结点）"><span class="toc-text">按位序插入（不带头结点）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#指定结点的后插操作"><span class="toc-text">指定结点的后插操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#指定节点的前插操作（偷天换日法）"><span class="toc-text">指定节点的前插操作（偷天换日法）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位序删除（带头结点）"><span class="toc-text">按位序删除（带头结点）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除指定结点p（偷天换日法）"><span class="toc-text">删除指定结点p（偷天换日法）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按位查找（带头结点）"><span class="toc-text">按位查找（带头结点）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#封装后的按位插入"><span class="toc-text">封装后的按位插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按值查找"><span class="toc-text">按值查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#求表的长度"><span class="toc-text">求表的长度</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhdaa">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2020
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
