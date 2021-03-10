@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ASP.NET MVC5（二）基本语言特性｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2021/03/09/ASP-NET-MVC5（二）基本语言特性/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET MVC5（二）基本语言特性</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2021-03-09
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET MVC5（二）基本语言特性
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>打开VS，创建新项目，选择模板<strong>ASP.NET Web应用程序</strong>，项目名称为<strong>LanguageFeatures</strong>，选择MVC的空模板。</p>
+<p>右键项目，添加引用，在程序集中找到<strong>System.Net.Http</strong>并添加到项目。</p>
+<h2 id="自动属性"><a href="#自动属性" class="headerlink" title="自动属性"></a>自动属性</h2><p>在<strong>Models文件夹</strong>添加<strong>Product</strong>类，其中有自动属性和规则属性。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">LanguageFeatures.Models</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">string</span> name;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> ProductID &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 规则属性</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Name</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">get</span> &#123; <span class="keyword">return</span> ProductID + name; &#125;</span><br><span class="line">            <span class="keyword">set</span> &#123; name = <span class="keyword">value</span>; &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 自动属性</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Description &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">decimal</span> Price &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Category &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加<strong>HomeController</strong>，添加<strong>AutoProperty动作方法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> LanguageFeatures.Models;</span><br><span class="line"><span class="keyword">using</span> System.Web.Mvc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">LanguageFeatures.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"Navigate to a URL to show an example"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> ViewResult <span class="title">AutoProperty</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Product myProduct = <span class="keyword">new</span> Product();</span><br><span class="line"></span><br><span class="line">            myProduct.Name = <span class="string">"Kayak"</span>;</span><br><span class="line">            <span class="keyword">string</span> productName = myProduct.Name;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)<span class="keyword">string</span>.Format(<span class="string">"Product name: &#123;0&#125;"</span>, productName));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加<strong>Result</strong>视图。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model String</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    Layout = null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Result<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        @Model</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行项目并导航到<strong>/Home/AutoProperty</strong>，显示的结果为：Product name: 0Kayak</p>
+<h2 id="对象与集合的初始化器"><a href="#对象与集合的初始化器" class="headerlink" title="对象与集合的初始化器"></a>对象与集合的初始化器</h2><p>在HomeController使用对象初始化器。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">CreateProduct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 创建并填充一个新的Product对象</span></span><br><span class="line">    Product myProduct = <span class="keyword">new</span> Product</span><br><span class="line">    &#123;</span><br><span class="line">        ProductID = <span class="number">100</span>,</span><br><span class="line">        Name = <span class="string">"Kayak"</span>,</span><br><span class="line">        Description = <span class="string">"A boat for one person"</span>,</span><br><span class="line">        Price = <span class="number">275</span>M,</span><br><span class="line">        Category = <span class="string">"Watersport"</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)<span class="keyword">string</span>.Format(<span class="string">"Category: &#123;0&#125;"</span>, myProduct.Category));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在HomeController初始化两个泛型集合和一个数组。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">CreateCollection</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">string</span>[] stringArray = &#123; <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"plum"</span> &#125;;</span><br><span class="line"></span><br><span class="line">    List&lt;<span class="keyword">int</span>&gt; intList = <span class="keyword">new</span> List&lt;<span class="keyword">int</span>&gt; &#123; <span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span> &#125;;</span><br><span class="line"></span><br><span class="line">    Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">int</span>&gt; myDict = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">int</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#123; <span class="string">"apple"</span>, <span class="number">10</span> &#125;,</span><br><span class="line">        &#123; <span class="string">"orange"</span>, <span class="number">20</span> &#125;,</span><br><span class="line">        &#123; <span class="string">"plum"</span>, <span class="number">30</span> &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)stringArray[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="扩展方法"><a href="#扩展方法" class="headerlink" title="扩展方法"></a>扩展方法</h2><p>扩展方法是指，<strong>给那些不是你拥有的、不能直接修改的类添加方法的一种方便的办法</strong>。</p>
+<p>在Models文件夹添加<strong>ShoppingCar</strong>类。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ShoppingCart</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Product&gt; Products &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设需要知道ShoppingCart类中<strong>Product</strong>对象的总值，但又<strong>不能修改ShoppingCart类</strong>，可以使用扩展方法实现功能。</p>
+<p>在Models文件夹添加<strong>MyExtensionMethods</strong>类。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">MyExtensionMethods</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">decimal</span> <span class="title">TotalPrices</span>(<span class="params"><span class="keyword">this</span> ShoppingCart cartParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">decimal</span> total = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> cartParam.Products)</span><br><span class="line">        &#123;</span><br><span class="line">            total += prod.Price;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> total;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：<strong>this关键字</strong>把TotalPrices标记为<strong>扩展方法</strong>，第一个参数告诉.NET扩展的是<strong>ShoppingCart</strong>类，可以通过<strong>cartParam</strong>参数来引用ShoppingCart类的实例。</p>
+<p>在HomeController中使用扩展方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">UseExtension</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 创建并填充ShoppingCart</span></span><br><span class="line">    ShoppingCart cart = <span class="keyword">new</span> ShoppingCart</span><br><span class="line">    &#123;</span><br><span class="line">        Products = <span class="keyword">new</span> List&lt;Product&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 求取购物车中的产品总价</span></span><br><span class="line">    <span class="keyword">decimal</span> cartTotal = cart.TotalPrices();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)<span class="keyword">string</span>.Format(<span class="string">"Total: &#123;0:c&#125;"</span>, cartTotal));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="枚举器和可枚举类型"><a href="#枚举器和可枚举类型" class="headerlink" title="枚举器和可枚举类型"></a>枚举器和可枚举类型</h3><p><strong>枚举器（enumerator）</strong>：枚举器对象可以依次返回请求的数组中的元素。枚举器知道项的次序并跟踪它在序列中的位置。<strong>枚举器实现了IEnumerator接口</strong>。</p>
+<p><strong>IEnumerator接口</strong>：包含3个函数成员，<strong>Current（只读属性）</strong>、<strong>MoveNext</strong>、<strong>Reset</strong>，<strong>实现了IEnumerator接口的类称为枚举器</strong>。</p>
+<p><strong>可枚举类型</strong>：是指<strong>实现了IEnumerable接口的类</strong>。</p>
+<p><strong>IEnumerable接口</strong>：只有一个成员，<strong>GetEnumerator方法</strong>，它返回对象的枚举器。</p>
+<p><strong>IEnumerable&lt;T&gt;接口</strong>：GetEnumerator方法返回实现<strong>IEnumerator&lt;T&gt;</strong>的枚举器类的实例。</p>
+<p><strong>IEnumerator&lt;T&gt;接口</strong>：实现该接口的类实现了Current属性，它返回实际类型的实例，而不是object引用。</p>
+<h3 id="对接口运用扩展方法"><a href="#对接口运用扩展方法" class="headerlink" title="对接口运用扩展方法"></a>对接口运用扩展方法</h3><p>可以创建运用于一个接口的扩展方法，并允许在<strong>实现这个接口的所有类上调用这个扩展方法</strong>。</p>
+<p>在ShoppingCart类实现IEnumerable&lt;Product&gt;接口。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">public class ShoppingCart : IEnumerable&lt;Product&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Product&gt; Products &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IEnumerator&lt;Product&gt; <span class="title">GetEnumerator</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Products.GetEnumerator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    IEnumerator IEnumerable.GetEnumerator()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> GetEnumerator();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改扩展方法，使之应用于接口上。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">decimal</span> <span class="title">TotalPrices</span>(<span class="params"><span class="keyword">this</span> IEnumerable&lt;Product&gt; productEnum</span>)	<span class="comment">// 不仅包括ShoppingCart实例，还可以是Products数组</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">decimal</span> total = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> productEnum)</span><br><span class="line">    &#123;</span><br><span class="line">        total += prod.Price;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在HomeController中运用扩展方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">UseExtensionEnumerable</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    IEnumerable&lt;Product&gt; products = <span class="keyword">new</span> ShoppingCart</span><br><span class="line">    &#123;</span><br><span class="line">        Products = <span class="keyword">new</span> List&lt;Product&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建并填充一个Product对象的数组</span></span><br><span class="line">    Product[] productArray = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取购物车中产品的总价</span></span><br><span class="line">    <span class="keyword">decimal</span> cartTotal = products.TotalPrices();</span><br><span class="line">    <span class="keyword">decimal</span> arrayTotal = productArray.TotalPrices();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)<span class="keyword">string</span>.Format(<span class="string">"Cart Total: &#123;0&#125;, Array Total: &#123;1&#125;"</span>, cartTotal, arrayTotal));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建过滤扩展方法"><a href="#创建过滤扩展方法" class="headerlink" title="创建过滤扩展方法"></a>创建过滤扩展方法</h3><ol>
+<li>过滤扩展方法，可以对<strong>对象集合</strong>进行<strong>过滤</strong>。</li>
+<li>对<strong>IEnumerable&lt;T&gt;</strong>进行操作，返回一个<strong>IEnumerable&lt;T&gt;</strong>结果。</li>
+<li>用<strong>yield</strong>关键字把选择条件运用于数据源中的数据项，以产生一个结果集。</li>
+</ol>
+<p>在MyExtensionMethods类中增加过滤扩展方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;Product&gt; <span class="title">FilterByCategory</span>(<span class="params"><span class="keyword">this</span> IEnumerable&lt;Product&gt; productEnum, <span class="keyword">string</span> categoryParam</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> productEnum)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (prod.Category == categoryParam)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">return</span> prod;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在HomeController中使用过滤扩展方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">UseFilterExtensionMethod</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    IEnumerable&lt;Product&gt; products = <span class="keyword">new</span> ShoppingCart</span><br><span class="line">    &#123;</span><br><span class="line">        Products = <span class="keyword">new</span> List&lt;Product&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">decimal</span> total = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> products.FilterByCategory(<span class="string">"Soccer"</span>))	<span class="comment">// 使用过滤扩展方法</span></span><br><span class="line">    &#123;</span><br><span class="line">        total += prod.Price;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)<span class="keyword">string</span>.Format(<span class="string">"Total: &#123;0&#125;"</span>, total));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h2><p>在MyExtensionMethods类中添加<strong>Filter扩展方法</strong>，以一个<strong>Func委托</strong>作为参数。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;Product&gt; <span class="title">Filter</span>(<span class="params"><span class="keyword">this</span> IEnumerable&lt;Product&gt; productEnum, Func&lt;Product, <span class="keyword">bool</span>&gt; selectParam</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> productEnum)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (selectParam(prod))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">return</span> prod;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在HomeController中使用<strong>带有Func的过滤扩展方法</strong>。这样就可以用委托中指定的任何条件来过滤Product对象。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">UseFilterExtensionMethod</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    IEnumerable&lt;Product&gt; products = <span class="keyword">new</span> ShoppingCart</span><br><span class="line">    &#123;</span><br><span class="line">        Products = <span class="keyword">new</span> List&lt;Product&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">            <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    Func&lt;Product, <span class="keyword">bool</span>&gt; categoryFilter = <span class="keyword">delegate</span> (Product prod)	<span class="comment">// 匿名函数赋值给Func委托</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> prod.Category == <span class="string">"Soccer"</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">decimal</span> total = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> products.Filter(categoryFilter))	<span class="comment">// Func委托作为参数传入Filter方法</span></span><br><span class="line">    &#123;</span><br><span class="line">        total += prod.Price;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)<span class="keyword">string</span>.Format(<span class="string">"Total: &#123;0&#125;"</span>, total));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用Lambda表达式代替委托定义（匿名函数）。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Func&lt;Product, <span class="keyword">bool</span>&gt; categoryFilter = prod =&gt; prod.Category == <span class="string">"Soccer"</span>;	<span class="comment">// lambda表达式替代匿名函数，赋值给Func委托</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> products.Filter(categoryFilter))</span><br><span class="line">&#123;</span><br><span class="line">    total += prod.Price;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以去掉Func，形成更紧凑的语法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span> (Product prod <span class="keyword">in</span> products.Filter(prod =&gt; prod.Category == <span class="string">"Soccer"</span> || prod.Price &gt; <span class="number">20</span>))</span><br><span class="line">&#123;</span><br><span class="line">    total += prod.Price;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="自动类型接口"><a href="#自动类型接口" class="headerlink" title="自动类型接口"></a>自动类型接口</h2><p>使用<strong>推断类型</strong>或<strong>隐式类型</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> myVariable = <span class="keyword">new</span> Product</span><br><span class="line">&#123;</span><br><span class="line">    Name = <span class="string">"Kayak"</span>,</span><br><span class="line">    Category = <span class="string">"Watersports"</span>,</span><br><span class="line">    Price = <span class="number">275</span>M</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">string</span> name = myVariable.Name;</span><br></pre></td></tr></table></figure>
+<h2 id="匿名类型"><a href="#匿名类型" class="headerlink" title="匿名类型"></a>匿名类型</h2><p>通过结合<strong>对象初始化器</strong>和<strong>类型推断</strong>，可以创建简单的数据存储对象，而<strong>不需要定义相应的类</strong>。</p>
+<p>在HomeController添加<strong>CreateAnonArray</strong>动作方法，创建匿名类型对象数组。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">CreateAnonArray</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> oddsAndEnds = <span class="keyword">new</span>[]</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> &#123; Name = <span class="string">"MVC"</span>, Category = <span class="string">"Pattern"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> &#123; Name = <span class="string">"Hat"</span>, Category = <span class="string">"Clothing"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> &#123; Name = <span class="string">"Apple"</span>, Category = <span class="string">"Fruit"</span> &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    StringBuilder result = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> oddsAndEnds)</span><br><span class="line">    &#123;</span><br><span class="line">        result.Append(item.Name).Append(<span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)result.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="语言集成查询（LINQ）"><a href="#语言集成查询（LINQ）" class="headerlink" title="语言集成查询（LINQ）"></a>语言集成查询（LINQ）</h2><p>假设有一个Product对象的集合，需要找出其中的3个最高价，并将它们传递给View方法。</p>
+<p>在HomeController添加<strong>FindProducts</strong>动作方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">FindProducts</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Product[] products = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义一个数组以保存结果</span></span><br><span class="line">    Product[] foundProducts = <span class="keyword">new</span> Product[<span class="number">3</span>];</span><br><span class="line">    <span class="comment">// 对数组的内容进行排序</span></span><br><span class="line">    Array.Sort(products, (item1, item2) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> Comparer&lt;<span class="keyword">decimal</span>&gt;.Default.Compare(item2.Price, item1.Price);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 获取数组的前三项作为结果</span></span><br><span class="line">    Array.Copy(products, foundProducts, <span class="number">3</span>);</span><br><span class="line">    <span class="comment">// 创建结果</span></span><br><span class="line">    StringBuilder result = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">foreach</span> (Product p <span class="keyword">in</span> foundProducts)</span><br><span class="line">    &#123;</span><br><span class="line">        result.AppendFormat(<span class="string">"Price: &#123;0&#125; "</span>, p.Price);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)result.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用LINQ的<strong>查询语法</strong>。它对Product对象进行降序排序，并用select关键字返回一个匿名类型，而且仅包含Name和Price属性。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">FindProducts</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Product[] products = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// LINQ查询语法</span></span><br><span class="line">    <span class="keyword">var</span> foundProducts = <span class="keyword">from</span> match <span class="keyword">in</span> products</span><br><span class="line">                        <span class="keyword">orderby</span> match.Price <span class="keyword">descending</span></span><br><span class="line">                        <span class="keyword">select</span> <span class="keyword">new</span> &#123; match.Name, match.Price &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建结果</span></span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    StringBuilder result = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> p <span class="keyword">in</span> foundProducts)</span><br><span class="line">    &#123;</span><br><span class="line">        result.AppendFormat(<span class="string">"Price: &#123;0&#125; "</span>, p.Price);</span><br><span class="line">        <span class="keyword">if</span> (++count == <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)result.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以使用LINQ的<strong>点符号语法</strong>。这种语法基于<strong>扩展方法</strong>，它运用一个IEnumerable&lt;T&gt;，并返回一个IEnumerable&lt;T&gt;，以<strong>方法链形式</strong>调用，也称为<strong>链式语法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">FindProducts</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Product[] products = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// LINQ点符号语法</span></span><br><span class="line">    <span class="keyword">var</span> foundProducts = products.OrderByDescending(e =&gt; e.Price).Take(<span class="number">3</span>).Select(e =&gt; <span class="keyword">new</span> &#123; e.Name, e.Price &#125;);</span><br><span class="line"></span><br><span class="line">    StringBuilder result = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> p <span class="keyword">in</span> foundProducts)</span><br><span class="line">    &#123;</span><br><span class="line">        result.AppendFormat(<span class="string">"Price: &#123;0&#125; "</span>, p.Price);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)result.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>OrderByDescending</strong>方法重组了数据源中的数目，<strong>Take</strong>方法返回结果最前面的指定数目的条目，<strong>Select</strong>指定想要的结果。</p>
+<h3 id="一些有用的LINQ扩展方法"><a href="#一些有用的LINQ扩展方法" class="headerlink" title="一些有用的LINQ扩展方法"></a>一些有用的LINQ扩展方法</h3><table>
+<thead>
+<tr>
+<th>扩展方法</th>
+<th>描述</th>
+<th>延迟</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All</td>
+<td>如果源数据中的所有条目都与谓词匹配，则返回true</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Any</td>
+<td>如果源数据中至少有一个条目与谓词匹配，则返回true</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Contains</td>
+<td>如果数据源含有指定的条目或值，则返回true</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Count</td>
+<td>返回数据源中的条目数</td>
+<td>否</td>
+</tr>
+<tr>
+<td>First</td>
+<td>返回数据源的第一个条目</td>
+<td>否</td>
+</tr>
+<tr>
+<td>FirstOrDefault</td>
+<td>返回数据源的第一个条目，或无条目时，返回默认值</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Last</td>
+<td>返回数据源的最后一个条目</td>
+<td>否</td>
+</tr>
+<tr>
+<td>LastOrDefault</td>
+<td>返回数据源的最后条目，或无条目时，返回默认值</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Max<br>Min</td>
+<td>返回由lambda表达式表示的最大值或最小值</td>
+<td>否</td>
+</tr>
+<tr>
+<td>OrderBy<br>OrderByDescending</td>
+<td>基于lambda表达式返回的值对源数据进行排序</td>
+<td>是</td>
+</tr>
+<tr>
+<td>Reverse</td>
+<td>反转数据源中数据项的顺序</td>
+<td>是</td>
+</tr>
+<tr>
+<td>Select</td>
+<td>设计一个查询结果</td>
+<td>是</td>
+</tr>
+<tr>
+<td>SelectMany</td>
+<td>把每个数据项投射到一个条目序列之中，然后把所有这些结果序列连接成一个序列</td>
+<td>是</td>
+</tr>
+<tr>
+<td>Single</td>
+<td>返回数据源的第一个条目，或者有多个匹配时抛出一个异常</td>
+<td>否</td>
+</tr>
+<tr>
+<td>SingleOrDefault</td>
+<td>返回数据源的第一个条目，或者无条目时，返回默认值；有多个匹配条目时，抛出一个异常</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Skip<br>SkipWhile</td>
+<td>跳过指定数目的元素，或者当谓词匹配时跳过</td>
+<td>是</td>
+</tr>
+<tr>
+<td>Sum</td>
+<td>对谓词选定的值求和</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Take<br>TakeWhile</td>
+<td>从数据源的开始处选择指定数目的元素，或当谓词匹配时选择条目</td>
+<td>是</td>
+</tr>
+<tr>
+<td>ToArray<br>ToDictionary<br>ToList</td>
+<td>把数据源转换成数组或其他集合类型</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Where</td>
+<td>过滤掉源数据中与谓词不匹配的条目</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h3 id="LINQ延迟查询"><a href="#LINQ延迟查询" class="headerlink" title="LINQ延迟查询"></a>LINQ延迟查询</h3><p>如果一条查询只含有<strong>延迟方法</strong>，那么，<strong>直到结果进行枚举后，才会执行该查询</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">var</span> foundProducts = products.OrderByDescending(e =&gt; e.Price).Take(<span class="number">3</span>).Select(e =&gt; <span class="keyword">new</span> &#123; e.Name, e.Price &#125;);</span><br><span class="line"></span><br><span class="line">products[<span class="number">2</span>] = <span class="keyword">new</span> Product &#123; Name = <span class="string">"Stadium"</span>, Price = <span class="number">79600</span>M &#125;;</span><br><span class="line">...</span><br><span class="line"><span class="comment">// Price: 79600 Price: 275 Price: 48.95</span></span><br></pre></td></tr></table></figure>
+<p>相比之下，使用任何<strong>非延迟的扩展方法</strong>，都会使LINQ查询<strong>立即执行</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">var</span> results = products.Sum(e =&gt; e.Price);</span><br><span class="line">products[<span class="number">2</span>] = <span class="keyword">new</span> Product &#123; Name = <span class="string">"Stadium"</span>, Price = <span class="number">79600</span>M &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> View(<span class="string">"Result"</span>, (<span class="keyword">object</span>)<span class="keyword">string</span>.Format(<span class="string">"Sum: &#123;0:c&#125;"</span>, results));</span><br><span class="line">...</span><br><span class="line"><span class="comment">// Sum: ¥378.40</span></span><br></pre></td></tr></table></figure>
+<h2 id="Async方法"><a href="#Async方法" class="headerlink" title="Async方法"></a>Async方法</h2><p><strong>异步方法</strong>在后台执行和工作，并在工作完成时通知你，这允许在后台工作执行期间，你的代码能够处理其他事务。</p>
+<p>异步方法是<strong>消除代码性能瓶颈</strong>的一个重要工具，并让应用程序能够利用多处理器和处理器内核<strong>并行</strong>地进行工作。</p>
+<p>在Models文件夹添加MyAsyncMethods类，实现一个简单的异步方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyAsyncMethods</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Task&lt;<span class="keyword">long</span>?&gt; GetPageLength()</span><br><span class="line">    &#123;</span><br><span class="line">        HttpClient client = <span class="keyword">new</span> HttpClient();</span><br><span class="line">        <span class="keyword">var</span> httpTask = client.GetAsync(<span class="string">"http://apress.com"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在等待HTTP请求完成期间，此处可以做其他事情（后台任务）</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> httpTask.ContinueWith((Task&lt;HttpResponseMessage&gt; antecedent) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> antecedent.Result.Content.Headers.ContentLength;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>当调用GetAsync方法时，所得到的是一个<strong>Task&lt;HttpResponseMessage&gt;</strong>对象。</li>
+<li>该请求<strong>将在后台执行</strong>，请求的结果是一个<strong>HttpResponseMessage</strong>对象。</li>
+<li><strong>return</strong>关键字用了两次。第一次是返回一个<strong>Task&lt;HttpResponseMessage&gt;</strong>对象，第二次返回一个<strong>long?</strong>。</li>
+<li><strong>ContinueWith</strong>方法指定了后台任务完成时希望发生的事情。</li>
+</ol>
+<h3 id="运用async和await关键字"><a href="#运用async和await关键字" class="headerlink" title="运用async和await关键字"></a>运用async和await关键字</h3><p><strong>async</strong>和<strong>await</strong>关键字可以<strong>简化GetAsync异步方法</strong>的使用。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">async</span> <span class="keyword">static</span> Task&lt;<span class="keyword">long</span>?&gt; GetPageLength()</span><br><span class="line">&#123;</span><br><span class="line">    HttpClient client = <span class="keyword">new</span> HttpClient();</span><br><span class="line">    <span class="keyword">var</span> httpMessage = <span class="keyword">await</span> client.GetAsync(<span class="string">"http://apress.com"</span>);	<span class="comment">// httpMessage为HttpResponseMessage对象</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在等待HTTP请求完成期间，此处可以做其他事情（后台任务）</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> httpMessage.Content.Headers.ContentLength;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>await：告诉C#编译器，希望<strong>等待GetAsync方法</strong>所返回的<strong>Task结果</strong>，并继续执行同一方法中的其他语句。</p>
+<p>async：使用await关键字时，必须在方法签名添加async关键字。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/02/24/ASP-NET-MVC5（一）创建项目/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET MVC5（一）创建项目">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自动属性"><span class="toc-text">自动属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象与集合的初始化器"><span class="toc-text">对象与集合的初始化器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展方法"><span class="toc-text">扩展方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#枚举器和可枚举类型"><span class="toc-text">枚举器和可枚举类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对接口运用扩展方法"><span class="toc-text">对接口运用扩展方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建过滤扩展方法"><span class="toc-text">创建过滤扩展方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lambda表达式"><span class="toc-text">lambda表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动类型接口"><span class="toc-text">自动类型接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匿名类型"><span class="toc-text">匿名类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语言集成查询（LINQ）"><span class="toc-text">语言集成查询（LINQ）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一些有用的LINQ扩展方法"><span class="toc-text">一些有用的LINQ扩展方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LINQ延迟查询"><span class="toc-text">LINQ延迟查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Async方法"><span class="toc-text">Async方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#运用async和await关键字"><span class="toc-text">运用async和await关键字</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2021
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
