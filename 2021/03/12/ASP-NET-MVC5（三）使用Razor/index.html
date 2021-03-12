@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ASP.NET MVC5（三）使用Razor｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2021/03/12/ASP-NET-MVC5（三）使用Razor/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET MVC5（三）使用Razor</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2021-03-12
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET MVC5（三）使用Razor
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p><strong>Razor</strong>是MVC框架<strong>视图引擎</strong>的名称。视图引擎负责处理ASP.NET内容，并查找有关指令，将动态内容插入到发送给浏览器的输出。</p>
+<p><strong>视图的目标</strong>：将模型的一个或多个部分表现给用户。意味着，视图会产生显示数据的HTML，这些数据来自于视图所接收的一个或多个对象。</p>
+<h2 id="准备项目"><a href="#准备项目" class="headerlink" title="准备项目"></a>准备项目</h2><p>打开VS，创建<strong>ASP.NET Web应用程序</strong>，项目名称为<strong>Razor</strong>，选择MVC空模板。</p>
+<h3 id="定义模型"><a href="#定义模型" class="headerlink" title="定义模型"></a>定义模型</h3><p>在Models文件夹添加<strong>Product</strong>类。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> ProductID &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Description &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">decimal</span> Price &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Category &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定义控制器"><a href="#定义控制器" class="headerlink" title="定义控制器"></a>定义控制器</h3><p>添加<strong>HomeController</strong>。定义<strong>Index</strong>动作方法，并把Product对象传递给View。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 字段</span></span><br><span class="line">    Product myProduct = <span class="keyword">new</span> Product</span><br><span class="line">    &#123;</span><br><span class="line">        ProductID = <span class="number">1</span>,</span><br><span class="line">        Name = <span class="string">"Kayak"</span>,</span><br><span class="line">        Description = <span class="string">"A boat for one person"</span>,</span><br><span class="line">        Category = <span class="string">"Watersports"</span>,</span><br><span class="line">        Price = <span class="number">275</span>M</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> View(myProduct);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h3><p>添加Index视图，模板设置为空，选择Product模型类。</p>
+<h2 id="使用模型对象"><a href="#使用模型对象" class="headerlink" title="使用模型对象"></a>使用模型对象</h2><p><strong>Razor语句</strong>以<strong>@字符</strong>开始。<strong>@model语句</strong>声明了通过动作方法<strong>传递给该视图</strong>模型对象的类型，我们可以通过<strong>@Model</strong>来引用视图模型对象的<strong>方法</strong>、<strong>字段</strong>和<strong>属性</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    Layout = null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        @Model.Name</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用布局"><a href="#使用布局" class="headerlink" title="使用布局"></a>使用布局</h2><p><strong>@{ … }</strong>是<strong>Razor代码块</strong>，这种代码块允许在视图中包含<strong>C#</strong>语句。</p>
+<p>在MVC应用程序中，Razor视图会被编译成C#类，而所用的基类定义了Layout属性。</p>
+<p><strong>Layout属性</strong>的值设置为<strong>null</strong>，代表该视图是<strong>自包含</strong>的，并且会渲染客户端所需要的<strong>全部</strong>内容。</p>
+<h3 id="创建布局"><a href="#创建布局" class="headerlink" title="创建布局"></a>创建布局</h3><p>右键<strong>Views文件夹</strong>，添加<strong>新建项</strong>，选择<strong>MVC5 布局页</strong>，文件名设置为<strong>_BasicLayout.cshtml</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>@ViewBag.Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Product Information<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"padding: 20px; border: solid medium black; font-size: 20pt;"</span>&gt;</span></span><br><span class="line">        @RenderBody()</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Visit <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://apress.com"</span>&gt;</span>Apress<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li><strong>@RenderBody方法</strong>的调用会将<strong>动作方法所指定的视图内容</strong>插入到<strong>布局标记</strong>之中。</li>
+<li><strong>ViewBag.Title</strong>会查找Title属性，目的是<strong>设置title元素的内容</strong>。</li>
+<li>代码添加了两个标题元素（h1和h2），以及对div元素运用了一些css样式，目的是让来自<strong>布局</strong>的内容与来自<strong>视图</strong>的内容有所区别。</li>
+</ol>
+<h3 id="运用布局"><a href="#运用布局" class="headerlink" title="运用布局"></a>运用布局</h3><p>为了将布局运用于视图，只需要设置视图的<strong>Layout属性</strong>的值即可。</p>
+<p>布局中包含了一些HTML元素，定义了HTML页面的<strong>结构</strong>。</p>
+<p>在Index视图中使用Layout属性。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = <span class="string">"Product Name"</span>;</span><br><span class="line">    Layout = <span class="string">"~/Views/_BasicLayout.cshtml"</span>;</span><br><span class="line">&#125;</span><br><span class="line">Product Name: @Model.Name</span><br></pre></td></tr></table></figure>
+<h3 id="视图起始文件"><a href="#视图起始文件" class="headerlink" title="视图起始文件"></a>视图起始文件</h3><p>如果有<strong>多个视图</strong>，则必须在<strong>每一</strong>视图都要指定<strong>布局文件</strong>，这是难以维护的。</p>
+<p><strong>视图起始文件</strong>：在渲染一个视图时，MVC框架会查找一个叫做<strong>_ViewStart.cshtml</strong>的文件。框架会将此文件的内容视为<strong>视图文件的一部分</strong>。</p>
+<p>在Views文件夹添加<strong>MVC5 布局页</strong>，名称设置为<strong>_ViewStart.cshtml</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    Layout = <span class="string">"~/Views/_BasicLayout.cshtml"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以在Index视图中去掉Layout属性。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = <span class="string">"Product Name"</span>;</span><br><span class="line">&#125;</span><br><span class="line">Product Name: @Model.Name</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>如果添加了<strong>视图起始文件_ViewStart.cshtml</strong>，则MVC会对此文件进行定位且自动使用其内容<strong>（所有视图默认使用视图起始文件的布局）</strong>。</li>
+<li>如果在视图中重新定义了<strong>Layout</strong>的值，则会<strong>覆盖</strong>视图起始文件中所指定的布局。<strong>（Layout优先级：视图 &gt; 视图起始文件）</strong></li>
+<li><strong>Layout</strong>属性设置为<strong>null</strong>，与<strong>不使用Layout</strong>属性是不同的。</li>
+</ol>
+<h3 id="共享布局"><a href="#共享布局" class="headerlink" title="共享布局"></a>共享布局</h3><p>在<strong>HomeController</strong>中添加<strong>NameAndPrice</strong>动作方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">NameAndPrice</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> View(myProduct);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加<strong>NameAndPrice</strong>视图，选择Product模型类，勾选<strong>使用布局页</strong>，选择<strong>_BasicLayout.cshtml</strong>。（这里如果不勾选布局页，也是同样的结果，因为视图起始文件引用了相同的布局）</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = <span class="string">"NameAndPrice"</span>;</span><br><span class="line">    Layout = <span class="string">"~/Views/_BasicLayout.cshtml"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;h2&gt;NameAndPrice&lt;/h2&gt;</span><br><span class="line">The product name <span class="keyword">is</span> @Model.Name and it costs $@Model.Price</span><br></pre></td></tr></table></figure>
+<h2 id="Razor表达式"><a href="#Razor表达式" class="headerlink" title="Razor表达式"></a>Razor表达式</h2><p>动作方法与视图所起的作用。</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>要做的事</th>
+<th>不做的事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>动作方法</td>
+<td>向视图<strong>传递</strong>一个视图<strong>模型</strong></td>
+<td>向视图传递<strong>格式化的数据</strong></td>
+</tr>
+<tr>
+<td>视图</td>
+<td>用视图模型对象向用户<strong>表现内容</strong></td>
+<td><strong>修改</strong>视图模型对象的任何方面</td>
+</tr>
+</tbody>
+</table>
+<p>当然可以在动作方法中创建<strong>要显示的字符串</strong>，并把它<strong>作为视图模型</strong>传递给视图，但这<strong>破坏了MVC模式</strong>的好处。</p>
+<h3 id="插入数据值"><a href="#插入数据值" class="headerlink" title="插入数据值"></a>插入数据值</h3><p>用<strong>Razor表达式</strong>能做的最简单的事情，是<strong>将数据值插入到标记中</strong>，可以用<strong>@Model</strong>表达式来做这件事，以引用视图模型对象所定义的属性与方法。或使用<strong>@ViewBag</strong>表达式引用动态属性。</p>
+<p>在HomeController添加<strong>DemoExpressions</strong>动作方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">DemoExpressions</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ViewBag.ProductCount = <span class="number">1</span>;</span><br><span class="line">    ViewBag.ExpressShip = <span class="literal">true</span>;</span><br><span class="line">    ViewBag.ApplyDiscount = <span class="literal">false</span>;</span><br><span class="line">    ViewBag.Supplier = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(myProduct);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建<strong>DemoExpressions</strong>视图，选择Product模型类。视图使用<strong>Razor表达式</strong>显示数据，这些数据是动作方法传递给视图的。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "DemoExpression";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Property<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Value<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Stock Level<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@ViewBag.ProductCount<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="设置标签属性的值"><a href="#设置标签属性的值" class="headerlink" title="设置标签属性的值"></a>设置标签属性的值</h3><p>可以通过<strong>Razor表达式</strong>，设置元素的<strong>标签属性</strong>的值。</p>
+<p>修改DemoExpression视图，在视图中使用Razor表达式<strong>设置标签属性值</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "DemoExpression";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Property<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Value<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Stock Level<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@ViewBag.ProductCount<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">data-discount</span>=<span class="string">"@ViewBag.ApplyDiscount"</span> <span class="attr">data-express</span>=<span class="string">"@ViewBag.ExpressShip"</span> <span class="attr">data-supplier</span>=<span class="string">"@ViewBag.Supplier"</span>&gt;</span></span><br><span class="line">    The containing element has data attributes</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">Discount:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>=<span class="string">"@ViewBag.ApplyDiscount"</span> /&gt;</span></span><br><span class="line">Express:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>=<span class="string">"@ViewBag.ExpressShip"</span> /&gt;</span></span><br><span class="line">Supplier:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">checked</span>=<span class="string">"@ViewBag.Supplier"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li><strong>data标签属性</strong>，以data-为前缀，作为<strong>创建自定义标签属性</strong>的一种非正规方式，现已称为<strong>H5的正规标准</strong>。</li>
+<li>Razor会将<strong>后台的null</strong>渲染成<strong>空字符串</strong>。如Supplier标签属性。</li>
+<li>Razor使用<strong>checked标签属性</strong>时，用<strong>是否出现该标签属性</strong>而不是<strong>它的值</strong>来改变元素的配置。即，Razor在值为<strong>False</strong>或<strong>null</strong>时，会完全<strong>删除</strong>该标签属性。如ApplyDiscount和Supplier标签属性。</li>
+</ol>
+<h3 id="使用条件语句"><a href="#使用条件语句" class="headerlink" title="使用条件语句"></a>使用条件语句</h3><p>Razor能处理条件语句，这是Razor的核心功能。这能够创建复杂而流畅的视图，使视图仍易于阅读和维护。</p>
+<p>修改DemoExpression视图，在视图中使用<strong>Razor条件语句</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "DemoExpression";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Property<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Value<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Stock Level<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">                @switch ((int)ViewBag.ProductCount)</span><br><span class="line">                &#123;</span><br><span class="line">                    case 0:</span><br><span class="line">                        @: Out of Stock</span><br><span class="line">                        break;</span><br><span class="line">                    case 1:</span><br><span class="line">                        <span class="tag">&lt;<span class="name">b</span>&gt;</span>Low Stock (@ViewBag.ProductCount)<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">                        break;</span><br><span class="line">                    default:</span><br><span class="line">                        @ViewBag.ProductCount</span><br><span class="line">                        break;</span><br><span class="line">                &#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>在视图中使用<strong>switch表达式</strong>，需要使用<strong>@switch</strong>开头。</li>
+<li>必须将<strong>ViewBag.ProductCount</strong>属性的值<strong>转换成int</strong>才能够在switch语句中使用。因为Razor中的switch表达式<strong>不能求取动态属性的值</strong>。</li>
+<li>如果使用<strong>@:</strong>前缀，则Razor<strong>阻止</strong>此行解释为一条C#语句。可以用此方法，<strong>将HTML元素中的文本插入到视图</strong>。</li>
+</ol>
+<p>修改DemoExpression视图，在视图中使用<strong>if语句</strong>（与switch语句结果相同）。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "DemoExpression";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Property<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Value<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>@Model.Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>Stock Level<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">                @if (ViewBag.ProductCount == 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    @: Out of Stock</span><br><span class="line">                &#125;</span><br><span class="line">                else if (ViewBag.ProductCount == 1)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="tag">&lt;<span class="name">b</span>&gt;</span>Low Stock (@ViewBag.ProductCount)<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    @ViewBag.ProductCount</span><br><span class="line">                &#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="枚举数组和集合"><a href="#枚举数组和集合" class="headerlink" title="枚举数组和集合"></a>枚举数组和集合</h3><p>在HomeController添加<strong>DemoArray</strong>动作方法。该动作方法创建了<strong>Product[]</strong>对象，并传递给<strong>View</strong>方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">DemoArray</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Product[] array = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> View(array);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>VS的支架特性不能指定<strong>一个数组作为模型类</strong>，但Razor本身能够支持数组。</p>
+<p>创建一个<strong>不含模型</strong>的<strong>DemoArray</strong>视图，手动添加<strong>@model表达式</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model Razor.Models.Product[]</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "DemoArray";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@if (Model.Length &gt; 0)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>Product<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">            @foreach (Razor.Models.Product p in Model)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>@p.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>@p.Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            &#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>No product data<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="处理命名空间"><a href="#处理命名空间" class="headerlink" title="处理命名空间"></a>处理命名空间</h3><p>可以对一个视图运用<strong>@using表达式</strong>，以<strong>引入命名空间</strong>，就像在C#类那样。一个视图可以包含<strong>多个</strong>@using表达式。</p>
+<p>在DemoArray视图中运用<strong>@using表达式</strong>，并<strong>去掉</strong>@model表达式和foreach循环中的<strong>命名空间</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@using Razor.Models</span><br><span class="line">@model Product[]</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "DemoArray";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@if (Model.Length &gt; 0)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>Product<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">th</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">            @foreach (Product p in Model)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>@p.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>@p.Price<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            &#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>No product data<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/03/09/ASP-NET-MVC5（二）基本语言特性/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET MVC5（二）基本语言特性">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备项目"><span class="toc-text">准备项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义模型"><span class="toc-text">定义模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义控制器"><span class="toc-text">定义控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建视图"><span class="toc-text">创建视图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用模型对象"><span class="toc-text">使用模型对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用布局"><span class="toc-text">使用布局</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建布局"><span class="toc-text">创建布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运用布局"><span class="toc-text">运用布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视图起始文件"><span class="toc-text">视图起始文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享布局"><span class="toc-text">共享布局</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Razor表达式"><span class="toc-text">Razor表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入数据值"><span class="toc-text">插入数据值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置标签属性的值"><span class="toc-text">设置标签属性的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用条件语句"><span class="toc-text">使用条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#枚举数组和集合"><span class="toc-text">枚举数组和集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理命名空间"><span class="toc-text">处理命名空间</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2021
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
