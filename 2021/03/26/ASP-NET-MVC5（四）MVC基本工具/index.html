@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ASP.NET MVC5（四）MVC基本工具｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2021/03/26/ASP-NET-MVC5（四）MVC基本工具/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET MVC5（四）MVC基本工具</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2021-03-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET MVC5（四）MVC基本工具
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <ul>
+<li>依赖项注入（DI）容器</li>
+<li>单元测试框架</li>
+<li>模仿工具</li>
+</ul>
+<h2 id="准备项目"><a href="#准备项目" class="headerlink" title="准备项目"></a>准备项目</h2><p>打开VS，创建<strong>ASP.NET Web应用程序</strong>，项目名称为<strong>EssentialTools</strong>，选择MVC空模板。</p>
+<h3 id="创建模型类"><a href="#创建模型类" class="headerlink" title="创建模型类"></a>创建模型类</h3><p>在Models文件夹添加<strong>Product</strong>类。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> ProductID &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Description &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">decimal</span> Price &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Category &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Models文件夹添加<strong>LinqValueCalculator</strong>类，它将计算<strong>Product</strong>对象集合的总价。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LinqValueCalculator</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ValueProducts</span>(<span class="params">IEnumerable&lt;Product&gt; products</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> products.Sum(p =&gt; p.Price);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Models文件夹添加<strong>ShoppingCart</strong>类，它表示了<strong>Product</strong>对象的<strong>集合</strong>，并且用<strong>LinqValueCalculator</strong>来确定总价。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ShoppingCart</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> LinqValueCalculator calc;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ShoppingCart</span>(<span class="params">LinqValueCalculator calcParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        calc = calcParam;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> IEnumerable&lt;Product&gt; products &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">CalculateProductTotal</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> calc.ValueProducts(products);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加控制器"><a href="#添加控制器" class="headerlink" title="添加控制器"></a>添加控制器</h3><p>添加<strong>HomeController</strong>。在<strong>Index</strong>动作方法创建<strong>Product对象数组</strong>，并用<strong>LinqValueCalculator</strong>对象产生总价的值，将其传递给<strong>View</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> Product[] products = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        LinqValueCalculator calc = <span class="keyword">new</span> LinqValueCalculator();</span><br><span class="line">        ShoppingCart cart = <span class="keyword">new</span> ShoppingCart(calc)</span><br><span class="line">        &#123;</span><br><span class="line">            products = products</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">decimal</span> totalValue = cart.CalculateProductTotal();</span><br><span class="line">        <span class="keyword">return</span> View(totalValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加视图"><a href="#添加视图" class="headerlink" title="添加视图"></a>添加视图</h3><p>添加<strong>Index</strong>视图，接收的模型类为<strong>decimal</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model decimal</span><br><span class="line">@&#123;</span><br><span class="line">    Layout = null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        Total value is $@Model</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>启动项目，显示结果为<strong>$378.40</strong>。</p>
+<h2 id="使用Ninject"><a href="#使用Ninject" class="headerlink" title="使用Ninject"></a>使用Ninject</h2><p><strong>依赖注入（DI）</strong>的思想是，对MVC应用程序中的组件进行<strong>解耦</strong>，这是通过<strong>接口</strong>与<strong>DI容器</strong>相结合来实现的。DI容器创建了对象实例，这是通过创建对象所依赖的接口并将其注入构造器而实现的。</p>
+<h3 id="理解问题"><a href="#理解问题" class="headerlink" title="理解问题"></a>理解问题</h3><ul>
+<li><strong>ShoppingCart类</strong>与<strong>LinqValueCalculator类</strong>是紧耦合的</li>
+<li><strong>HomeController类</strong>与<strong>ShoppingCart类</strong>和<strong>LinqValueCalculator类</strong>都是紧耦合的。</li>
+</ul>
+<p>这意味着，如果想<strong>替换LinqValueCalculator类</strong>，就必须在<strong>与它有紧耦合关系</strong>的类中找出对它的引用，并进行<strong>修改</strong>。</p>
+<h4 id="运用接口"><a href="#运用接口" class="headerlink" title="运用接口"></a>运用接口</h4><p>在Models文件夹添加<strong>IValueCalculator接口</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IValueCalculator</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">decimal</span> <span class="title">ValueProducts</span>(<span class="params">IEnumerable&lt;Product&gt; products</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在<strong>LinqValueCalculator类</strong>中实现这一接口。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LinqValueCalculator</span> : <span class="title">IValueCalculator</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ValueProducts</span>(<span class="params">IEnumerable&lt;Product&gt; products</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> products.Sum(p =&gt; p.Price);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<strong>ShoppingCart类</strong>中运用接口。于是便<strong>解除了</strong>ShoppingCart类与LinqValueCalculator类之间的<strong>紧耦合</strong>（两个类不再具有直接联系）。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ShoppingCart</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IValueCalculator calc;	<span class="comment">// 用接口替代LinqValueCalculator</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ShoppingCart</span>(<span class="params">IValueCalculator calcParam</span>)	<span class="comment">// 用接口替代LinqValueCalculator</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        calc = calcParam;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> IEnumerable&lt;Product&gt; products &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">CalculateProductTotal</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> calc.ValueProducts(products);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是，在HomeController中，与LinqValueCalculator类还是<strong>紧耦合</strong>。（仍然需要用<strong>new关键字</strong>创建LinqValueCalculator对象）</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    IValueCalculator calc = <span class="keyword">new</span> LinqValueCalculator();	<span class="comment">// 与LinqValueCalculator紧耦合</span></span><br><span class="line">    ShoppingCart cart = <span class="keyword">new</span> ShoppingCart(calc)</span><br><span class="line">    &#123;</span><br><span class="line">        products = products</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">decimal</span> totalValue = cart.CalculateProductTotal();</span><br><span class="line">    <span class="keyword">return</span> View(totalValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，通过<strong>Ninject</strong>可以<strong>指定LinqValueCalculator作为IValueCalculator的实现</strong>，这样，就不需要在HomeController<strong>使用new关键字</strong>创建<strong>LinqValueCalculator</strong>对象（解除HomeController与LinqValueCalculator的紧耦合）。</p>
+<h3 id="将Ninject添加到VS项目"><a href="#将Ninject添加到VS项目" class="headerlink" title="将Ninject添加到VS项目"></a>将Ninject添加到VS项目</h3><p>输入以下Nuget命令：</p>
+<ul>
+<li>Install-Package Ninject -version 3.0.1.10</li>
+<li>Install-Package Ninject.Web.Common -version 3.0.0.7</li>
+<li>Install-Package Ninject.MVC3 -version 3.0.0.6</li>
+</ul>
+<p>第一行命令用于安装Ninject内核包，其他命令用于安装内核的扩展包。</p>
+<h3 id="Ninject初步"><a href="#Ninject初步" class="headerlink" title="Ninject初步"></a>Ninject初步</h3><p>在HomeController中，给<strong>Index</strong>动作方法添加基本的<strong>Ninject</strong>功能。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    IKernel ninjectKernel = <span class="keyword">new</span> StandardKernel();	<span class="comment">// 创建Ninject内核的实例</span></span><br><span class="line">    ninjectKernel.Bind&lt;IValueCalculator&gt;().To&lt;LinqValueCalculator&gt;();	<span class="comment">// 配置Ninject内核</span></span><br><span class="line">    IValueCalculator calc = ninjectKernel.Get&lt;IValueCalculator&gt;();	<span class="comment">// 使用Ninject创建对象</span></span><br><span class="line"></span><br><span class="line">    ShoppingCart cart = <span class="keyword">new</span> ShoppingCart(calc)</span><br><span class="line">    &#123;</span><br><span class="line">        products = products</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">decimal</span> totalValue = cart.CalculateProductTotal();</span><br><span class="line">    <span class="keyword">return</span> View(totalValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第一步，<strong>创建一个Ninject的内核实例</strong>。它负责<strong>解析依赖项</strong>并<strong>创建新的对象</strong>（当需要一个对象时，将使用这个内核而不是使用new关键字）。可以通过创建一个<strong>StandardKernel</strong>（标准内核）类的实例来完成。</li>
+<li>第二步，<strong>配置Ninject内核</strong>。指定<strong>每个接口</strong>所希望使用的<strong>实现对象</strong>，<strong>Bind方法</strong>指定<strong>要使用的接口</strong>，<strong>To方法</strong>指定希望实例化的<strong>实现类</strong>。</li>
+<li>第三步，<strong>使用Ninject创建对象</strong>。调用内核的<strong>Get方法</strong>，返回指定的实现类型的一个实例。</li>
+</ul>
+<h3 id="建立MVC的依赖项注入"><a href="#建立MVC的依赖项注入" class="headerlink" title="建立MVC的依赖项注入"></a>建立MVC的依赖项注入</h3><h4 id="创建依赖项解析器"><a href="#创建依赖项解析器" class="headerlink" title="创建依赖项解析器"></a>创建依赖项解析器</h4><p>首先要创建一个<strong>自定义的依赖项解析器</strong>。MVC框架需要使用依赖项解析器来创建类的实例，包括控制器实例。</p>
+<p>项目右键，新建<strong>Infrastructure文件夹</strong>，用于放置MVC应用程序中不适合放在其他文件夹的类。新建<strong>NinjectDependencyResolver类</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">NinjectDependencyResolver</span> : <span class="title">IDependencyResolver</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IKernel kernel;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NinjectDependencyResolver</span>(<span class="params">IKernel kernelParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        kernel = kernelParam;</span><br><span class="line">        AddBindings();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">object</span> <span class="title">GetService</span>(<span class="params">Type serviceType</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> kernel.TryGet(serviceType);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IEnumerable&lt;<span class="keyword">object</span>&gt; <span class="title">GetServices</span>(<span class="params">Type serviceType</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> kernel.GetAll(serviceType);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddBindings</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        kernel.Bind&lt;IValueCalculator&gt;().To&lt;LinqValueCalculator&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>NinjectDependencyResolver类实现了<strong>IDependencyResolver接口</strong>，它属于<strong>System.Mvc命名空间</strong>，用于MVC框架<strong>获取需要的对象</strong>。</li>
+<li>MVC框架在需要类实例以便对一个传入的请求进行服务时，会调用<strong>GetService</strong>或<strong>GetServices</strong>方法（通过调用Ninject的TryGet和GetAll方法）。</li>
+<li><strong>AddBindings方法</strong>配置了<strong>IValueCalculator接口</strong>和<strong>LinqValueCalculator类</strong>之间的关系（建立Ninject绑定）。</li>
+</ol>
+<h4 id="注册依赖项解析器"><a href="#注册依赖项解析器" class="headerlink" title="注册依赖项解析器"></a>注册依赖项解析器</h4><p>使用<strong>Nuget</strong>添加<strong>Ninject包</strong>的时候，会在<strong>App_Start文件夹</strong>创建一个<strong>NinjectWebCommon.cs</strong>文件。它定义了<strong>应用程序启动时会自动调用的一些方法</strong>，目的是将它们集成到ASP.NET的请求生命周期之中。</p>
+<p>在<strong>NinjectWebCommon</strong>类的<strong>RegisterServices方法</strong>中，用<strong>SetResolver静态方法</strong>将<strong>NinjectDependencyResolver的实例</strong>注册为MVC框架的解析器。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> Load your modules or register your services here!</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="kernel"&gt;</span>The kernel.<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterServices</span>(<span class="params">IKernel kernel</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    System.Web.Mvc.DependencyResolver.SetResolver(<span class="keyword">new</span> EssentialTools.Infrastructure.NinjectDependencyResolver(kernel));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="重构Home控制器"><a href="#重构Home控制器" class="headerlink" title="重构Home控制器"></a>重构Home控制器</h4><p>修改HomeController，对<strong>IValueCalculator接口</strong>声明一个<strong>依赖项</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IValueCalculator calc;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">IValueCalculator calcParam</span>)	<span class="comment">// 类构造器，用于接收IValueCalculator的实现</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        calc = calcParam;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Product[] products = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ShoppingCart cart = <span class="keyword">new</span> ShoppingCart(calc)</span><br><span class="line">        &#123;</span><br><span class="line">            products = products</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">decimal</span> totalValue = cart.CalculateProductTotal();</span><br><span class="line">        <span class="keyword">return</span> View(totalValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这称为<strong>构造器注入</strong>，是依赖项注入的一种形式。这样就能打破<strong>HomeController</strong>与<strong>LinqValueCalculator</strong>之间的紧耦合关系。</p>
+<h3 id="创建依赖项链"><a href="#创建依赖项链" class="headerlink" title="创建依赖项链"></a>创建依赖项链</h3><p>当要求Ninject创建一个类型时，它会<strong>检查</strong>是否还声明了<strong>自己的依赖项</strong>。如果有额外的依赖项，Ninject会<strong>自动地解析</strong>这些依赖项，并创建所需要的所有类的<strong>实例</strong>，以这种方式处理<strong>依赖项链</strong>。</p>
+<p>在Models文件夹中，添加<strong>Discount.cs</strong>文件，并定义一个新的接口和其实现类。<strong>DefaultDiscountHelper类</strong>实现了<strong>IDiscountHelper接口</strong>，并运用固定的10%折扣。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IDiscountHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">decimal</span> <span class="title">ApplyDiscount</span>(<span class="params"><span class="keyword">decimal</span> totalParam</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DefaultDiscountHelper</span> : <span class="title">IDiscountHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ApplyDiscount</span>(<span class="params"><span class="keyword">decimal</span> totalParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (totalParam - (<span class="number">10</span>m / <span class="number">100</span>m * totalParam));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改<strong>LinqValueCalculator类</strong>，以使它执行计算时，使用<strong>IDiscountHelper接口</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LinqValueCalculator</span> : <span class="title">IValueCalculator</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IDiscountHelper discounter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinqValueCalculator</span>(<span class="params">IDiscountHelper discountParam</span>)	<span class="comment">// 类构造器，用于接收IDiscountHelper的实现</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        discounter = discountParam;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ValueProducts</span>(<span class="params">IEnumerable&lt;Product&gt; products</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> discounter.ApplyDiscount(products.Sum(p =&gt; p.Price));	<span class="comment">// 将一个折扣运用于Product对象的累计值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在NinjectDependencyResolver类的<strong>AddBindings方法</strong>中，<strong>将IDiscountHelper接口绑定到它的实现</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddBindings</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Bind&lt;IValueCalculator&gt;().To&lt;LinqValueCalculator&gt;();</span><br><span class="line">    kernel.Bind&lt;IDiscountHelper&gt;().To&lt;DefaultDiscountHelper&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：上面代码已经创建了一个<strong>依赖项链</strong>。HomeController依赖于IValueCalculator接口，Ninject用LinqValueCalculator类对该接口进行解析。LinqValueCalculator又依赖于IDiscountHelper接口，Ninject又用DefaultDiscountHelper类对其进行解析。</p>
+<h3 id="指定属性和构造器参数值"><a href="#指定属性和构造器参数值" class="headerlink" title="指定属性和构造器参数值"></a>指定属性和构造器参数值</h3><p>在将接口与其实现进行绑定时，<strong>可以为属性提供一些值方面的细节</strong>，以便<strong>对Ninject创建的对象进行配置</strong>。</p>
+<p>修改<strong>DefaultDiscountHelper</strong>类，定义一个<strong>DiscountSize属性</strong>，用于计算折扣量。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DefaultDiscountHelper</span> : <span class="title">IDiscountHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">decimal</span> DiscountSize &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;	<span class="comment">// 定义折扣属性</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ApplyDiscount</span>(<span class="params"><span class="keyword">decimal</span> totalParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (totalParam - (DiscountSize / <span class="number">100</span>m * totalParam));	<span class="comment">// 用折扣属性进行计算</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在NinjectDependencyResolver类中，用<strong>WithPropertyValue方法</strong>为DiscountSize属性设置一个值。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddBindings</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Bind&lt;IValueCalculator&gt;().To&lt;LinqValueCalculator&gt;();</span><br><span class="line">    kernel.Bind&lt;IDiscountHelper&gt;().To&lt;DefaultDiscountHelper&gt;().WithPropertyValue(<span class="string">"DiscountSize"</span>, <span class="number">50</span>M);	<span class="comment">// 属性名称为字符串形式</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，不需要修改其他绑定，该属性值会按照DefaultDiscountHelper的结构进行设置，起到了半价的效果。</p>
+<p>如果需要<strong>设置多个属性值</strong>，可以链式调用<strong>WithPropertyValue</strong>方法，也可以用<strong>类构造器参数</strong>去实现。</p>
+<p>修改DefaultDiscountHelper类，以使<strong>折扣大小</strong>作为<strong>构造器参数</strong>进行传递。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DefaultDiscountHelper</span> : <span class="title">IDiscountHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">decimal</span> discountSize;	<span class="comment">// 定义折扣字段</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DefaultDiscountHelper</span>(<span class="params"><span class="keyword">decimal</span> discountParam</span>)	<span class="comment">// 构造器参数设置字段</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        discountSize = discountParam;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ApplyDiscount</span>(<span class="params"><span class="keyword">decimal</span> totalParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (totalParam - (discountSize / <span class="number">100</span>m * totalParam));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Addbindings方法中用<strong>WithConstructorArgument方法</strong>来指定<strong>构造器参数的值</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddBindings</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Bind&lt;IValueCalculator&gt;().To&lt;LinqValueCalculator&gt;();</span><br><span class="line">    kernel.Bind&lt;IDiscountHelper&gt;().To&lt;DefaultDiscountHelper&gt;().WithConstructorArgument(<span class="string">"discountParam"</span>, <span class="number">50</span>M);	<span class="comment">// 指定构造器参数的值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用条件绑定"><a href="#使用条件绑定" class="headerlink" title="使用条件绑定"></a>使用条件绑定</h3><p>在Models文件夹添加<strong>FlexibleDiscountHelper类</strong>，根据总额大小运用不同的折扣。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FlexibleDiscountHelper</span> : <span class="title">IDiscountHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ApplyDiscount</span>(<span class="params"><span class="keyword">decimal</span> totalParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">decimal</span> discount = totalParam &gt; <span class="number">100</span> ? <span class="number">70</span> : <span class="number">25</span>;	<span class="comment">// 金额大于100时，7折</span></span><br><span class="line">        <span class="keyword">return</span> (totalParam - (discount / <span class="number">100</span>m * totalParam));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在AddBindings方法中，<strong>添加绑定</strong>。当Ninject内核要创建一个<strong>LinqValueCalculator对象</strong>时，应该使用FlexibleDiscountHelper类作为IDiscountHelper的实现。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddBindings</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Bind&lt;IValueCalculator&gt;().To&lt;LinqValueCalculator&gt;();</span><br><span class="line">    kernel.Bind&lt;IDiscountHelper&gt;().To&lt;DefaultDiscountHelper&gt;().WithConstructorArgument(<span class="string">"discountParam"</span>, <span class="number">50</span>M);</span><br><span class="line">    kernel.Bind&lt;IDiscountHelper&gt;().To&lt;FlexibleDiscountHelper&gt;().WhenInjectedInto&lt;LinqValueCalculator&gt;();	<span class="comment">// 条件绑定</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Ninject条件绑定方法如下表</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>When（谓词）</td>
+<td>当“谓词”（一个lambda表达式）的结果为true时，实施绑定</td>
+</tr>
+<tr>
+<td>WhenClassHas<t>()</t></td>
+<td>当被注入的类以注解属性进行注释，而其类型为T时，实施绑定</td>
+</tr>
+<tr>
+<td>WhenInjectedInto<t>()</t></td>
+<td>当要被注入的类是类型T时，实施绑定</td>
+</tr>
+</tbody>
+</table>
+<h3 id="设置对象作用域"><a href="#设置对象作用域" class="headerlink" title="设置对象作用域"></a>设置对象作用域</h3><p>该Ninject特性有助于<strong>调整Ninject所建对象的生命周期</strong>，以满足应用程序的需求。默认情况下，Ninject会在每次请求一个对象时，为每个依赖项所需的各个对象创建一个新实例。</p>
+<p>修改<strong>LinqValueCalculator</strong>类的<strong>构造器</strong>，在每次创建一个新实例时，都<strong>向VS的输出窗口写一条消息</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LinqValueCalculator</span> : <span class="title">IValueCalculator</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IDiscountHelper discounter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinqValueCalculator</span>(<span class="params">IDiscountHelper discountParam</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        discounter = discountParam;</span><br><span class="line">        System.Diagnostics.Debug.WriteLine(<span class="keyword">string</span>.Format(<span class="string">"Instance &#123;0&#125; created"</span>, ++counter));	<span class="comment">// 输出counter</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ValueProducts</span>(<span class="params">IEnumerable&lt;Product&gt; products</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> discounter.ApplyDiscount(products.Sum(p =&gt; p.Price));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改HomeController，在构造器参数中，增加一个IValueCalculator接口的实现。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">IValueCalculator calcParam, IValueCalculator calc2</span>)	<span class="comment">// 增加calc2参数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    calc = calcParam;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行项目，观察VS的输出窗口，发现Ninject<strong>创建了LinqValueCalculator类的两个实例</strong>。</p>
+<p>对于某些类，如果希望在整个应用程序中<strong>共享一个单一的实例</strong>。而对于另一些类，希望为接收到的每个HTTP请求，<strong>都创建一个新的实例</strong>。可以在建立绑定时，通过<strong>作用域特性</strong>来控制所创建对象的<strong>生命周期</strong>。</p>
+<p>在AddBindings方法中，将请求作用域运用于LinqValueCalculator类。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddBindings</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Bind&lt;IValueCalculator&gt;().To&lt;LinqValueCalculator&gt;().InRequestScope();	<span class="comment">// 只创建LinqValueCalculator类的单一实例</span></span><br><span class="line">    kernel.Bind&lt;IDiscountHelper&gt;().To&lt;DefaultDiscountHelper&gt;().WithConstructorArgument(<span class="string">"discountParam"</span>, <span class="number">50</span>M);</span><br><span class="line">    kernel.Bind&lt;IDiscountHelper&gt;().To&lt;FlexibleDiscountHelper&gt;().WhenInjectedInto&lt;LinqValueCalculator&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Ninject的作用域方法如下表</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>InTransientScope()</td>
+<td>与未指定作用域效果相同，为每一个被解析的依赖项创建一个新的对象（<strong>每依赖项一实例</strong>）</td>
+</tr>
+<tr>
+<td>InSingletonScope()<br>ToConstant(object)</td>
+<td>创建一个单一实例，使其共享于整个应用程序。如果使用InSingletonScope，或者为Ninject<br>提供ToConstant方法，Ninject便会创建这种实例（<strong>每应用一实例</strong>）</td>
+</tr>
+<tr>
+<td>InThreadScope()</td>
+<td>创建一个单一实例，将其用于解析一个线程中各个对象的依赖项（<strong>每线程一实例</strong>）</td>
+</tr>
+<tr>
+<td>InRequestScope()</td>
+<td>创建一个单一实例，用于解析一个HTTP请求中各个对象的依赖项（<strong>每请求一实例</strong>）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="VS的单元测试"><a href="#VS的单元测试" class="headerlink" title="VS的单元测试"></a>VS的单元测试</h2><p>可以使用VS附带的<strong>内置单元测试</strong>，也可以使用.NET单元测试包，如<strong>NUnit</strong>。</p>
+<p>在Models文件夹创建<strong>MinimumDiscountHelper.cs</strong>文件，实现<strong>IDiscountHelper接口</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MinimumDiscountHelper</span> : <span class="title">IDiscountHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ApplyDiscount</span>(<span class="params"><span class="keyword">decimal</span> totalParam</span>)	<span class="comment">// 暂不实现功能</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        - 总额大于$100，折扣为10%</span></span><br><span class="line"><span class="comment">        - 总额介于（并包括）$10到$100之间，折扣为$5</span></span><br><span class="line"><span class="comment">        - 总额小于$10，无折扣</span></span><br><span class="line"><span class="comment">        - 总额为负值时，抛出一个ArgumentOutOfRangeException异常</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NotImplementedException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建单元测试项目"><a href="#创建单元测试项目" class="headerlink" title="创建单元测试项目"></a>创建单元测试项目</h3><p>右键解决方案名称，添加<strong>新项目</strong>，选择<strong>单元测试项目</strong>，项目名称为<strong>EssentialTools.Tests</strong>。</p>
+<p>右键<strong>EssentialTools.Tests</strong>项目，添加EssentialTools项目的<strong>引用</strong>。</p>
+<h3 id="添加单元测试"><a href="#添加单元测试" class="headerlink" title="添加单元测试"></a>添加单元测试</h3><p>修改<strong>UnitTest1.cs</strong>文件，添加测试方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UnitTest1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> IDiscountHelper <span class="title">getTestObject</span>(<span class="params"></span>)	<span class="comment">// 通过该方法建立测试方法</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MinimumDiscountHelper();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Discount_Above_100</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备</span></span><br><span class="line">        IDiscountHelper target = getTestObject();</span><br><span class="line">        <span class="keyword">decimal</span> total = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        <span class="keyword">var</span> discountedTotal = target.ApplyDiscount(total);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(total * <span class="number">0.9</span>M, discountedTotal);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>含有测试的<strong>类</strong>用<strong>TestClass注解属性</strong>注释，<strong>测试方法</strong>用<strong>TestMethod注解属性</strong>注释。</p>
+<p><strong>Assert类</strong>有一些列可以在测试中使用的<strong>静态方法</strong>，该类位于<strong>Microsoft.VisualStudio.TestTools.UnitTesting</strong>命名空间，包含了一些对建立和执行测试有用的其他类。（表格略）</p>
+<p><strong>注意</strong>：<strong>Microsoft.VisualStudio.TestTools.UnitTesting</strong>命名空间中有一个成员是<strong>ExpectedException属性</strong>。这是一个断言，只当单元测试抛出ExceptionType参数指定类型的异常时，该断言才是成功的。</p>
+<p>接下来对测试项目增加一些测试，以验证前述<strong>MinimumDiscountHelper</strong>的其他行为。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UnitTest1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> IDiscountHelper <span class="title">getTestObject</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MinimumDiscountHelper();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Discount_Above_100</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备</span></span><br><span class="line">        IDiscountHelper target = getTestObject();</span><br><span class="line">        <span class="keyword">decimal</span> total = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        <span class="keyword">var</span> discountedTotal = target.ApplyDiscount(total);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(total * <span class="number">0.9</span>M, discountedTotal);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Discount_Between_10_And_100</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备</span></span><br><span class="line">        IDiscountHelper target = getTestObject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        <span class="keyword">decimal</span> TenDollarDiscount = target.ApplyDiscount(<span class="number">10</span>);</span><br><span class="line">        <span class="keyword">decimal</span> HundredDollarDiscount = target.ApplyDiscount(<span class="number">100</span>);</span><br><span class="line">        <span class="keyword">decimal</span> FiftyDollarDiscount = target.ApplyDiscount(<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(<span class="number">5</span>, TenDollarDiscount, <span class="string">"$10 discount is wrong"</span>);</span><br><span class="line">        Assert.AreEqual(<span class="number">95</span>, HundredDollarDiscount, <span class="string">"$100 discount is wrong"</span>);</span><br><span class="line">        Assert.AreEqual(<span class="number">45</span>, FiftyDollarDiscount, <span class="string">"$50 discount is wrong"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Discount_less_Than_10</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备</span></span><br><span class="line">        IDiscountHelper target = getTestObject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        <span class="keyword">decimal</span> discount5 = target.ApplyDiscount(<span class="number">5</span>);</span><br><span class="line">        <span class="keyword">decimal</span> discount0 = target.ApplyDiscount(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(<span class="number">5</span>, discount5);</span><br><span class="line">        Assert.AreEqual(<span class="number">0</span>, discount0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    [<span class="meta">ExpectedException(typeof(ArgumentOutOfRangeException))</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Discount_Negative_Total</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备</span></span><br><span class="line">        IDiscountHelper target = getTestObject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        target.ApplyDiscount(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运行单元测试（并失败）"><a href="#运行单元测试（并失败）" class="headerlink" title="运行单元测试（并失败）"></a>运行单元测试（并失败）</h3><p>点击VS菜单栏<strong>测试</strong>，选择<strong>测试资源管理器</strong>，在窗口左上角点击<strong>在视图中运行所有测试</strong>。</p>
+<p>结果都是<strong>失败</strong>的，因为所测试的这些方法<strong>还没有实现</strong>。</p>
+<h3 id="实现特性"><a href="#实现特性" class="headerlink" title="实现特性"></a>实现特性</h3><p>实现<strong>MinimumDiscountHelper</strong>类的功能。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ApplyDiscount</span>(<span class="params"><span class="keyword">decimal</span> totalParam</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (totalParam &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (totalParam &gt; <span class="number">100</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> totalParam * <span class="number">.09</span>M;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (totalParam &gt; <span class="number">10</span> &amp;&amp; totalParam &lt;= <span class="number">100</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> totalParam - <span class="number">5</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> totalParam;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试并修正代码"><a href="#测试并修正代码" class="headerlink" title="测试并修正代码"></a>测试并修正代码</h3><p>实现完功能后，<strong>运行所有测试</strong>。</p>
+<p>结果显示，3个单元测试通过，但是<strong>Discount_Between_10_And_100</strong>失败。</p>
+<p>原来问题出现在<strong>10</strong>的<strong>边界值</strong>上。只需要在if语句添加<strong>=</strong>，包含恰好为10的值即可。</p>
+<p>再次运行所有测试，全部通过。</p>
+<h2 id="使用Moq库"><a href="#使用Moq库" class="headerlink" title="使用Moq库"></a>使用Moq库</h2><p>在实际的项目中，往往需要测试一些<strong>不能孤立运行的对象</strong>。</p>
+<p>一个有用的办法是使用<strong>模仿对象</strong>，它能够以一种特殊而受控的方式，来<strong>模拟</strong>项目中<strong>实际对象</strong>的功能。</p>
+<p>右键<strong>EssentialTools.Tests</strong>项目，添加新项，选择<strong>基本单元测试</strong>，文件名为<strong>UnitTest2.cs</strong>。</p>
+<p>修改<strong>UnitTest2.cs</strong>文件，添加一个用于<strong>ShoppingCart类</strong>的单元测试。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UnitTest2</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Product[] products = &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Kayak"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">275</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Lifejacket"</span>, Category = <span class="string">"Watersports"</span>, Price = <span class="number">48.95</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Soccer ball"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">19.50</span>M &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; Name = <span class="string">"Corner flag"</span>, Category = <span class="string">"Soccer"</span>, Price = <span class="number">34.95</span>M &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Sum_Products_Correctly</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备</span></span><br><span class="line">        <span class="keyword">var</span> discounter = <span class="keyword">new</span> MinimumDiscountHelper();</span><br><span class="line">        <span class="keyword">var</span> target = <span class="keyword">new</span> LinqValueCalculator(discounter);</span><br><span class="line">        <span class="keyword">var</span> goalTotal = products.Sum(e =&gt; e.Price);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        <span class="keyword">var</span> result = target.ValueProducts(products);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(goalTotal, result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要面临的问题是，LinqValueCalculator类依赖于IDiscountHelper接口的实现才能进行操作。即：</p>
+<ul>
+<li>单元测试变得<strong>复杂和脆弱</strong>。一旦该实现中的<strong>折扣逻辑发生变化</strong>，即使LinqValueCalculator可以正常工作，测试仍会<strong>失败</strong>。</li>
+<li>当单元测试失败时，不易知道问题是出在LinqValueCalculator类中，还是MinimumDiscountHelper类中。</li>
+</ul>
+<h3 id="将Moq添加到VS项目中"><a href="#将Moq添加到VS项目中" class="headerlink" title="将Moq添加到VS项目中"></a>将Moq添加到VS项目中</h3><p>打开Nuget控制台输入以下命令：<strong>Install-Packet Moq -version 4.1.1309.1617 -projectname EssentialTools.Tests</strong></p>
+<p><strong>projectname参数</strong>告诉Nuget，希望把Moq包安装到单元测试项目中，而不是安装到主应用程序中。</p>
+<h3 id="对单元测试添加模仿对象"><a href="#对单元测试添加模仿对象" class="headerlink" title="对单元测试添加模仿对象"></a>对单元测试添加模仿对象</h3><p>对单元测试添加模仿对象，即告诉Moq，使用哪一种对象，对它的行为进行配置，然后将该对象运用于测试目标。</p>
+<p>在<strong>UnitTest2.cs</strong>的单元测试中，添加测试方法<strong>Sum_Products_Correctly</strong>，使用<strong>Mock对象</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestMethod</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Sum_Products_Correctly</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 准备</span></span><br><span class="line">    Mock&lt;IDiscountHelper&gt; mock = <span class="keyword">new</span> Mock&lt;IDiscountHelper&gt;();	<span class="comment">// 1.创建模仿对象。模仿的是IDiscountHelper的实现</span></span><br><span class="line">    mock.Setup(m =&gt; m.ApplyDiscount(It.IsAny&lt;<span class="keyword">decimal</span>&gt;())).Returns&lt;<span class="keyword">decimal</span>&gt;(total =&gt; total);	<span class="comment">// 2.模仿行为 + 3.定义结果</span></span><br><span class="line">    <span class="keyword">var</span> target = <span class="keyword">new</span> LinqValueCalculator(mock.Object);	<span class="comment">// 4.使用模仿对象</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 动作</span></span><br><span class="line">    <span class="keyword">var</span> result = target.ValueProducts(products);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 断言</span></span><br><span class="line">    Assert.AreEqual(products.Sum(e =&gt; e.Price), result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>使用<strong>Mock&lt;T&gt; mock = new Mock&lt;T&gt;();</strong>语句，创建模仿对象，并指定想要测试的接口T。</li>
+<li>用<strong>Setup方法</strong>，给模仿对象添加一个方法（<strong>可用LINQ或lambda表达式</strong>），传递要求它实现的接口（<strong>ApplyDiscount</strong>）。</li>
+<li><strong>It类</strong>定义了许多以<strong>泛型类型参数</strong>进行使用的方法。本例用<strong>decimal</strong>调用了<strong>IsAny方法</strong>，当以任何十进制值为参数来调用<strong>ApplyDiscount</strong>方法时生效。</li>
+<li><strong>Returns方法</strong>指定在调用模仿方法时Moq要<strong>返回的结果</strong>。<strong>类型参数</strong>用以指定<strong>结果的类型（decimal）</strong>，<strong>lambda表达式</strong>指定<strong>结果</strong>。</li>
+<li>通过读取Mock&lt;IDiscountHelper&gt;对象的<strong>Object属性值</strong>来使用模仿对象。即<strong>mock.Object</strong>。</li>
+</ul>
+<p>下表展示了It类的静态方法。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Is&lt;T&gt;(predicate)</td>
+<td>指定类型T的值，该值使“predicate（谓词）”返回true</td>
+</tr>
+<tr>
+<td>IsAny&lt;T&gt;()</td>
+<td>指定类型T的值为任意值</td>
+</tr>
+<tr>
+<td>IsInRange&lt;T&gt;(min, max, kind)</td>
+<td>如果参数介于定义值之间，而且是T类型的，则匹配。最后一个参数（kind）是该范围<br>的一个枚举值，可以是Inclusive（包括）或Exclusive（排除）</td>
+</tr>
+<tr>
+<td>IsRegex(expr)</td>
+<td>如果参数匹配指定的正则表达式，则匹配一个字符串参数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>用Moq创建模仿对象的过程包括几个步骤：</strong></p>
+<ol>
+<li>用Mock创建模仿对象。</li>
+<li>用Setup方法建立模仿对象的行为。</li>
+<li>用It类设置行为的参数。</li>
+<li>用Returns方法指定行为的返回值。</li>
+<li>用lambda表达式在Returns方法中建立具体行为。</li>
+</ol>
+<p>使用Moq的好处是，单元测试<strong>只检查LinqValueCalculator对象的行为</strong>，并<strong>不依赖于</strong>任何Models文件夹中的<strong>IDiscountHelper接口的实现</strong>。即，当测试失败时，可以知道问题出在LinqValueCalculator实现中，或者是建立模仿对象的方式中。</p>
+<h3 id="创建更复杂的模仿对象"><a href="#创建更复杂的模仿对象" class="headerlink" title="创建更复杂的模仿对象"></a>创建更复杂的模仿对象</h3><p>在<strong>UnitTest2.cs文件</strong>中，添加一个新的测试方法<strong>Pass_Through_Variable_Discounts</strong>，模仿更加复杂的<strong>IDiscountHelper接口</strong>实现。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestMethod</span>]</span><br><span class="line">[<span class="meta">ExpectedException(typeof(System.ArgumentOutOfRangeException))</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Pass_Through_Variable_Discounts</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 准备</span></span><br><span class="line">    Mock&lt;IDiscountHelper&gt; mock = <span class="keyword">new</span> Mock&lt;IDiscountHelper&gt;();</span><br><span class="line">    mock.Setup(m =&gt; m.ApplyDiscount(It.IsAny&lt;<span class="keyword">decimal</span>&gt;())).Returns&lt;<span class="keyword">decimal</span>&gt;(total =&gt; total);</span><br><span class="line">    mock.Setup(m =&gt; m.ApplyDiscount(It.Is&lt;<span class="keyword">decimal</span>&gt;(v =&gt; v == <span class="number">0</span>))).Throws&lt;System.ArgumentOutOfRangeException&gt;();</span><br><span class="line">    mock.Setup(m =&gt; m.ApplyDiscount(It.Is&lt;<span class="keyword">decimal</span>&gt;(v =&gt; v &gt; <span class="number">100</span>))).Returns&lt;<span class="keyword">decimal</span>&gt;(total =&gt; (total * <span class="number">0.9</span>M));</span><br><span class="line">    mock.Setup(m =&gt; m.ApplyDiscount(It.IsInRange&lt;<span class="keyword">decimal</span>&gt;(<span class="number">10</span>, <span class="number">100</span>, Range.Inclusive))).Returns&lt;<span class="keyword">decimal</span>&gt;(total =&gt; total - <span class="number">5</span>);</span><br><span class="line">    <span class="keyword">var</span> target = <span class="keyword">new</span> LinqValueCalculator(mock.Object);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 动作</span></span><br><span class="line">    <span class="keyword">decimal</span> FiveDollarDiscount = target.ValueProducts(createProduct(<span class="number">5</span>));</span><br><span class="line">    <span class="keyword">decimal</span> TenDollarDiscount = target.ValueProducts(createProduct(<span class="number">10</span>));</span><br><span class="line">    <span class="keyword">decimal</span> FiftyDollarDiscount = target.ValueProducts(createProduct(<span class="number">50</span>));</span><br><span class="line">    <span class="keyword">decimal</span> HundredDollarDiscount = target.ValueProducts(createProduct(<span class="number">100</span>));</span><br><span class="line">    <span class="keyword">decimal</span> FiveHundredDollarDiscount = target.ValueProducts(createProduct(<span class="number">500</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 断言</span></span><br><span class="line">    Assert.AreEqual(<span class="number">5</span>, FiveDollarDiscount, <span class="string">"$5 Fail"</span>);</span><br><span class="line">    Assert.AreEqual(<span class="number">5</span>, TenDollarDiscount, <span class="string">"$10 Fail"</span>);</span><br><span class="line">    Assert.AreEqual(<span class="number">45</span>, FiftyDollarDiscount, <span class="string">"$50 Fail"</span>);</span><br><span class="line">    Assert.AreEqual(<span class="number">95</span>, HundredDollarDiscount, <span class="string">"$100 Fail"</span>);</span><br><span class="line">    Assert.AreEqual(<span class="number">450</span>, FiveHundredDollarDiscount, <span class="string">"$500 Fail"</span>);</span><br><span class="line">    target.ValueProducts(createProduct(<span class="number">0</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>调用<strong>Setup方法的顺序</strong>会<strong>影响</strong>模仿对象的行为，Moq会以相反的顺序评估给定的行为，必须按照<strong>从最一般得到最特殊</strong>的顺序。</li>
+<li><strong>It.Is方法</strong>是为<strong>不同参数值建立指定行为</strong>最灵活的方式，可以用任何<strong>谓词</strong>来<strong>返回true或false</strong>。（模仿特定值）</li>
+<li><strong>It.IsInRange方法</strong>能够捕捉参数值的<strong>范围</strong>。（模仿值范围）</li>
+</ol>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/03/12/ASP-NET-MVC5（三）使用Razor/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET MVC5（三）使用Razor">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备项目"><span class="toc-text">准备项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建模型类"><span class="toc-text">创建模型类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加控制器"><span class="toc-text">添加控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加视图"><span class="toc-text">添加视图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Ninject"><span class="toc-text">使用Ninject</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#理解问题"><span class="toc-text">理解问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#运用接口"><span class="toc-text">运用接口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将Ninject添加到VS项目"><span class="toc-text">将Ninject添加到VS项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ninject初步"><span class="toc-text">Ninject初步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立MVC的依赖项注入"><span class="toc-text">建立MVC的依赖项注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建依赖项解析器"><span class="toc-text">创建依赖项解析器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注册依赖项解析器"><span class="toc-text">注册依赖项解析器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重构Home控制器"><span class="toc-text">重构Home控制器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建依赖项链"><span class="toc-text">创建依赖项链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定属性和构造器参数值"><span class="toc-text">指定属性和构造器参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用条件绑定"><span class="toc-text">使用条件绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置对象作用域"><span class="toc-text">设置对象作用域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VS的单元测试"><span class="toc-text">VS的单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建单元测试项目"><span class="toc-text">创建单元测试项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加单元测试"><span class="toc-text">添加单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行单元测试（并失败）"><span class="toc-text">运行单元测试（并失败）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现特性"><span class="toc-text">实现特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试并修正代码"><span class="toc-text">测试并修正代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Moq库"><span class="toc-text">使用Moq库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将Moq添加到VS项目中"><span class="toc-text">将Moq添加到VS项目中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对单元测试添加模仿对象"><span class="toc-text">对单元测试添加模仿对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建更复杂的模仿对象"><span class="toc-text">创建更复杂的模仿对象</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2021
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
