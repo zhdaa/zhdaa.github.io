@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ASP.NET MVC5（六）SportsStore导航｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2021/04/10/ASP-NET-MVC5（六）SportsStore导航/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET MVC5（六）SportsStore导航</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2021-04-10
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET MVC5（六）SportsStore导航
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="添加导航控件"><a href="#添加导航控件" class="headerlink" title="添加导航控件"></a>添加导航控件</h2><p>实现通过产品分类对产品进行导航，从以下方面入手。</p>
+<ul>
+<li>增强ProductController中的List动作方法，使它能够过滤存储库中的Product对象。</li>
+<li>重新考察并增强URL方案，并修订路由策略。</li>
+<li>创建一个产品分类列表，将其放入网站工具栏，高亮显示当前分类，并对其他分类进行链接。</li>
+</ul>
+<h3 id="过滤产品列表"><a href="#过滤产品列表" class="headerlink" title="过滤产品列表"></a>过滤产品列表</h3><p>修改<strong>ProductsListView.cs</strong>文件，增加<strong>CurrentCategory属性</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ProductsListViewModel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> IEnumerable&lt;Product&gt; Products &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> PagingInfo PagingInfo &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> CurrentCategory &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;	<span class="comment">// 当前分类</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在ProductController中对<strong>List动作方法</strong>添加<strong>分类支持</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">List</span>(<span class="params"><span class="keyword">string</span> category, <span class="keyword">int</span> page = <span class="number">1</span></span>)	<span class="comment">// 添加category参数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ProductsListViewModel model = <span class="keyword">new</span> ProductsListViewModel</span><br><span class="line">    &#123;</span><br><span class="line">        Products = repository.Products</span><br><span class="line">            .Where(p =&gt; category == <span class="literal">null</span> || p.Category == category)	<span class="comment">// 使用category参数</span></span><br><span class="line">            .OrderBy(p =&gt; p.ProductID)</span><br><span class="line">            .Skip((page - <span class="number">1</span>) * PageSize)</span><br><span class="line">            .Take(PageSize),</span><br><span class="line">        PagingInfo = <span class="keyword">new</span> PagingInfo</span><br><span class="line">        &#123;</span><br><span class="line">            CurrentPage = page,</span><br><span class="line">            ItemsPerPage = PageSize,</span><br><span class="line">            TotalItems = repository.Products.Count()</span><br><span class="line">        &#125;,</span><br><span class="line">        CurrentCategory = category	<span class="comment">// 添加到ViewModel返回值</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> View(model);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：由于修改了List动作方法的签名，因此需要修改那些<strong>使用这个控制器的单元测试方法</strong>，以null作为传递给List方法的第一个参数。</p>
+<p>运行应用程序，并在地址栏后输入：<strong>?category=Soccer</strong>，便只会看到Soccer分类的产品。</p>
+<h4 id="单元测试：分类过滤"><a href="#单元测试：分类过滤" class="headerlink" title="单元测试：分类过滤"></a>单元测试：分类过滤</h4><p>在单元测试中，添加新方法，测试分类过滤功能。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestMethod</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Filter_Products</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 准备——创建模仿存储库</span></span><br><span class="line">    Mock&lt;IProductRepository&gt; mock = <span class="keyword">new</span> Mock&lt;IProductRepository&gt;();</span><br><span class="line">    mock.Setup(m =&gt; m.Products).Returns(<span class="keyword">new</span> Product[] &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Category = <span class="string">"Cat1"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span>, Category = <span class="string">"Cat2"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">3</span>, Name = <span class="string">"P3"</span>, Category = <span class="string">"Cat1"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">4</span>, Name = <span class="string">"P4"</span>, Category = <span class="string">"Cat2"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">5</span>, Name = <span class="string">"P5"</span>, Category = <span class="string">"Cat1"</span> &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 准备——创建控制器，并使页面大小为3个物品</span></span><br><span class="line">    ProductController controller = <span class="keyword">new</span> ProductController(mock.Object);</span><br><span class="line">    controller.PageSize = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 动作</span></span><br><span class="line">    Product[] result = ((ProductsListViewModel)controller.List(<span class="string">"Cat2"</span>, <span class="number">1</span>).Model).Products.ToArray();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 断言</span></span><br><span class="line">    Assert.AreEqual(result.Length, <span class="number">2</span>);</span><br><span class="line">    Assert.IsTrue(result[<span class="number">0</span>].Name == <span class="string">"P2"</span> &amp;&amp; result[<span class="number">0</span>].Category == <span class="string">"Cat2"</span>);</span><br><span class="line">    Assert.IsTrue(result[<span class="number">1</span>].Name == <span class="string">"P4"</span> &amp;&amp; result[<span class="number">1</span>].Category == <span class="string">"Cat2"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="调整URL方案"><a href="#调整URL方案" class="headerlink" title="调整URL方案"></a>调整URL方案</h3><p>为了改善“<strong>/?category=Soccer</strong>”这种URL，必须设置新的路由方案。</p>
+<p>修改<strong>RouteConfig.cs</strong>文件中的<strong>RegisterRoutes方法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterRoutes</span>(<span class="params">RouteCollection routes</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    routes.IgnoreRoute(<span class="string">"&#123;resource&#125;.axd/&#123;*pathInfo&#125;"</span>);</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        <span class="string">""</span>,</span><br><span class="line">        <span class="keyword">new</span> &#123; controller = <span class="string">"Product"</span>, action = <span class="string">"List"</span>, category = (<span class="keyword">string</span>)<span class="literal">null</span>, page = <span class="number">1</span> &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        <span class="string">"Page&#123;page&#125;"</span>,</span><br><span class="line">        <span class="keyword">new</span> &#123; controller = <span class="string">"Product"</span>, action = <span class="string">"List"</span>, category = (<span class="keyword">string</span>)<span class="literal">null</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> &#123; page = <span class="string">@"\d+"</span> &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        <span class="string">"&#123;category&#125;"</span>,</span><br><span class="line">        <span class="keyword">new</span> &#123; controller = <span class="string">"Product"</span>, action = <span class="string">"List"</span>, page = <span class="number">1</span> &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        <span class="string">"&#123;category&#125;/Page&#123;page&#125;"</span>,</span><br><span class="line">        <span class="keyword">new</span> &#123; controller = <span class="string">"Product"</span>, action = <span class="string">"List"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> &#123; page = <span class="string">@"\d+"</span> &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        <span class="string">"&#123;controller&#125;/&#123;action&#125;"</span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<strong>List视图</strong>中对分页链接<strong>添加分页信息</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model SportsStore.WebUI.Models.ProductsListViewModel</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "Products";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@foreach (var p in Model.Products)</span><br><span class="line">&#123;</span><br><span class="line">    @Html.Partial("ProductSummary", p)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn-group pull-right"</span>&gt;</span></span><br><span class="line">    @Html.PageLinks(Model.PagingInfo, x =&gt; Url.Action("List", new &#123; page = x, category = Model.CurrentCategory &#125;))</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样，当用户单击链接时，<strong>当前分类</strong>会被传递给List动作方法，<strong>过滤就会起作用</strong>。</p>
+<h3 id="建立分类导航菜单"><a href="#建立分类导航菜单" class="headerlink" title="建立分类导航菜单"></a>建立分类导航菜单</h3><p><strong>子动作</strong>：ASP.NET MVC框架中的<strong>子动作</strong>，依赖于<strong>Html.Action</strong>的HTML辅助器方法，能够<strong>在当前视图中包含一个任意动作方法的输出</strong>。即，可以创建<strong>NavController</strong>，带有<strong>Menu动作方法</strong>，该方法渲染了一个导航菜单，然后用<strong>Html.Action辅助器方法</strong>，把该动作方法的输出<strong>注入到布局之中</strong>。</p>
+<h4 id="创建导航控制器"><a href="#创建导航控制器" class="headerlink" title="创建导航控制器"></a>创建导航控制器</h4><p>在SportsStore.WebUI项目的Controller文件夹，添加<strong>NavController</strong>，并添加<strong>Menu动作方法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">NavController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">Menu</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello from NavController"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编辑<strong>Views/Shared/_Layout.cshtml</strong>文件，去掉占位文本，代之以调用<strong>Html.Action辅助器方法</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"~/Content/bootstrap.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"~/Content/bootstrap-theme.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>@ViewBag.Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"navbar navbar-inverse"</span> <span class="attr">role</span>=<span class="string">"navigation"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"navbar-brand"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>SPORTS STORE<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row panel"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"categories"</span> <span class="attr">class</span>=<span class="string">"col-xs-3"</span>&gt;</span></span><br><span class="line">            @Html.Action("Menu", "Nav")</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-8"</span>&gt;</span></span><br><span class="line">            @RenderBody()</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="生成分类列表"><a href="#生成分类列表" class="headerlink" title="生成分类列表"></a>生成分类列表</h4><p>在<strong>Menu动作方法</strong>创建分类列表。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">NavController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IProductRepository repository;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NavController</span>(<span class="params">IProductRepository repo</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        repository = repo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回分部视图</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PartialViewResult <span class="title">Menu</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        IEnumerable&lt;<span class="keyword">string</span>&gt; categories = repository.Products</span><br><span class="line">            .Select(x =&gt; x.Category)</span><br><span class="line">            .Distinct()</span><br><span class="line">            .OrderBy(x =&gt; x);</span><br><span class="line">        <span class="keyword">return</span> PartialView(categories);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="单元测试：生成分类列表"><a href="#单元测试：生成分类列表" class="headerlink" title="单元测试：生成分类列表"></a>单元测试：生成分类列表</h4><p>创建一些<strong>有重复且无序</strong>的测试数据，传递给NavController。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestMethod</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Create_Categories</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 准备——创建模仿存储库</span></span><br><span class="line">    Mock&lt;IProductRepository&gt; mock = <span class="keyword">new</span> Mock&lt;IProductRepository&gt;();</span><br><span class="line">    mock.Setup(m =&gt; m.Products).Returns(<span class="keyword">new</span> Product[] &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Category = <span class="string">"Apples"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span>, Category = <span class="string">"Apples"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">3</span>, Name = <span class="string">"P3"</span>, Category = <span class="string">"Plums"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">4</span>, Name = <span class="string">"P4"</span>, Category = <span class="string">"Oranges"</span> &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 准备——创建控制器</span></span><br><span class="line">    NavController target = <span class="keyword">new</span> NavController(mock.Object);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 动作——获取分类集合</span></span><br><span class="line">    <span class="keyword">string</span>[] results = ((IEnumerable&lt;<span class="keyword">string</span>&gt;)target.Menu().Model).ToArray();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 断言</span></span><br><span class="line">    Assert.AreEqual(results.Length, <span class="number">3</span>);</span><br><span class="line">    Assert.AreEqual(results[<span class="number">0</span>], <span class="string">"Apples"</span>);</span><br><span class="line">    Assert.AreEqual(results[<span class="number">1</span>], <span class="string">"Oranges"</span>);</span><br><span class="line">    Assert.AreEqual(results[<span class="number">2</span>], <span class="string">"Plums"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h4><p>添加视图<strong>Menu</strong>，代码如下。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">@model IEnumerable&lt;<span class="keyword">string</span>&gt;</span><br><span class="line"></span><br><span class="line">@Html.ActionLink(<span class="string">"Home"</span>, <span class="string">"List"</span>, <span class="string">"Product"</span>, <span class="literal">null</span>,</span><br><span class="line">    <span class="keyword">new</span> &#123; @<span class="keyword">class</span> = <span class="string">"btn btn-block btn-default btn-lg"</span> &#125;)</span><br><span class="line">@<span class="keyword">foreach</span> (<span class="keyword">var</span> link <span class="keyword">in</span> Model)</span><br><span class="line">&#123;</span><br><span class="line">    @Html.RouteLink(link, <span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        controller = <span class="string">"Product"</span>,</span><br><span class="line">        action = <span class="string">"List"</span>,</span><br><span class="line">        category = link,</span><br><span class="line">        page = <span class="number">1</span></span><br><span class="line">    &#125;, <span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        @<span class="keyword">class</span> = <span class="string">"btn btn-block btn-default btn-lg"</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li><strong>Home链接</strong>出现在分类列表的顶部，在<strong>无分类过滤器</strong>作用下列举所有产品，由<strong>ActionLink辅助器方法</strong>实现。</li>
+<li><strong>RouteLink辅助器方法</strong>为每个分类创建链接，它提供一组<strong>键值对</strong>放在匿名对象中，<strong>为路由提供数据</strong>。</li>
+</ul>
+<h4 id="高亮显示当前分类"><a href="#高亮显示当前分类" class="headerlink" title="高亮显示当前分类"></a>高亮显示当前分类</h4><p>对<strong>NavController</strong>中的<strong>Menu动作方法</strong>修改，使用<strong>ViewBag特性</strong>将数据从控制器传递给视图。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PartialViewResult <span class="title">Menu</span>(<span class="params"><span class="keyword">string</span> category = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ViewBag.SelectedCategory = category;	<span class="comment">// 使用动态对象设置属性值</span></span><br><span class="line">    IEnumerable&lt;<span class="keyword">string</span>&gt; categories = repository.Products</span><br><span class="line">        .Select(x =&gt; x.Category)</span><br><span class="line">        .Distinct()</span><br><span class="line">        .OrderBy(x =&gt; x);</span><br><span class="line">    <span class="keyword">return</span> PartialView(categories);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更新<strong>Menu视图</strong>，把CSS的class添加到被选中分类的HTML锚点元素上。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">@model IEnumerable&lt;<span class="keyword">string</span>&gt;</span><br><span class="line"></span><br><span class="line">@Html.ActionLink(<span class="string">"Home"</span>, <span class="string">"List"</span>, <span class="string">"Product"</span>, <span class="literal">null</span>,</span><br><span class="line">    <span class="keyword">new</span> &#123; @<span class="keyword">class</span> = <span class="string">"btn btn-block btn-default btn-lg"</span> &#125;)</span><br><span class="line">@<span class="keyword">foreach</span> (<span class="keyword">var</span> link <span class="keyword">in</span> Model)</span><br><span class="line">&#123;</span><br><span class="line">    @Html.RouteLink(link, <span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        controller = <span class="string">"Product"</span>,</span><br><span class="line">        action = <span class="string">"List"</span>,</span><br><span class="line">        category = link,</span><br><span class="line">        page = <span class="number">1</span></span><br><span class="line">    &#125;, <span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        @<span class="keyword">class</span> = <span class="string">"btn btn-block btn-default btn-lg"</span> + (link == ViewBag.SelectedCategory ? <span class="string">" btn-primary"</span> : <span class="string">""</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="单元测试：报告被选中的分类"><a href="#单元测试：报告被选中的分类" class="headerlink" title="单元测试：报告被选中的分类"></a>单元测试：报告被选中的分类</h4><p>新增测试方法，测试Menu动作方法是否正确地添加了被选中分类。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestMethod</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Indicates_Selected_Category</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 准备——创建模仿存储库</span></span><br><span class="line">    Mock&lt;IProductRepository&gt; mock = <span class="keyword">new</span> Mock&lt;IProductRepository&gt;();</span><br><span class="line">    mock.Setup(m =&gt; m.Products).Returns(<span class="keyword">new</span> Product[] &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Category = <span class="string">"Apples"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">4</span>, Name = <span class="string">"P2"</span>, Category = <span class="string">"Oranges"</span> &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 准备——创建控制器</span></span><br><span class="line">    NavController target = <span class="keyword">new</span> NavController(mock.Object);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 准备——定义已选分类</span></span><br><span class="line">    <span class="keyword">string</span> categoryToSelect = <span class="string">"Apples"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 动作</span></span><br><span class="line">    <span class="keyword">string</span> result = target.Menu(categoryToSelect).ViewBag.SelectedCategory;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 断言</span></span><br><span class="line">    Assert.AreEqual(categoryToSelect, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="修正页面计数"><a href="#修正页面计数" class="headerlink" title="修正页面计数"></a>修正页面计数</h3><p>当前，页面链接的数目是由产品总数确定的，而不是由被选中分类中的产品数所确定的。</p>
+<p>修改<strong>ProductController</strong>中的<strong>List动作方法</strong>，使分页信息<strong>把分类考虑进来</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">List</span>(<span class="params"><span class="keyword">string</span> category, <span class="keyword">int</span> page = <span class="number">1</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ProductsListViewModel model = <span class="keyword">new</span> ProductsListViewModel</span><br><span class="line">    &#123;</span><br><span class="line">        Products = repository.Products</span><br><span class="line">            .Where(p =&gt; category == <span class="literal">null</span> || p.Category == category)</span><br><span class="line">            .OrderBy(p =&gt; p.ProductID)</span><br><span class="line">            .Skip((page - <span class="number">1</span>) * PageSize)</span><br><span class="line">            .Take(PageSize),</span><br><span class="line">        PagingInfo = <span class="keyword">new</span> PagingInfo</span><br><span class="line">        &#123;</span><br><span class="line">            CurrentPage = page,</span><br><span class="line">            ItemsPerPage = PageSize,</span><br><span class="line">            TotalItems = category == <span class="literal">null</span> ?	<span class="comment">// 返回的总数考虑分类</span></span><br><span class="line">                repository.Products.Count() :</span><br><span class="line">            	repository.Products.Where(e =&gt; e.Category == category).Count()</span><br><span class="line">        &#125;,</span><br><span class="line">        CurrentCategory = category</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> View(model);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="单元测试：特定分类的产品数"><a href="#单元测试：特定分类的产品数" class="headerlink" title="单元测试：特定分类的产品数"></a>单元测试：特定分类的产品数</h4><p>新增测试方法，测试<strong>不同分类的当前产品数</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestMethod</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Generate_Category_Specific_Product_Count</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 准备——创建模仿存储库</span></span><br><span class="line">    Mock&lt;IProductRepository&gt; mock = <span class="keyword">new</span> Mock&lt;IProductRepository&gt;();</span><br><span class="line">    mock.Setup(m =&gt; m.Products).Returns(<span class="keyword">new</span> Product[] &#123;</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Category = <span class="string">"Cat1"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span>, Category = <span class="string">"Cat2"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">3</span>, Name = <span class="string">"P3"</span>, Category = <span class="string">"Cat1"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">4</span>, Name = <span class="string">"P4"</span>, Category = <span class="string">"Cat2"</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> Product &#123; ProductID = <span class="number">5</span>, Name = <span class="string">"P5"</span>, Category = <span class="string">"Cat3"</span> &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 准备——创建控制器并使页面容纳3个物品</span></span><br><span class="line">    ProductController target = <span class="keyword">new</span> ProductController(mock.Object);</span><br><span class="line">    target.PageSize = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 动作——测试不同分类的产品数</span></span><br><span class="line">    <span class="keyword">int</span> res1 = ((ProductsListViewModel)target.List(<span class="string">"Cat1"</span>).Model).PagingInfo.TotalItems;</span><br><span class="line">    <span class="keyword">int</span> res2 = ((ProductsListViewModel)target.List(<span class="string">"Cat2"</span>).Model).PagingInfo.TotalItems;</span><br><span class="line">    <span class="keyword">int</span> res3 = ((ProductsListViewModel)target.List(<span class="string">"Cat3"</span>).Model).PagingInfo.TotalItems;</span><br><span class="line">    <span class="keyword">int</span> resAll = ((ProductsListViewModel)target.List(<span class="literal">null</span>).Model).PagingInfo.TotalItems;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 断言</span></span><br><span class="line">    Assert.AreEqual(res1, <span class="number">2</span>);</span><br><span class="line">    Assert.AreEqual(res2, <span class="number">2</span>);</span><br><span class="line">    Assert.AreEqual(res3, <span class="number">1</span>);</span><br><span class="line">    Assert.AreEqual(resAll, <span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建购物车"><a href="#创建购物车" class="headerlink" title="创建购物车"></a>创建购物车</h2><p>在一个分类中，每个产品的旁边都显示一个<strong>“Add to cart（加入购物车）”</strong>按钮。单击此按钮，将显示该客户目前已选产品的摘要，包括总费用。</p>
+<p>在这里，客户可以单击<strong>“Continue shopping（继续购物）”</strong>按钮，或者单击<strong>“Check out now（立即结算）”</strong>按钮来完成订购，并结束购物会话。</p>
+<h3 id="定义购物车实体"><a href="#定义购物车实体" class="headerlink" title="定义购物车实体"></a>定义购物车实体</h3><p>在<strong>SportsStore.Domain项目</strong>的<strong>Entities文件夹</strong>下，添加<strong>Cart.cs</strong>文件。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Cart</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;CartLine&gt; lineCollection = <span class="keyword">new</span> List&lt;CartLine&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 给购物车添加物品</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="product"&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="quantity"&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddItem</span>(<span class="params">Product product, <span class="keyword">int</span> quantity</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        CartLine line = lineCollection</span><br><span class="line">            .Where(p =&gt; p.Product.ProductID == product.ProductID)</span><br><span class="line">            .FirstOrDefault();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (line == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            lineCollection.Add(<span class="keyword">new</span> CartLine &#123; Product = product, Quantity = quantity &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            line.Quantity += quantity;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 从购物车中删除已添加的物品</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="product"&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Remove</span>(<span class="params">Product product</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        lineCollection.RemoveAll(p =&gt; p.Product.ProductID == product.ProductID);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 计算购物车物品的总价</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">decimal</span> <span class="title">ComputeTotalValue</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> lineCollection.Sum(e =&gt; e.Product.Price * e.Quantity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 删除全部物品重置购物车</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Clear</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        lineCollection.Clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 对购物车的内容进行访问</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> IEnumerable&lt;CartLine&gt; Lines</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> lineCollection; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 客户所选的一个产品和用户想要购买的数量</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartLine</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Product Product &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Quantity &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="单元测试：测试购物车"><a href="#单元测试：测试购物车" class="headerlink" title="单元测试：测试购物车"></a>单元测试：测试购物车</h4><p>在<strong>SportsStore.UnitTests项目</strong>中，添加新的单元测试文件<strong>CartTests.cs</strong>，测试Cart类的各种行为。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartTests</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试将物品添加到购物车</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Add_New_Lines</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一些测试产品</span></span><br><span class="line">        Product p1 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span> &#125;;</span><br><span class="line">        Product p2 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span> &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个新的购物车</span></span><br><span class="line">        Cart target = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        target.AddItem(p1, <span class="number">1</span>);</span><br><span class="line">        target.AddItem(p2, <span class="number">1</span>);</span><br><span class="line">        CartLine[] results = target.Lines.ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(results.Length, <span class="number">2</span>);</span><br><span class="line">        Assert.AreEqual(results[<span class="number">0</span>].Product, p1);</span><br><span class="line">        Assert.AreEqual(results[<span class="number">1</span>].Product, p2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 已经对购物车添加了一个Product，希望增加相应CartLine的数量，而不是创建一个新的CartLine对象</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Add_Quantity_For_Existing_Lines</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一些测试产品</span></span><br><span class="line">        Product p1 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span> &#125;;</span><br><span class="line">        Product p2 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span> &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建新的购物车</span></span><br><span class="line">        Cart target = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        target.AddItem(p1, <span class="number">1</span>);</span><br><span class="line">        target.AddItem(p2, <span class="number">1</span>);</span><br><span class="line">        target.AddItem(p1, <span class="number">10</span>);</span><br><span class="line">        CartLine[] results = target.Lines.OrderBy(c =&gt; c.Product.ProductID).ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(results.Length, <span class="number">2</span>);</span><br><span class="line">        Assert.AreEqual(results[<span class="number">0</span>].Quantity, <span class="number">11</span>);</span><br><span class="line">        Assert.AreEqual(results[<span class="number">1</span>].Quantity, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试从购物车删除产品</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Remove_Line</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一些测试产品</span></span><br><span class="line">        Product p1 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span> &#125;;</span><br><span class="line">        Product p2 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span> &#125;;</span><br><span class="line">        Product p3 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">3</span>, Name = <span class="string">"P3"</span> &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个新的购物车</span></span><br><span class="line">        Cart target = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——对购物车添加一些产品</span></span><br><span class="line">        target.AddItem(p1, <span class="number">1</span>);</span><br><span class="line">        target.AddItem(p2, <span class="number">3</span>);</span><br><span class="line">        target.AddItem(p3, <span class="number">5</span>);</span><br><span class="line">        target.AddItem(p2, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        target.Remove(p2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(target.Lines.Where(c =&gt; c.Product == p2).Count(), <span class="number">0</span>);</span><br><span class="line">        Assert.AreEqual(target.Lines.Count(), <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试计算购物车中各物品总价</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Calculate_Cart_Total</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一些测试产品</span></span><br><span class="line">        Product p1 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Price = <span class="number">100</span>M &#125;;</span><br><span class="line">        Product p2 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span>, Price = <span class="number">50</span>M &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个新的购物车</span></span><br><span class="line">        Cart target = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        target.AddItem(p1, <span class="number">1</span>);</span><br><span class="line">        target.AddItem(p2, <span class="number">1</span>);</span><br><span class="line">        target.AddItem(p1, <span class="number">3</span>);</span><br><span class="line">        <span class="keyword">decimal</span> result = target.ComputeTotalValue();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(result, <span class="number">450</span>M);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试重置购物车后是否删除了购物车内容</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Clear_Contents</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一些测试产品</span></span><br><span class="line">        Product p1 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Price = <span class="number">100</span>M &#125;;</span><br><span class="line">        Product p2 = <span class="keyword">new</span> Product &#123; ProductID = <span class="number">2</span>, Name = <span class="string">"P2"</span>, Price = <span class="number">50</span>M &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个新的购物车</span></span><br><span class="line">        Cart target = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——添加一些物品</span></span><br><span class="line">        target.AddItem(p1, <span class="number">1</span>);</span><br><span class="line">        target.AddItem(p2, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作——重置购物车</span></span><br><span class="line">        target.Clear();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(target.Lines.Count(), <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：测试一个类型的功能所需的代码，比<strong>该类型本身的代码</strong>还要<strong>长的多，且复杂得多</strong>，但<strong>不要因为这种情况而放弃单元测试</strong>。</p>
+<h3 id="添加“加入购物车”按钮"><a href="#添加“加入购物车”按钮" class="headerlink" title="添加“加入购物车”按钮"></a>添加“加入购物车”按钮</h3><p>修改<strong>ProductsSummary.cshtml</strong>视图，将<strong>加入购物车</strong>按钮添加到产品列表。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model SportsStore.Domain.Entities.Product</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"well"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">strong</span>&gt;</span>@Model.Name<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"pull-right label label-primary"</span>&gt;</span>@Model.Price.ToString("c")<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    @using (Html.BeginForm("AddToCart", "Cart"))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"pull-right"</span>&gt;</span></span><br><span class="line">            @Html.HiddenFor(x =&gt; x.ProductID)</span><br><span class="line">            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)</span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-success"</span> <span class="attr">value</span>=<span class="string">"Add to cart"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"lead"</span>&gt;</span>@Model.Description<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>@using代码块，为列表中的每一个产品<strong>创建一个小型的HTML表单</strong>。当该表单被递交时，将调用<strong>Cart控制器</strong>中的<strong>AddToCart动作方法</strong>。</li>
+<li><strong>BeginForm辅助器</strong>方法会创建一个使用<strong>HTTP POST方法</strong>的表单。</li>
+<li>在每个产品列表中使用<strong>Html.BeginForm辅助器方法</strong>，意味着每个<strong>加入购物车</strong>按钮都会被渲染成<strong>独立的HTML的form元素</strong>。由于<strong>MVC不使用视图状态</strong>，因此对所创建的表单数目<strong>没有限制</strong>。</li>
+</ul>
+<h3 id="实现购物车控制器"><a href="#实现购物车控制器" class="headerlink" title="实现购物车控制器"></a>实现购物车控制器</h3><p>在SportsStore.WebUI项目中，添加<strong>CartController</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IProductRepository repository;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CartController</span>(<span class="params">IProductRepository repo</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        repository = repo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedirectToRouteResult <span class="title">AddToCart</span>(<span class="params"><span class="keyword">int</span> productId, <span class="keyword">string</span> returnUrl</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Product product = repository.Products.FirstOrDefault(p =&gt; p.ProductID == productId);</span><br><span class="line">        <span class="keyword">if</span> (product != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            GetCart().AddItem(product, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> RedirectToAction(<span class="string">"Index"</span>, <span class="keyword">new</span> &#123; returnUrl &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedirectToRouteResult <span class="title">RemoveFromCart</span>(<span class="params"><span class="keyword">int</span> productId, <span class="keyword">string</span> returnUrl</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Product product = repository.Products.FirstOrDefault(p =&gt; p.ProductID == productId);</span><br><span class="line">        <span class="keyword">if</span> (product != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            GetCart().Remove(product);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> RedirectToAction(<span class="string">"Index"</span>, <span class="keyword">new</span> &#123; returnUrl &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Cart <span class="title">GetCart</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Cart cart = (Cart)Session[<span class="string">"Cart"</span>];</span><br><span class="line">        <span class="keyword">if</span> (cart == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cart = <span class="keyword">new</span> Cart();</span><br><span class="line">            Session[<span class="string">"Cart"</span>] = cart;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cart;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>为了存储和接收Cart对象，使用ASP.NET的<strong>会话状态特性</strong>，它将<strong>一个用户的多个请求</strong>关联在一起，形成一个<strong>单一的浏览会话</strong>。</li>
+<li><strong>Session对象</strong>默认存储在<strong>ASP.NET服务器的内存</strong>中，但也可以配置其他存储方式，如使用<strong>数据库存储</strong>。</li>
+<li><strong>AddToCart</strong>和<strong>RemoveFromCart</strong>方法，使用了与HTML表单中input元素相匹配的参数名，可以让MVC框架将<strong>输入表单的POST变量</strong>与<strong>参数</strong>关联起来。</li>
+<li><strong>AddToCart</strong>和<strong>RemoveFromCart</strong>方法，都调用了<strong>RedirectToAction</strong>方法，将一个HTTP的重定向指令发送到浏览器，<strong>要求浏览器请求一个新的URL</strong>。本例中，要求浏览器（重新）请求Cart控制器的Index动作方法。</li>
+</ul>
+<h3 id="显示购物车内容"><a href="#显示购物车内容" class="headerlink" title="显示购物车内容"></a>显示购物车内容</h3><p>需要将两个数据片段传递给显示购物车内容的视图：<strong>Cart对象</strong>，以及<strong>用户单击“Continue shopping”按钮时要显示的URL</strong>。</p>
+<p>在<strong>SportsStore.WebUI项目</strong>的<strong>Models文件夹</strong>中，新增<strong>CartIndexViewModel.cs</strong>文件。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartIndexViewModel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Cart Cart &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ReturnUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在CartController中新增<strong>Index动作方法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">Index</span>(<span class="params"><span class="keyword">string</span> returnUrl</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> View(<span class="keyword">new</span> CartIndexViewModel</span><br><span class="line">    &#123;</span><br><span class="line">        Cart = GetCart(),</span><br><span class="line">        ReturnUrl = returnUrl</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建这个<strong>Index视图</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model SportsStore.WebUI.Models.CartIndexViewModel</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "Sports Store: Your Cart";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Your cart<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Quantity<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Item<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>Subtotal<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        @foreach (var line in Model.Cart.Lines)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span>@line.Quantity<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-left"</span>&gt;</span>@line.Product.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>@line.Product.Price.ToString("c")<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span></span><br><span class="line">                    @((line.Quantity * line.Product.Price).ToString("c"))</span><br><span class="line">                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tfoot</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">"3"</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>Total:<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>@Model.Cart.ComputeTotalValue()<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tfoot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">href</span>=<span class="string">"@Model.ReturnUrl"</span>&gt;</span>Continue shopping<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>该视图枚举了<strong>购物车中的各条信息</strong>，并在一个HTML的表格中显示各行的总价，以及整个购物车的总价。点击<strong>“Add to cart（加入购物车）”</strong>时，相应的产品被添加到购物车，并显示购物车摘要。点击<strong>“Continue shopping（继续购物）”</strong>时，返回到之前所在的产品页面。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/04/05/ASP-NET-MVC5（五）SportsStore项目/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET MVC5（五）SportsStore项目">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加导航控件"><span class="toc-text">添加导航控件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#过滤产品列表"><span class="toc-text">过滤产品列表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单元测试：分类过滤"><span class="toc-text">单元测试：分类过滤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调整URL方案"><span class="toc-text">调整URL方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立分类导航菜单"><span class="toc-text">建立分类导航菜单</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建导航控制器"><span class="toc-text">创建导航控制器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成分类列表"><span class="toc-text">生成分类列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单元测试：生成分类列表"><span class="toc-text">单元测试：生成分类列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建视图"><span class="toc-text">创建视图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#高亮显示当前分类"><span class="toc-text">高亮显示当前分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单元测试：报告被选中的分类"><span class="toc-text">单元测试：报告被选中的分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修正页面计数"><span class="toc-text">修正页面计数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单元测试：特定分类的产品数"><span class="toc-text">单元测试：特定分类的产品数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建购物车"><span class="toc-text">创建购物车</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义购物车实体"><span class="toc-text">定义购物车实体</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单元测试：测试购物车"><span class="toc-text">单元测试：测试购物车</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加“加入购物车”按钮"><span class="toc-text">添加“加入购物车”按钮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现购物车控制器"><span class="toc-text">实现购物车控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示购物车内容"><span class="toc-text">显示购物车内容</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2021
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
