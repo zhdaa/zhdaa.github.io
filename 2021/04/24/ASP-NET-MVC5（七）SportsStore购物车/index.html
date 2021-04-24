@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ASP.NET MVC5（七）SportsStore购物车｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2021/04/24/ASP-NET-MVC5（七）SportsStore购物车/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ASP.NET MVC5（七）SportsStore购物车</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2021-04-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ASP.NET MVC5（七）SportsStore购物车
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="使用模型绑定"><a href="#使用模型绑定" class="headerlink" title="使用模型绑定"></a>使用模型绑定</h2><p>MVC框架使用了<strong>模型绑定</strong>系统，通过HTTP请求来<strong>创建C#对象</strong>，将他们作为<strong>参数值传递给动作方法</strong>。</p>
+<p>例如，MVC会考察目标动作方法的参数，用一个<strong>模型绑定器</strong>来获取由浏览器发送过来的表单值，并在传递给动作方法之前将它们转换成同名参数的类型。</p>
+<p><strong>模型绑定器</strong>能够通过请求中可用的各种信息来<strong>创建C#类</strong>，这是MVC框架的<strong>核心特性</strong>之一。</p>
+<h3 id="创建自定义模型绑定器"><a href="#创建自定义模型绑定器" class="headerlink" title="创建自定义模型绑定器"></a>创建自定义模型绑定器</h3><p>通过实现<strong>System.Web.Mvc.IModelBinder接口</strong>，可以创建一个自定义模型绑定器。</p>
+<p>在SportsStore.WebUI项目的<strong>Infrastructure文件夹</strong>下，新建<strong>Binders文件夹</strong>，在其中创建<strong>CartModelBinder.cs</strong>文件。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartModelBinder</span> : <span class="title">IModelBinder</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">string</span> sessionKey = <span class="string">"Cart"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">object</span> <span class="title">BindModel</span>(<span class="params">ControllerContext controllerContext, ModelBindingContext bindingContext</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 通过会话获取Cart</span></span><br><span class="line">        Cart cart = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (controllerContext.HttpContext.Session != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cart = (Cart)controllerContext.HttpContext.Session[sessionKey];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 若会话中没有Cart，创建一个</span></span><br><span class="line">        <span class="keyword">if</span> (cart == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cart = <span class="keyword">new</span> Cart();</span><br><span class="line">            <span class="keyword">if</span> (controllerContext.HttpContext.Session != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                controllerContext.HttpContext.Session[sessionKey] = cart;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回cart</span></span><br><span class="line">        <span class="keyword">return</span> cart;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li><strong>IModelBinder接口</strong>定义了一个方法：<strong>BindModel</strong>，为其提供的两个参数能够用来<strong>创建域模型对象</strong>。</li>
+<li><strong>ControllerContext</strong>能够访问<strong>控制器类的全部信息</strong>，包括客户端请求的细节。</li>
+<li><strong>ModelBindingContext</strong>能够提供的信息包括：要求你建立的模型对象以及使绑定过程更易于处理的工具。</li>
+</ul>
+<p>修改<strong>Global.asax</strong>的<strong>Application_Start方法</strong>，告诉MVC框架，使用CartModelBinder类创建Cart对象。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AreaRegistration.RegisterAllAreas();</span><br><span class="line">    RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line"></span><br><span class="line">    ModelBinders.Binders.Add(<span class="keyword">typeof</span>(Cart), <span class="keyword">new</span> CartModelBinder());	<span class="comment">// 使用CartModelBinder类创建Cart对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更新<strong>CartController类</strong>，删除<strong>GetCart方法</strong>，并依靠<strong>模型绑定器</strong>为控制器提供Cart对象。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IProductRepository repository;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CartController</span>(<span class="params">IProductRepository repo</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        repository = repo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ViewResult <span class="title">Index</span>(<span class="params">Cart cart, <span class="keyword">string</span> returnUrl</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> View(<span class="keyword">new</span> CartIndexViewModel</span><br><span class="line">        &#123;</span><br><span class="line">            ReturnUrl = returnUrl,</span><br><span class="line">            Cart = cart</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedirectToRouteResult <span class="title">AddToCart</span>(<span class="params">Cart cart, <span class="keyword">int</span> productId, <span class="keyword">string</span> returnUrl</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Product product = repository.Products.FirstOrDefault(p =&gt; p.ProductID == productId);</span><br><span class="line">        <span class="keyword">if</span> (product != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cart.AddItem(product, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> RedirectToAction(<span class="string">"Index"</span>, <span class="keyword">new</span> &#123; returnUrl &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedirectToRouteResult <span class="title">RemoveFromCart</span>(<span class="params">Cart cart, <span class="keyword">int</span> productId, <span class="keyword">string</span> returnUrl</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Product product = repository.Products.FirstOrDefault(p =&gt; p.ProductID == productId);</span><br><span class="line">        <span class="keyword">if</span> (product != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cart.Remove(product);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> RedirectToAction(<span class="string">"Index"</span>, <span class="keyword">new</span> &#123; returnUrl &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：CartController删除了<strong>GetCart方法</strong>，并对每个动作方法添加了一个<strong>Cart参数</strong>。当MVC框架接收到一个请求，比如调用AddToCart方法，会先考察<strong>动作方法的参数</strong>，然后考察<strong>可用的绑定器列表</strong>，尝试找到一个<strong>能够为各个参数类型创建实例</strong>的绑定器。</p>
+<p><strong>使用自定义模型绑定器的好处</strong>：</p>
+<ul>
+<li>把创建Cart对象与控制器的逻辑<strong>分离</strong>开来，这样开发者能够修改存储Cart对象的方式，而不用修改控制器。</li>
+<li>任何使用Cart对象的控制器类，都能够简单地把这些对象声明为<strong>动作方法参数</strong>，并能够利用<strong>自定义模型绑定器</strong>。</li>
+<li>能够对Cart控制器进行<strong>单元测试</strong>，而不需要<strong>模仿大量的ASP.NET通道</strong>。</li>
+</ul>
+<h4 id="单元测试：购物车控制器"><a href="#单元测试：购物车控制器" class="headerlink" title="单元测试：购物车控制器"></a>单元测试：购物车控制器</h4><p>在<strong>CartTests单元测试</strong>，添加一些方法，测试该控制器的<strong>3个不同方面</strong>。</p>
+<ul>
+<li>AddToCart方法应该将所选的产品添加到客户的购物车</li>
+<li>将一个产品添加到购物车之后，应该将用户重定向到Index视图。</li>
+<li>用户随后可以返回到产品分类页面，URL应该被正确地传递给Index动作方法。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartTests</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// ...其他测试方法</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试添加到购物车</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Add_To_Cart</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建模仿存储库</span></span><br><span class="line">        Mock&lt;IProductRepository&gt; mock = <span class="keyword">new</span> Mock&lt;IProductRepository&gt;();</span><br><span class="line">        mock.Setup(m =&gt; m.Products).Returns(<span class="keyword">new</span> Product[] &#123;</span><br><span class="line">            <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Category = <span class="string">"Apples"</span> &#125;,</span><br><span class="line">        &#125;.AsQueryable());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建Cart</span></span><br><span class="line">        Cart cart = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建控制器</span></span><br><span class="line">        CartController target = <span class="keyword">new</span> CartController(mock.Object);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作——对cart添加一个产品</span></span><br><span class="line">        target.AddToCart(cart, <span class="number">1</span>, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(cart.Lines.Count(), <span class="number">1</span>);</span><br><span class="line">        Assert.AreEqual(cart.Lines.ToArray()[<span class="number">0</span>].Product.ProductID, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试添加购物车后重定向到Index视图</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Adding_Product_To_Cart_Goes_To_Cart_Screen</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建模仿存储库</span></span><br><span class="line">        Mock&lt;IProductRepository&gt; mock = <span class="keyword">new</span> Mock&lt;IProductRepository&gt;();</span><br><span class="line">        mock.Setup(m =&gt; m.Products).Returns(<span class="keyword">new</span> Product[] &#123;</span><br><span class="line">            <span class="keyword">new</span> Product &#123; ProductID = <span class="number">1</span>, Name = <span class="string">"P1"</span>, Category = <span class="string">"Apples"</span> &#125;,</span><br><span class="line">        &#125;.AsQueryable());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建Cart</span></span><br><span class="line">        Cart cart = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建控制器</span></span><br><span class="line">        CartController target = <span class="keyword">new</span> CartController(mock.Object);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作——向cart添加一个产品</span></span><br><span class="line">        RedirectToRouteResult result = target.AddToCart(cart, <span class="number">1</span>, <span class="string">"myUrl"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreEqual(result.RouteValues[<span class="string">"action"</span>], <span class="string">"Index"</span>);</span><br><span class="line">        Assert.AreEqual(result.RouteValues[<span class="string">"returnUrl"</span>], <span class="string">"myUrl"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试returnUrl是否正确传递到Index动作方法</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_View_Cart_Contents</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建Cart</span></span><br><span class="line">        Cart cart = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建控制器</span></span><br><span class="line">        CartController target = <span class="keyword">new</span> CartController(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作——调用Index动作方法</span></span><br><span class="line">        CartIndexViewModel result = (CartIndexViewModel)target.Index(cart, <span class="string">"myUrl"</span>).ViewData.Model;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言</span></span><br><span class="line">        Assert.AreSame(result.Cart, cart);</span><br><span class="line">        Assert.AreEqual(result.ReturnUrl, <span class="string">"myUrl"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="完成购物车功能"><a href="#完成购物车功能" class="headerlink" title="完成购物车功能"></a>完成购物车功能</h2><p>接下来添加两个新特性来完成购物车的功能。</p>
+<ol>
+<li>允许客户删除购物车的商品</li>
+<li>在页面的顶部显示购物车的摘要</li>
+</ol>
+<h3 id="删除购物车物品"><a href="#删除购物车物品" class="headerlink" title="删除购物车物品"></a>删除购物车物品</h3><p>修改<strong>Views/Cart/Index.cshtml</strong>文件，在购物车摘要的每一行中添加<strong>Remove（删除）按钮</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model SportsStore.WebUI.Models.CartIndexViewModel</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "Sports Store: Your Cart";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    #cartTable td &#123;</span></span><br><span class="line"><span class="undefined">        vertical-align: middle;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Your cart<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">id</span>=<span class="string">"cartTable"</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Quantity<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span>&gt;</span>Item<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>Price<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">th</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>Subtotal<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        @foreach (var line in Model.Cart.Lines)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span>@line.Quantity<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-left"</span>&gt;</span>@line.Product.Name<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>@line.Product.Price.ToString("c")<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span></span><br><span class="line">                    @((line.Quantity * line.Product.Price).ToString("c"))</span><br><span class="line">                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">                    @using (Html.BeginForm("RemoveFromCart", "Cart"))</span><br><span class="line">                    &#123;</span><br><span class="line">                        @Html.Hidden("ProductId", line.Product.ProductID)</span><br><span class="line">                        @Html.HiddenFor(x =&gt; x.ReturnUrl)</span><br><span class="line">                        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"btn btn-sm btn-warning"</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Remove"</span> /&gt;</span></span><br><span class="line">                    &#125;</span><br><span class="line">                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tfoot</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">"3"</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>Total:<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"text-right"</span>&gt;</span>@Model.Cart.ComputeTotalValue().ToString("c")<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tfoot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">href</span>=<span class="string">"@Model.ReturnUrl"</span>&gt;</span>Continue shopping<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>使用强类型的<strong>Html.HiddenFor辅助器方法</strong>，为<strong>ReutrnUrl模型属性</strong>创建一个隐藏字段。</li>
+<li>必须对<strong>ProductID字段</strong>使用<strong>Html.Hidden辅助器方法</strong>，因为该字段名与<strong>RemoveFromCart动作方法</strong>的参数名<strong>不匹配</strong>，这会使默认的模型绑定器无法工作。</li>
+</ul>
+<h3 id="添加购物车摘要"><a href="#添加购物车摘要" class="headerlink" title="添加购物车摘要"></a>添加购物车摘要</h3><p>添加一个<strong>小部件</strong>，它汇总了<strong>购物车的内容</strong>，并在整个应用程序中都能通过单击来显示购物车的内容。</p>
+<p>在<strong>CartController</strong>中添加<strong>Summary动作方法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PartialViewResult <span class="title">Summary</span>(<span class="params">Cart cart</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PartialView(cart);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加<strong>Summary视图</strong>，以<strong>Cart对象</strong>作为视图数据。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model SportsStore.Domain.Entities.Cart</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"navbar-right"</span>&gt;</span></span><br><span class="line">    @Html.ActionLink("checkout", "Index", "Cart",</span><br><span class="line">        new &#123; returnUrl = Request.Url.PathAndQuery &#125;,</span><br><span class="line">        new &#123; @class = "btn btn-default navbar-btn" &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"navbar-text navbar-right"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">b</span>&gt;</span>Your cart:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">    @Model.Lines.Sum(x =&gt; x.Quantity) item(s),</span><br><span class="line">    @Model.ComputeTotalValue().ToString("c")</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>该视图显示了购物车中的<strong>物品数量</strong>，<strong>物品的总价</strong>，以及<strong>显示购物车详情的链接</strong>。</p>
+<p>修改<strong>_Layout.cshtml</strong>文件，添加使用<strong>Summary分部视图</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"~/Content/bootstrap.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"~/Content/bootstrap-theme.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>@ViewBag.Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"navbar navbar-inverse"</span> <span class="attr">role</span>=<span class="string">"navigation"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"navbar-brand"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>SPORTS STORE<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        @Html.Action("Summary", "Cart")</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row panel"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"categories"</span> <span class="attr">class</span>=<span class="string">"col-xs-3"</span>&gt;</span></span><br><span class="line">            @Html.Action("Menu", "Nav")</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-8"</span>&gt;</span></span><br><span class="line">            @RenderBody()</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：使用<strong>Html.Action辅助器方法</strong>，可以将一个<strong>动作方法</strong>输出组合到<strong>其他视图</strong>。这是将应用程序功能分解成<strong>清晰可重用模块</strong>的一种很好的技术。</p>
+<h2 id="递交订单"><a href="#递交订单" class="headerlink" title="递交订单"></a>递交订单</h2><h3 id="扩充域模型"><a href="#扩充域模型" class="headerlink" title="扩充域模型"></a>扩充域模型</h3><p>在<strong>SportsStore.Domain项目</strong>的<strong>Entities文件夹</strong>中，添加<strong>ShippingDetails.cs</strong>文件，该类用于表示<strong>客户送货细节</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ShippingDetails</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Required(ErrorMessage = <span class="meta-string">"Please enter a name"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required(ErrorMessage = <span class="meta-string">"Please enter the first address line"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Line1 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Line2 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Line3 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required(ErrorMessage = <span class="meta-string">"Please enter a city name"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> City &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required(ErrorMessage = <span class="meta-string">"Please enter a state name"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> State &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Zip &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required(ErrorMessage = <span class="meta-string">"Please enter a country name"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Country &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> GiftWrap &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>使用了<strong>System.ComponentModel.DataAnnotations命名空间</strong>的<strong>验证注解属性</strong>。</li>
+<li><strong>ShippingDetails类</strong>没有任何功能，因此不需要单元测试。</li>
+</ul>
+<h3 id="添加结算过程"><a href="#添加结算过程" class="headerlink" title="添加结算过程"></a>添加结算过程</h3><p>修改<strong>Views\Cart\Index.cshtml</strong>文件，在<strong>购物车摘要视图</strong>添加<strong>“Checkout now（立即结算）”按钮</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">href</span>=<span class="string">"@Model.ReturnUrl"</span>&gt;</span>Continue shopping<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    @Html.ActionLink("Checkout now", "Checkout", null, new &#123; @class = "btn btn-primary" &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>接下来在<strong>CartController</strong>中定义<strong>Checkout动作方法</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ViewResult <span class="title">Checkout</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> View(<span class="keyword">new</span> ShippingDetails());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Checkout动作方法</strong>，返回默认视图，并传递一个新的<strong>ShippingDetails对象</strong>作为视图模型。</p>
+<p>创建这个<strong>Checkout视图</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model SportsStore.Domain.Entities.ShippingDetails</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "SportStore: Checkout";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Check out now<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Please enter your details, and we'll ship your goods right away!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">@using (Html.BeginForm())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Ship to<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Name:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Name, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Address<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Line 1:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Line1, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Line 2:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Line2, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Line 3:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Line3, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>City:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.City, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>State:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.State, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Zip:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Zip, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Country:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Country, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Options<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"checkbox"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">            @Html.EditorFor(x =&gt; x.GiftWrap)</span><br><span class="line">            Gift wrap these items</span><br><span class="line">        <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Complete order"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行应用程序，点击页面顶部的<strong>Checkout按钮</strong>，再点击<strong>Checkout now按钮</strong>，即可看到该视图。</p>
+<p>为了<strong>减少</strong>Checkout视图中的<strong>重复标记</strong>。可以获取<strong>视图模型对象的元数据</strong>，将它与<strong>C#和Razor的混合表达式</strong>相结合。</p>
+<p>修改<strong>Checkout.cshtml</strong>文件如下。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@model SportsStore.Domain.Entities.ShippingDetails</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "SportStore: Checkout";</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Check out now<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Please enter your details, and we'll ship your goods right away!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">@using (Html.BeginForm())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Ship to<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Name:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Name, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Address<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    foreach (var property in ViewData.ModelMetadata.Properties)</span><br><span class="line">    &#123;</span><br><span class="line">        if (property.PropertyName != "Name" &amp;&amp; property.PropertyName != "GiftWrap")</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span>&gt;</span>@(property.DisplayName ?? property.PropertyName)<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                @Html.TextBox(property.PropertyName, null, new &#123; @class = "form-control" &#125;)</span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Options<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"checkbox"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">            @Html.EditorFor(x =&gt; x.GiftWrap)</span><br><span class="line">            Gift wrap these items</span><br><span class="line">        <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Complete order"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>静态的<strong>ViewData.ModelMetadata属性</strong>返回的是一个<strong>System.Web.Mvc.ModelMetaData对象</strong>，该对象提供了视图的<strong>模型类型信息</strong>。</li>
+<li>代码中的<strong>foreach</strong>和<strong>if关键字</strong>在Razor表达式的范围之内，因此<strong>不需要加@前缀</strong>。</li>
+<li><strong>??</strong>是<strong>空合并运算符</strong>。如果DisplayName为空，则返回PropertyName，否则返回DisplayName。</li>
+</ul>
+<p>修改<strong>ShippingDetails.cs</strong>文件，在模型类上运用<strong>Display注解属性</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line">[<span class="meta">Display(Name = <span class="meta-string">"Line 1"</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Line1 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">[<span class="meta">Display(Name = <span class="meta-string">"Line 2"</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Line2 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">[<span class="meta">Display(Name = <span class="meta-string">"Line 3"</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Line3 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"><span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+<p>为<strong>Display注解属性</strong>设置Name值后，可以在视图中通过<strong>DisplayName属性</strong>读取所设置的值。</p>
+<h3 id="实现订单处理器"><a href="#实现订单处理器" class="headerlink" title="实现订单处理器"></a>实现订单处理器</h3><h4 id="定义接口"><a href="#定义接口" class="headerlink" title="定义接口"></a>定义接口</h4><p>在<strong>SportsStore.Domain项目</strong>的<strong>Abstract文件夹</strong>中，添加<strong>IOrderProcessor接口</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IOrderProcessor</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">ProcessOrder</span>(<span class="params">Cart cart, ShippingDetails shippingDetails</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实现接口"><a href="#实现接口" class="headerlink" title="实现接口"></a>实现接口</h4><p>IOrderProcessor的实现，打算采用的订单处理方式是<strong>向网站管理员发送订单邮件</strong>。</p>
+<p>在<strong>SportsStore.Domain项目</strong>的<strong>Concrete文件夹</strong>中，新建<strong>EmailOrderProcessor.cs</strong>文件，并使用.NET框架下的<strong>SMTP</strong>发送电子邮件。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 配置.NET邮件类</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmailSettings</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> MailToAddress = <span class="string">"orders@example.com"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> MailFromAddress = <span class="string">"sportsstore@example.com"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> UseSsl = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Username = <span class="string">"MySmtpUsername"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Password = <span class="string">"MySmtpPassword"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ServerName = <span class="string">"smtp.example.com"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> ServerPort = <span class="number">587</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> WriteAsFile = <span class="literal">false</span>;	<span class="comment">// 如果没有SMTP服务器，此项可设置为true，将邮件消息作为文件写到指定目录</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> FileLocation = <span class="string">@"e:\sports_store_emails"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmailOrderProcessor</span> : <span class="title">IOrderProcessor</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> EmailSettings emailSettings;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EmailOrderProcessor</span>(<span class="params">EmailSettings settings</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        emailSettings = settings;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ProcessOrder</span>(<span class="params">Cart cart, ShippingDetails shipppingInfo</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> smtpClient = <span class="keyword">new</span> SmtpClient())</span><br><span class="line">        &#123;</span><br><span class="line">            smtpClient.EnableSsl = emailSettings.UseSsl;</span><br><span class="line">            smtpClient.Host = emailSettings.ServerName;</span><br><span class="line">            smtpClient.Port = emailSettings.ServerPort;</span><br><span class="line">            smtpClient.UseDefaultCredentials = <span class="literal">false</span>;</span><br><span class="line">            smtpClient.Credentials = <span class="keyword">new</span> NetworkCredential(emailSettings.Username, emailSettings.Password);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (emailSettings.WriteAsFile)</span><br><span class="line">            &#123;</span><br><span class="line">                smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;</span><br><span class="line">                smtpClient.PickupDirectoryLocation = emailSettings.FileLocation;</span><br><span class="line">                smtpClient.EnableSsl = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            StringBuilder body = <span class="keyword">new</span> StringBuilder()</span><br><span class="line">                .AppendLine(<span class="string">"A new order has been submitted"</span>)</span><br><span class="line">                .AppendLine(<span class="string">"---"</span>)</span><br><span class="line">                .AppendLine(<span class="string">"Items:"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> line <span class="keyword">in</span> cart.Lines)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> subtotal = line.Product.Price * line.Quantity;</span><br><span class="line">                body.AppendFormat(<span class="string">"&#123;0&#125; x &#123;1&#125; (subtotal: &#123;2:c&#125;)"</span>,</span><br><span class="line">                                  line.Quantity,</span><br><span class="line">                                  line.Product.Name,</span><br><span class="line">                                  subtotal);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            body.AppendFormat(<span class="string">"Total order value: &#123;0:c&#125;"</span>, cart.ComputeTotalValue())</span><br><span class="line">                .AppendLine(<span class="string">"---"</span>)</span><br><span class="line">                .AppendLine(<span class="string">"Ship to:"</span>)</span><br><span class="line">                .AppendLine(shipppingInfo.Name)</span><br><span class="line">                .AppendLine(shipppingInfo.Line1)</span><br><span class="line">                .AppendLine(shipppingInfo.Line2 ?? <span class="string">""</span>)</span><br><span class="line">                .AppendLine(shipppingInfo.Line3 ?? <span class="string">""</span>)</span><br><span class="line">                .AppendLine(shipppingInfo.City)</span><br><span class="line">                .AppendLine(shipppingInfo.State ?? <span class="string">""</span>)</span><br><span class="line">                .AppendLine(shipppingInfo.Country)</span><br><span class="line">                .AppendLine(shipppingInfo.Zip)</span><br><span class="line">                .AppendLine(<span class="string">"---"</span>)</span><br><span class="line">                .AppendFormat(<span class="string">"Gift wrap: &#123;0&#125;"</span>, shipppingInfo.GiftWrap ? <span class="string">"yes"</span> : <span class="string">"No"</span>);</span><br><span class="line"></span><br><span class="line">            MailMessage mailMessage = <span class="keyword">new</span> MailMessage(</span><br><span class="line">                emailSettings.MailFromAddress,  <span class="comment">// From</span></span><br><span class="line">                emailSettings.MailToAddress,    <span class="comment">// To</span></span><br><span class="line">                <span class="string">"New order submitted!"</span>,         <span class="comment">// Subject</span></span><br><span class="line">                body.ToString());               <span class="comment">// Body</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (emailSettings.WriteAsFile)</span><br><span class="line">            &#123;</span><br><span class="line">                mailMessage.BodyEncoding = Encoding.ASCII;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            smtpClient.Send(mailMessage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注册接口实现"><a href="#注册接口实现" class="headerlink" title="注册接口实现"></a>注册接口实现</h3><p>编辑<strong>NinjectDependencyResolver.cs</strong>文件，修改<strong>AddBindings方法</strong>，配置<strong>IOrderProcessor接口</strong>的实现。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddBindings</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Bind&lt;IProductRepository&gt;().To&lt;EFProductRepository&gt;();</span><br><span class="line"></span><br><span class="line">    EmailSettings emailSettings = <span class="keyword">new</span> EmailSettings</span><br><span class="line">    &#123;</span><br><span class="line">        WriteAsFile = <span class="keyword">bool</span>.Parse(ConfigurationManager.AppSettings[<span class="string">"Email.WriteAsFile"</span>] ?? <span class="string">"false"</span>)</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    kernel.Bind&lt;IOrderProcessor&gt;().To&lt;EmailOrderProcessor&gt;().WithConstructorArgument(<span class="string">"settings"</span>, emailSettings);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在应用程序配置文件<strong>web.config</strong>中<strong>添加配置</strong>。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">appSettings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">key</span>=<span class="string">"Email.WriteAsFile"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appSettings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="完成购物车控制器"><a href="#完成购物车控制器" class="headerlink" title="完成购物车控制器"></a>完成购物车控制器</h3><p>修改<strong>CartController</strong>，构造器接受一个<strong>IOrderProcessor接口的实现</strong>，并添加新的<strong>动作方法</strong>，在客户单击完成订单时，处理<strong>POST请求</strong>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IProductRepository repository;</span><br><span class="line">    <span class="keyword">private</span> IOrderProcessor orderProcessor;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CartController</span>(<span class="params">IProductRepository repo, IOrderProcessor proc</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        repository = repo;</span><br><span class="line">        orderProcessor = proc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    [<span class="meta">HttpPost</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ViewResult <span class="title">Checkout</span>(<span class="params">Cart cart, ShippingDetails shippingDetails</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cart.Lines.Count() == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ModelState.AddModelError(<span class="string">""</span>, <span class="string">"Sorry, your cart is empty!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ModelState.IsValid)</span><br><span class="line">        &#123;</span><br><span class="line">            orderProcessor.ProcessOrder(cart, shippingDetails);</span><br><span class="line">            cart.Clear();</span><br><span class="line">            <span class="keyword">return</span> View(<span class="string">"Completed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> View(shippingDetails);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>Checkout方法是用<strong>HttpPost注解属性</strong>修饰，表明该方法用于<strong>处理POST请求</strong>。</li>
+<li>由于<strong>修改了构造器</strong>，因此需要修改CartController的<strong>单元测试</strong>，为构造器参数传递null，以通过编译。</li>
+<li>MVC框架<strong>检查验证约束</strong>，通过<strong>ModelState属性</strong>把非法情况传递给动作方法，并通过<strong>ModelState.IsValid属性</strong>检查是否存在问题。可以调用<strong>ModelState.AddModelError方法</strong>注册一条错误信息。</li>
+</ul>
+<h4 id="单元测试：订单处理"><a href="#单元测试：订单处理" class="headerlink" title="单元测试：订单处理"></a>单元测试：订单处理</h4><p>需要对Checkout重载方法进行测试。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CartTests</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 其他测试方法...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 测试确保不能对空购物车进行结算。返回视图是默认视图，且传递给视图的模型状态被标记为非法</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Cannot_Checkout_Empty_Cart</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一个模仿的订单处理器</span></span><br><span class="line">        Mock&lt;IOrderProcessor&gt; mock = <span class="keyword">new</span> Mock&lt;IOrderProcessor&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个空的购物车</span></span><br><span class="line">        Cart cart = <span class="keyword">new</span> Cart();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个运输信息实例</span></span><br><span class="line">        ShippingDetails shippingDetails = <span class="keyword">new</span> ShippingDetails();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个控制器实例</span></span><br><span class="line">        CartController target = <span class="keyword">new</span> CartController(<span class="literal">null</span>, mock.Object);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作</span></span><br><span class="line">        ViewResult result = target.Checkout(cart, shippingDetails);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，订单尚未传递给处理器</span></span><br><span class="line">        mock.Verify(m =&gt; m.ProcessOrder(It.IsAny&lt;Cart&gt;(), It.IsAny&lt;ShippingDetails&gt;()), Times.Never());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，该方法返回的是默认视图</span></span><br><span class="line">        Assert.AreEqual(<span class="string">""</span>, result.ViewName);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，给视图传递的是一个非法模型</span></span><br><span class="line">        Assert.AreEqual(<span class="literal">false</span>, result.ViewData.ModelState.IsValid);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 把错误注入到视图模型，模仿客户输入非法运货数据</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Cannot_Checkout_Invalid_ShippingDetails</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一个模仿的订单处理器</span></span><br><span class="line">        Mock&lt;IOrderProcessor&gt; mock = <span class="keyword">new</span> Mock&lt;IOrderProcessor&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建含有一个物品的购物车</span></span><br><span class="line">        Cart cart = <span class="keyword">new</span> Cart();</span><br><span class="line">        cart.AddItem(<span class="keyword">new</span> Product(), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个控制器实例</span></span><br><span class="line">        CartController target = <span class="keyword">new</span> CartController(<span class="literal">null</span>, mock.Object);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——把一个错误添加到模型</span></span><br><span class="line">        target.ModelState.AddModelError(<span class="string">"error"</span>, <span class="string">"error"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作——试图结算</span></span><br><span class="line">        ViewResult result = target.Checkout(cart, <span class="keyword">new</span> ShippingDetails());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，订单尚未传递给处理器</span></span><br><span class="line">        mock.Verify(m =&gt; m.ProcessOrder(It.IsAny&lt;Cart&gt;(), It.IsAny&lt;ShippingDetails&gt;()), Times.Never());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，方法返回的是默认视图</span></span><br><span class="line">        Assert.AreEqual(<span class="string">""</span>, result.ViewName);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，我们正在把一个非法模型传递给视图</span></span><br><span class="line">        Assert.AreEqual(<span class="literal">false</span>, result.ViewData.ModelState.IsValid);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 确保在适当的时候能够处理订单</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">TestMethod</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Can_Checkout_And_Submit_Order</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 准备——创建一个模仿订单处理器</span></span><br><span class="line">        Mock&lt;IOrderProcessor&gt; mock = <span class="keyword">new</span> Mock&lt;IOrderProcessor&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建含有一个物品的购物车</span></span><br><span class="line">        Cart cart = <span class="keyword">new</span> Cart();</span><br><span class="line">        cart.AddItem(<span class="keyword">new</span> Product(), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 准备——创建一个控制器实例</span></span><br><span class="line">        CartController target = <span class="keyword">new</span> CartController(<span class="literal">null</span>, mock.Object);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 动作——试图结算</span></span><br><span class="line">        ViewResult result = target.Checkout(cart, <span class="keyword">new</span> ShippingDetails());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，订单已经被传递给处理器</span></span><br><span class="line">        mock.Verify(m =&gt; m.ProcessOrder(It.IsAny&lt;Cart&gt;(), It.IsAny&lt;ShippingDetails&gt;()), Times.Once());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，方法返回的是“Completed”视图</span></span><br><span class="line">        Assert.AreEqual(<span class="string">"Completed"</span>, result.ViewName);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 断言——检查，我们正在把一个有效的模型传递给视图</span></span><br><span class="line">        Assert.AreEqual(<span class="literal">true</span>, result.ViewData.ModelState.IsValid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="显式验证错误"><a href="#显式验证错误" class="headerlink" title="显式验证错误"></a>显式验证错误</h3><p>MVC框架使用ShippingDetails类中的<strong>验证注解属性</strong>来验证用户的输入，必须<strong>将问题显示给用户</strong>，通过高亮问题字段以及显示问题摘要来报告验证错误。</p>
+<p>用户提交的数据在验证之前发送给服务器，经过处理并生成结果页面之后，用户才会得到错误报告<strong>（服务器端验证）</strong>。</p>
+<p>在<strong>Checkout.cshtml</strong>文件中，添加验证摘要<strong>“@Html.ValidationSummary()”</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">@using (Html.BeginForm())</span><br><span class="line">&#123;</span><br><span class="line">    @Html.ValidationSummary()</span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Ship to<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span>Name:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        @Html.TextBoxFor(x =&gt; x.Name, new &#123; @class = "form-control" &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建一些CSS样式，用于用户输入非法数据时，所使用的非法元素。</p>
+<p>在<strong>SportsStore.WebUI项目</strong>的<strong>Content文件夹</strong>中，添加样式表文件<strong>ErrorStyles.css</strong>。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.field-validation-error</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#f00</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.field-validation-valid</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.input-validation-error</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#f00</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#fee</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.validation-summary-errors</span> &#123;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#f00</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.validation-summary-valid</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<strong>_Layout.cshtml</strong>文件中引用<strong>ErrorStyles.css</strong>样式文件。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"~/Content/bootstrap.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"~/Content/bootstrap-theme.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"~/Content/ErrorStyles.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>@ViewBag.Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="显示致谢页面"><a href="#显示致谢页面" class="headerlink" title="显示致谢页面"></a>显示致谢页面</h3><p>结算成功之后，需要向客户显示一个已经完成订单处理的确认页面，并感谢他们购物。</p>
+<p>在<strong>Views\Cart文件夹</strong>中，新建<strong>Completed.cshtml</strong>文件。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = "SportsStore: Order Submitted";</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Thanks!<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">Thanks for placing your order. We'll ship your good as soon as possible.</span><br></pre></td></tr></table></figure>
+<p>运行项目，当客户填写完运输信息，点击“Complete order”按钮时，便会看到致谢页面。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/04/10/ASP-NET-MVC5（六）SportsStore导航/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET MVC5（六）SportsStore导航">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用模型绑定"><span class="toc-text">使用模型绑定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建自定义模型绑定器"><span class="toc-text">创建自定义模型绑定器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单元测试：购物车控制器"><span class="toc-text">单元测试：购物车控制器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成购物车功能"><span class="toc-text">完成购物车功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#删除购物车物品"><span class="toc-text">删除购物车物品</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加购物车摘要"><span class="toc-text">添加购物车摘要</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#递交订单"><span class="toc-text">递交订单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扩充域模型"><span class="toc-text">扩充域模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加结算过程"><span class="toc-text">添加结算过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现订单处理器"><span class="toc-text">实现订单处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义接口"><span class="toc-text">定义接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现接口"><span class="toc-text">实现接口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注册接口实现"><span class="toc-text">注册接口实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完成购物车控制器"><span class="toc-text">完成购物车控制器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单元测试：订单处理"><span class="toc-text">单元测试：订单处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式验证错误"><span class="toc-text">显式验证错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示致谢页面"><span class="toc-text">显示致谢页面</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ASP.NET MVC"
+                           title="ASP.NET MVC">ASP.NET MVC</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2021
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
