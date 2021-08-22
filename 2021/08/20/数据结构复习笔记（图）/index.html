@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="zhendong在github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Zhendong" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        数据结构复习笔记（图）｜Zhendong&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://zhdaa.github.io/2021/08/20/数据结构复习笔记（图）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/zhdaa-headimg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Zhendong
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/images/post-ocean.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-ocean.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据结构复习笔记（图）</h1>
+                    
+                    <span class="meta">
+                         作者 Zhendong Ho
+                        <span>
+                          日期 2021-08-20
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            数据结构复习笔记（图）
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a>图的存储</h2><h3 id="邻接矩阵法"><a href="#邻接矩阵法" class="headerlink" title="邻接矩阵法"></a>邻接矩阵法</h3><p><strong>存储空间</strong>：顶点信息O(n)，加上边信息（邻接矩阵）O(n^2)，即<strong>O(n^2)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MaxVertexNum 100    <span class="comment">// 顶点数目的最大值</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> VertexType;    <span class="comment">// 顶点的数据类型</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> EdgeType;        <span class="comment">// 带权图中边上权值的数据类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    VertexType Vex[MaxVertexNum];                <span class="comment">// 顶点表</span></span><br><span class="line">    EdgeType Edge[MaxVertexNum][MaxVertexNum];    <span class="comment">// 邻接矩阵</span></span><br><span class="line">    <span class="keyword">int</span> vexnum;        <span class="comment">// 顶点数</span></span><br><span class="line">    <span class="keyword">int</span> arcnum;        <span class="comment">// 弧数</span></span><br><span class="line">&#125;Graph;</span><br></pre></td></tr></table></figure>
+<h3 id="邻接表法"><a href="#邻接表法" class="headerlink" title="邻接表法"></a>邻接表法</h3><p><strong>存储空间</strong>：存储顶点表，加上边表。<strong>无向图</strong>为<strong>O(|V|+2|E|)</strong>，<strong>有向图</strong>为<strong>O(|V|+|E|)</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MaxVertexNum 100    <span class="comment">// 顶点数目的最大值</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> VertexType;    <span class="comment">// 顶点的数据类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 边表</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">ArcNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> adjvex;                <span class="comment">// 该弧所指向的顶点的位置</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ArcNode</span>* <span class="title">next</span>;</span>    <span class="comment">// 指向下一条弧的指针</span></span><br><span class="line">    <span class="comment">//InfoType info;        // 网的边权值</span></span><br><span class="line">&#125;ArcNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 顶点表</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">VNode</span> &#123;</span></span><br><span class="line">    VertexType data;    <span class="comment">// 顶点信息</span></span><br><span class="line">    ArcNode* first;        <span class="comment">// 指向第一条依附该顶点的弧的指针</span></span><br><span class="line">&#125;VNode, AdjList[MaxVertexNum];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 邻接表</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    AdjList vertices;    <span class="comment">// 图的顶点数组</span></span><br><span class="line">    <span class="keyword">int</span> vexnum;            <span class="comment">// 顶点数</span></span><br><span class="line">    <span class="keyword">int</span> arcnum;            <span class="comment">// 弧数</span></span><br><span class="line">&#125;LGraph;</span><br></pre></td></tr></table></figure>
+<h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><p>求图G中顶点v的第一个邻接顶点（基于邻接矩阵）。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 返回顶点v的第一个邻接顶点的索引，失败返回-1</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">FirstNeighbor</span><span class="params">(Graph G, <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">if</span> (v &lt; <span class="number">0</span> || v &gt;(G.vexnum - <span class="number">1</span>))</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (G.Edge[v][i] == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>求图G中顶点v基于w的下一个邻接顶点（基于邻接矩阵）。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 返回顶点v相对于w的下一个邻接顶点的索引，失败返回-1</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NextNeighbor</span><span class="params">(Graph G, <span class="keyword">int</span> v, <span class="keyword">int</span> w)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">if</span> (v &lt; <span class="number">0</span> || v &gt;(G.vexnum - <span class="number">1</span>) || w &lt; <span class="number">0</span> || w &gt;(G.vexnum - <span class="number">1</span>))</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = w + <span class="number">1</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (G.Edge[v][i] == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h3><p>空间复杂度：<strong>O(|V|)</strong>，借助辅助队列。</p>
+<p>时间复杂度：<strong>邻接矩阵O(|V|+|E|)</strong>，<strong>邻接表O(|V|^2)</strong>。</p>
+<p>基于邻接矩阵的广度优先遍历算法如下。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> visited[MaxVertexNum];    <span class="comment">// 辅助标记数组</span></span><br><span class="line"><span class="keyword">int</span> <span class="built_in">queue</span>[MaxVertexNum];    <span class="comment">// 辅助队列</span></span><br><span class="line"><span class="keyword">int</span> rear, head;                <span class="comment">// 辅助队列头尾指针</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从顶点v出来，广度优先遍历图G</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS</span><span class="params">(Graph G, <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    visited[v] = <span class="number">1</span>;        <span class="comment">// 标记v已访问</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%c "</span>, G.Vex[v]);</span><br><span class="line">    <span class="built_in">queue</span>[rear++] = v;    <span class="comment">// 入队列</span></span><br><span class="line">    <span class="keyword">int</span> j, w;</span><br><span class="line">    <span class="keyword">while</span> (head != rear)</span><br><span class="line">    &#123;</span><br><span class="line">        j = <span class="built_in">queue</span>[head++];    <span class="comment">// 出队列</span></span><br><span class="line">        <span class="keyword">for</span> (w = FirstNeighbor(G, j); w &gt;= <span class="number">0</span>; w = NextNeighbor(G, j, w))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!visited[w])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 访问顶点w，并将w入队列</span></span><br><span class="line">                visited[w] = <span class="number">1</span>;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%c "</span>, G.Vex[w]);</span><br><span class="line">                <span class="built_in">queue</span>[rear++] = w;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFSTraverse</span><span class="params">(Graph G)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 访问标记数组初始化</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        visited[i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 从0号顶点开始遍历，对每一个连通分量调用一次BFS</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!visited[i])</span><br><span class="line">        &#123;</span><br><span class="line">            BFS(G, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Graph* pG;</span><br><span class="line">    pG = create_example_graph();    <span class="comment">// 创建图</span></span><br><span class="line">    BFSTraverse(*pG);               <span class="comment">// 广度优先遍历</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h3><p>空间复杂度：<strong>O(|V|)</strong>，借助递归工作栈。</p>
+<p>时间复杂度：<strong>邻接矩阵O(|V|+|E|)</strong>，<strong>邻接表O(|V|^2)。</strong></p>
+<p>基于邻接矩阵的深度优先遍历算法如下。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> visited[MaxVertexNum];    <span class="comment">// 辅助标记数组</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从顶点v出发，深度优先遍历图G</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFS</span><span class="params">(Graph G, <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    visited[v] = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%c "</span>, G.Vex[v]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> w = FirstNeighbor(G, v); w &gt;= <span class="number">0</span>; w = NextNeighbor(G, v, w))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!visited[w])</span><br><span class="line">            DFS(G, w);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFSTraverse</span><span class="params">(Graph G)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 访问标记数组初始化</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        visited[i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!visited[i])</span><br><span class="line">        &#123;</span><br><span class="line">            DFS(G, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Graph* pG;</span><br><span class="line">    pG = create_example_graph();</span><br><span class="line">    DFSTraverse(*pG);               <span class="comment">// 深度优先遍历</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="图的应用"><a href="#图的应用" class="headerlink" title="图的应用"></a>图的应用</h2><h3 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h3><p>求最小生成树基于<strong>贪心策略</strong>的两个方法：</p>
+<ol>
+<li>Prim（普里姆）算法</li>
+<li>Kruskal（克鲁斯卡尔）算法</li>
+</ol>
+<h4 id="Prim"><a href="#Prim" class="headerlink" title="Prim"></a>Prim</h4><p>要点：<strong>每次选取一个距离最短的顶点</strong>，执行过程类似于Dijkstra算法。</p>
+<p>时间复杂度：不依赖边，适合求解边稠密的图的最小生成树。总的时间复杂度为<strong>O(|V|^2)</strong>。</p>
+<h4 id="Kruskal"><a href="#Kruskal" class="headerlink" title="Kruskal"></a>Kruskal</h4><p>要点：将所有边按权值由小到大排序，<strong>每次选取权值最小的一条边</strong>，直至将每个顶点都连通。</p>
+<p>时间复杂度：每次选取最小权值的边（使用并查集）需要O(log2|E|)。总的时间复杂度为<strong>O(|E|log2|E|)</strong>。</p>
+<h3 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h3><p>单源最短路径：BFS、Dijkstra。</p>
+<p>每对顶点之间的最短路径：Floyd。</p>
+<h4 id="BFS算法（无权图）"><a href="#BFS算法（无权图）" class="headerlink" title="BFS算法（无权图）"></a>BFS算法（无权图）</h4><p>与BFS遍历算法差不多。不同之处是，在BFS中访问一个顶点时，修改路径长度dist数组，并在path数组记录前驱顶点。</p>
+<h4 id="Dijkstra算法（带权，无权）"><a href="#Dijkstra算法（带权，无权）" class="headerlink" title="Dijkstra算法（带权，无权）"></a>Dijkstra算法（带权，无权）</h4><p>要点：</p>
+<ol>
+<li><strong>集合S</strong>记录已经确定最短路径的顶点，初始把源点放入S中。</li>
+<li><strong>dist数组</strong>记录从源点到其他顶点<strong>当前的最短路径长度</strong>。</li>
+<li><strong>path数组</strong>记录从源点到其他顶点的<strong>最短路径的前驱顶点</strong>。</li>
+</ol>
+<p>时间复杂度：<strong>O(|V|^2)</strong></p>
+<ol>
+<li>每轮遍历顶点，找到还未确定的最短路径，且dist最小的顶点，需要<strong>o(|V|)</strong>。</li>
+<li>每轮检查所有邻接自vi的顶点，更新dist，需要<strong>O(|V|)</strong>。</li>
+<li>共n-1轮。需要<strong>O(|V|-1)</strong>。</li>
+</ol>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>Dijkstra算法也可以求每对顶点之间的最短路径。</li>
+<li>边上带有<strong>负权值</strong>时，Dijkstra算法不适用。</li>
+</ol>
+<h4 id="Floyd（带权，无权）"><a href="#Floyd（带权，无权）" class="headerlink" title="Floyd（带权，无权）"></a>Floyd（带权，无权）</h4><p>要点：依次画出<strong>A(k-1)的方阵</strong>，k=0，1，2，…，n代表<strong>每次允许中转的顶点</strong>，并依次更新<strong>path(k-1)</strong>，获得各顶点之间的最短路径。</p>
+<p>空间复杂度：<strong>O(|V|^2)</strong></p>
+<p>时间复杂度：<strong>O(|V|^3)</strong>，三个for循环</p>
+<p><strong>注意</strong>：Floyd算法允许图中带负权值的边，但不允许有<strong>包含带负权值的边组成的回路</strong>。</p>
+<h3 id="有向无环图（DAG图）"><a href="#有向无环图（DAG图）" class="headerlink" title="有向无环图（DAG图）"></a>有向无环图（DAG图）</h3><p>解题方法：</p>
+<ol>
+<li>把各个操作数不重复地排成一排</li>
+<li>标出各个运算符的<strong>生效顺序</strong></li>
+<li>按顺序加入运算符，注意<strong>分层</strong></li>
+<li>自底向上，逐层检查同层的运算符，是否可以<strong>合体</strong></li>
+</ol>
+<h3 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h3><p>AOV网：顶点表示活动的网络，V代表顶点。</p>
+<p>常用方法：</p>
+<ol>
+<li>从AOV网中选择一个<strong>没有前驱</strong>的顶点并输出。</li>
+<li>从网中<strong>删除</strong>该顶点和所有以它为起点的有向边。</li>
+<li>重复步骤1和2，直到当前的<strong>AOV网为空</strong>，或当前网中<strong>不存在无前驱的顶点</strong>为止（存在环）。</li>
+</ol>
+<p>时间复杂度：邻接表为<strong>O(|V|+|E|)</strong>，邻接矩阵为<strong>O(|V|^2)</strong>。</p>
+<p>基于邻接表存储的有向图的拓扑排序算法如下。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建邻接表对应的有向图</span></span><br><span class="line"><span class="function">LGraph* <span class="title">create_example_lgraph</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> c1, c2;</span><br><span class="line">    <span class="keyword">char</span> vexs[] = &#123; <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>, <span class="string">'G'</span> &#125;;</span><br><span class="line">    <span class="keyword">char</span> edges[][<span class="number">2</span>] = &#123;</span><br><span class="line">        &#123; <span class="string">'A'</span>, <span class="string">'G'</span> &#125;,</span><br><span class="line">        &#123; <span class="string">'B'</span>, <span class="string">'A'</span> &#125;,</span><br><span class="line">        &#123; <span class="string">'B'</span>, <span class="string">'D'</span> &#125;,</span><br><span class="line">        &#123; <span class="string">'C'</span>, <span class="string">'F'</span> &#125;,</span><br><span class="line">        &#123; <span class="string">'C'</span>, <span class="string">'G'</span> &#125;,</span><br><span class="line">        &#123; <span class="string">'D'</span>, <span class="string">'E'</span> &#125;,</span><br><span class="line">        &#123; <span class="string">'D'</span>, <span class="string">'F'</span> &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">int</span> vlen = LENGTH(vexs);</span><br><span class="line">    <span class="keyword">int</span> elen = LENGTH(edges);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> i, p1, p2;</span><br><span class="line">    ENode* node1, * node2;</span><br><span class="line">    LGraph* pG;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((pG = (LGraph*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(LGraph))) == <span class="literal">NULL</span>)</span><br><span class="line">        assert(pG != <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">memset</span>(pG, <span class="number">0</span>, <span class="keyword">sizeof</span>(LGraph));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化顶点数和边数</span></span><br><span class="line">    pG-&gt;vexnum = vlen;</span><br><span class="line">    pG-&gt;edgnum = elen;</span><br><span class="line">    pG-&gt;vexs = (VNode*)<span class="built_in">malloc</span>(pG-&gt;vexnum * <span class="keyword">sizeof</span>(VNode));</span><br><span class="line">    assert(pG-&gt;vexs != <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化邻接表的顶点</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pG-&gt;vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        pG-&gt;vexs[i].data = vexs[i];</span><br><span class="line">        pG-&gt;vexs[i].first_edge = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化邻接表的边</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pG-&gt;edgnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        c1 = edges[i][<span class="number">0</span>];</span><br><span class="line">        c2 = edges[i][<span class="number">1</span>];</span><br><span class="line">        p1 = get_position(*pG, c1);</span><br><span class="line">        p2 = get_position(*pG, c2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化node1</span></span><br><span class="line">        node1 = (ENode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(ENode));</span><br><span class="line">        node1-&gt;ivex = p2;</span><br><span class="line">        node1-&gt;next_edge = <span class="literal">NULL</span>;    <span class="comment">// 一定要加这个，不然link_last里面会报错</span></span><br><span class="line">        <span class="comment">// 将node1链接到p1所在链表的末尾</span></span><br><span class="line">        <span class="keyword">if</span> (pG-&gt;vexs[p1].first_edge == <span class="literal">NULL</span>)</span><br><span class="line">            pG-&gt;vexs[p1].first_edge = node1;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            link_last(pG-&gt;vexs[p1].first_edge, node1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pG;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 拓扑排序算法</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="comment">/// &lt;param name="G"&gt;邻接表有向图&lt;/param&gt;</span></span><br><span class="line"><span class="comment">/// &lt;returns&gt;</span></span><br><span class="line"><span class="comment">/// -1 -- 失败，由于内存不足等原因导致</span></span><br><span class="line"><span class="comment">///  0 -- 成功排序，并输出结果</span></span><br><span class="line"><span class="comment">///  1 -- 失败，存在回路</span></span><br><span class="line"><span class="comment">/// &lt;/returns&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">topological_sort</span><span class="params">(LGraph G)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;    <span class="comment">// 计算排序数组的顶点数</span></span><br><span class="line">    <span class="keyword">int</span> head = <span class="number">0</span>;    <span class="comment">// 辅助队列的头</span></span><br><span class="line">    <span class="keyword">int</span> rear = <span class="number">0</span>;    <span class="comment">// 辅助队列的尾</span></span><br><span class="line">    <span class="keyword">int</span>* <span class="built_in">queue</span>;        <span class="comment">// 辅助队列</span></span><br><span class="line">    <span class="keyword">int</span>* ins;        <span class="comment">// 入度数组</span></span><br><span class="line">    <span class="keyword">char</span>* tops;        <span class="comment">// 拓扑排序结果数组，记录每个结点排序后的序号</span></span><br><span class="line">    <span class="keyword">int</span> num = G.vexnum;</span><br><span class="line">    ENode* node;</span><br><span class="line"></span><br><span class="line">    ins = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(num * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));        <span class="comment">// 入度数组</span></span><br><span class="line">    tops = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(num * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));    <span class="comment">// 拓扑排序结果数组</span></span><br><span class="line">    <span class="built_in">queue</span> = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(num * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));    <span class="comment">// 辅助队列</span></span><br><span class="line">    assert(ins != <span class="literal">NULL</span> &amp;&amp; tops != <span class="literal">NULL</span> &amp;&amp; <span class="built_in">queue</span> != <span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">memset</span>(ins, <span class="number">0</span>, num * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="built_in">memset</span>(tops, <span class="number">0</span>, num * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="built_in">memset</span>(<span class="built_in">queue</span>, <span class="number">0</span>, num * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计每个顶点的入度数</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        node = G.vexs[i].first_edge;</span><br><span class="line">        <span class="keyword">while</span> (node != <span class="literal">NULL</span>)        <span class="comment">// 遍历每个顶点的出边顶点</span></span><br><span class="line">        &#123;</span><br><span class="line">            ins[node-&gt;ivex]++;        <span class="comment">// 增加该出边顶点的入度</span></span><br><span class="line">            node = node-&gt;next_edge;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将所有入度为0的顶点入队列</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; num; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (ins[i] == <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">queue</span>[rear++] = i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (rear != head)</span><br><span class="line">    &#123;</span><br><span class="line">        j = <span class="built_in">queue</span>[head++];                <span class="comment">// 出队列</span></span><br><span class="line">        tops[index++] = G.vexs[j].data;    <span class="comment">// 将该顶点添加到排序数组中</span></span><br><span class="line">        node = G.vexs[j].first_edge;    <span class="comment">// 获取以该顶点为起始顶点的出边队列</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将与出队顶点关联的所有出边顶点的入度-1</span></span><br><span class="line">        <span class="comment">// 若-1之后，该顶点的入度为0，则将该顶点入队</span></span><br><span class="line">        <span class="keyword">while</span> (node != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ins[node-&gt;ivex]--;            <span class="comment">// 将出队顶点的出边顶点的入度-1</span></span><br><span class="line">            <span class="keyword">if</span> (ins[node-&gt;ivex] == <span class="number">0</span>)    <span class="comment">// 若-1后入度为0，则入队</span></span><br><span class="line">                <span class="built_in">queue</span>[rear++] = node-&gt;ivex;</span><br><span class="line">            node = node-&gt;next_edge;        <span class="comment">// 继续寻找下一条出边顶点</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (index &lt; G.vexnum)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"拓扑排序失败，存在回路"</span>);</span><br><span class="line">        <span class="built_in">free</span>(<span class="built_in">queue</span>);</span><br><span class="line">        <span class="built_in">free</span>(ins);</span><br><span class="line">        <span class="built_in">free</span>(tops);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印拓扑排序结果</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"拓扑排序结果："</span>);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; num; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%c "</span>, tops[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(<span class="built_in">queue</span>);</span><br><span class="line">    <span class="built_in">free</span>(ins);</span><br><span class="line">    <span class="built_in">free</span>(tops);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LGraph* pG;</span><br><span class="line">    pG = create_example_lgraph();</span><br><span class="line">    topological_sort(*pG);  <span class="comment">// 拓扑排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用<strong>DFS</strong>实现基于邻接表的有向无环图的<strong>拓扑排序</strong>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFS</span><span class="params">(LGraph G, <span class="keyword">int</span>  i, <span class="keyword">int</span>* visited, <span class="keyword">int</span>* time, <span class="keyword">int</span>* finishTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> w;</span><br><span class="line">    ENode* node;</span><br><span class="line"></span><br><span class="line">    visited[i] = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%c "</span>, G.vexs[i].data);</span><br><span class="line">    node = G.vexs[i].first_edge;</span><br><span class="line">    <span class="keyword">while</span> (node != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!visited[node-&gt;ivex])</span><br><span class="line">            DFS(G, node-&gt;ivex, visited, time, finishTime);</span><br><span class="line">        node = node-&gt;next_edge;</span><br><span class="line">    &#125;</span><br><span class="line">    (*time)++;</span><br><span class="line">    finishTime[i] = (*time);    <span class="comment">// 记录完成时间，时间大的一定先执行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">topological_dfs(LGraph G)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> visited[MaxVertexNum];        <span class="comment">// 顶点访问标记</span></span><br><span class="line">    <span class="keyword">int</span> time = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> finishTime[MaxVertexNum];    <span class="comment">// 记录每个顶点DFS的完成时间</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化所有顶点都没有被访问</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        visited[i] = <span class="number">0</span>;</span><br><span class="line">        finishTime[i] = <span class="number">-1</span>;        <span class="comment">// 初始化finishTime数组</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"DFS遍历:"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; G.vexnum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!visited[i])</span><br><span class="line">            DFS(G, i, visited, &amp;time, finishTime);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"DFS实现的拓扑排序:"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i = G.vexnum; i &gt; <span class="number">0</span>; i--)    <span class="comment">// 按结束时间从大到小，可以得到一个拓扑排序</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; G.vexnum; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == finishTime[j])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%c "</span>, G.vexs[j].data);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LGraph* pG;</span><br><span class="line">    pG = create_example_lgraph();</span><br><span class="line">    topological_dfs(*pG);    <span class="comment">// DFS实现拓扑排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：DFS遍历中，若在<strong>顶点退栈前输出</strong>顶点，可以得到<strong>逆拓扑排序序列</strong>。</p>
+<h3 id="关键路径"><a href="#关键路径" class="headerlink" title="关键路径"></a>关键路径</h3><p>AOE网：用边表示活动的网络，E代表边。</p>
+<p>AOE网和AOV网都是有向无环图，但是<strong>AOE网的边有权值</strong>，AOV网的边没有权值。</p>
+<p>从源点到汇点的所有路径中，具有最大路径长度的路径称为<strong>关键路径</strong>，关键路径上的活动称为<strong>关键活动</strong>。完成整个工程最短时间就是关键路径的长度。</p>
+<h4 id="求关键路径步骤"><a href="#求关键路径步骤" class="headerlink" title="求关键路径步骤"></a>求关键路径步骤</h4><ul>
+<li>事件最早发生时间：每个顶点的最早发生时间，从前往后推。</li>
+<li>事件最迟发生时间：从后往前推。</li>
+<li>活动最早开始时间：等于该弧的起点表示的事件的最早发生时间。</li>
+<li>活动最迟开始时间：等于该弧的终点表示的事件的最迟发生时间减去该弧的持续时间。</li>
+<li>时间余量：等于活动最迟开始时间减去活动最早开始时间，若结果为0，则活动为关键活动。</li>
+</ul>
+<p>关键路径特点：</p>
+<ol>
+<li>可以通过<strong>加快关键活动</strong>来缩短整个工程的工期。</li>
+<li>但<strong>不能任意缩短关键活动</strong>，一旦缩短到一定的程度，该关键活动就可能变成非关键活动。</li>
+<li>只有加快那些<strong>包括在所有关键路径上的关键活动</strong>，才能达到缩短工期的目的。</li>
+</ol>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/04/24/ASP-NET-MVC5（七）SportsStore购物车/" data-toggle="tooltip" data-placement="top"
+                           title="ASP.NET MVC5（七）SportsStore购物车">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图的存储"><span class="toc-text">图的存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#邻接矩阵法"><span class="toc-text">邻接矩阵法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#邻接表法"><span class="toc-text">邻接表法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图的遍历"><span class="toc-text">图的遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本操作"><span class="toc-text">基本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#广度优先搜索"><span class="toc-text">广度优先搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深度优先搜索"><span class="toc-text">深度优先搜索</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图的应用"><span class="toc-text">图的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#最小生成树"><span class="toc-text">最小生成树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Prim"><span class="toc-text">Prim</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Kruskal"><span class="toc-text">Kruskal</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最短路径"><span class="toc-text">最短路径</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BFS算法（无权图）"><span class="toc-text">BFS算法（无权图）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dijkstra算法（带权，无权）"><span class="toc-text">Dijkstra算法（带权，无权）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Floyd（带权，无权）"><span class="toc-text">Floyd（带权，无权）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有向无环图（DAG图）"><span class="toc-text">有向无环图（DAG图）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拓扑排序"><span class="toc-text">拓扑排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键路径"><span class="toc-text">关键路径</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#求关键路径步骤"><span class="toc-text">求关键路径步骤</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://laibh.top">赖同学</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Zhendong 2021
+                    <br>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://zhdaa.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/zhdaa-headimg.jpg">
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
